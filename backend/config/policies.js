@@ -1,25 +1,25 @@
 module.exports.policies = {
-  AuthController: {
-    '*': true,
-  },
+    AuthController: {
+        '*': true,
+    },
 
-  // UserController: {
-  //   '*': 'isLoggedIn',
-  // },
+    // UserController: {
+    //   '*': 'isLoggedIn',
+    // },
 
-  // ProductController: {
-  //   '*': 'isLoggedIn',
-  // },
+    // ProductController: {
+    //   '*': 'isLoggedIn',
+    // },
 
-  // PageConfigController: {
-  //   '*': 'isLoggedIn',
-  // },
+    // PageConfigController: {
+    //   '*': 'isLoggedIn',
+    // },
 
-  // PermissionController: {
-  //   '*': 'isLoggedIn',
-  // },
+    // PermissionController: {
+    //   '*': 'isLoggedIn',
+    // },
 
-  // RoleController: {
-  //   '*': 'isLoggedIn',
-  // },
+    // RoleController: {
+    //   '*': 'isLoggedIn',
+    // },
 };

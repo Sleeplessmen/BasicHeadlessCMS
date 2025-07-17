@@ -2,74 +2,62 @@ const Role = require('../api/mongoose-models/Role');
 const Permission = require('../api/mongoose-models/Permission');
 
 module.exports = async function () {
-  sails.log('🔧 Đang chạy seedRoles.js...');
-  console.time('SeedRoles');
+    console.time('SeedRoles');
+    sails.log('🔧 Đang chạy seedRoles.js...');
 
-  try {
-    // 1. Xoá role cũ
-    await Role.deleteMany({});
-    sails.log('🧹 Đã xoá toàn bộ roles cũ');
+    const roleData = [
+        {
+            name: 'admin',
+            description: 'Quản trị toàn hệ thống',
+            permissions: [
+                "auth_register", "auth_login", "auth_logout",
+                "view_product", "create_product", "update_product", "delete_product",
+                "view_page_config", "create_page_config", "update_page_config", "delete_page_config", "publish_page",
+                "view_role", "create_role", "update_role", "delete_role", "assign_permission",
+                "view_permission", "create_permission", "update_permission", "delete_permission",
+                "view_user", "create_user", "update_user", "delete_user", "assign_role"
+            ]
+        },
+        {
+            name: 'editor',
+            description: 'Biên tập viên nội dung',
+            permissions: [
+                "auth_register", "auth_login", "auth_logout",
+                "view_product", "create_product", "update_product", "delete_product",
+                "view_page_config", "create_page_config", "update_page_config", "delete_page_config", "publish_page"
+            ]
+        },
+        {
+            name: 'user',
+            description: 'Người dùng thông thường',
+            permissions: [
+                "auth_register", "auth_login", "auth_logout",
+                "view_product"
+            ]
+        }
+    ];
 
-    // 2. Lấy toàn bộ permission đã seed
-    const allPermissions = await Permission.find({});
-    if (allPermissions.length === 0) {
-      throw new Error('❌ Cần seed permissions trước khi tạo role');
+    try {
+        await Role.deleteMany({});
+        sails.log('🧹 Đã xoá toàn bộ role cũ');
+
+        for (const role of roleData) {
+            const permissions = await Permission.find({ name: { $in: role.permissions } });
+
+            const createdRole = await Role.create({
+                name: role.name,
+                description: role.description,
+                permissions: permissions.map(p => p._id)
+            });
+
+            sails.log(`✅ Tạo role: ${createdRole.name} với ${permissions.length} quyền`);
+        }
+
+        sails.log('🎉 Seed roles hoàn tất!');
+    } catch (err) {
+        sails.log.error('❌ Lỗi khi seed roles:', err.stack || err.message);
+        throw err;
     }
 
-    // 3. Helper: Lấy _id từ tên quyền
-    const getByName = name => {
-      const found = allPermissions.find(p => p.name === name);
-      if (!found) {
-        sails.log.warn(`⚠️ Không tìm thấy permission: ${name}`);
-        return null;
-      }
-      return found._id;
-    };
-
-    // 4. Phân quyền cho từng role
-    const adminPermissions = allPermissions.map(p => p._id);
-
-    const editorPermissions = [
-      'view_product',
-      'create_product',
-      'update_product',
-      'delete_product',
-
-      'view_page_config',
-      'update_page_config',
-      'publish_page',
-    ].map(getByName).filter(Boolean);
-
-    const userPermissions = [
-      'auth_register',
-      'auth_login',
-      'auth_logout',
-      'view_product',
-    ].map(getByName).filter(Boolean);
-
-    // 5. Tạo role mới
-    await Role.insertMany([
-      {
-        name: 'admin',
-        description: 'Quản trị toàn hệ thống',
-        permissions: adminPermissions,
-      },
-      {
-        name: 'editor',
-        description: 'Biên tập viên nội dung',
-        permissions: editorPermissions,
-      },
-      {
-        name: 'user',
-        description: 'Người dùng thông thường',
-        permissions: userPermissions,
-      },
-    ]);
-
-    sails.log('✅ Đã tạo role: admin, editor, user');
-  } catch (error) {
-    sails.log.error('❌ Lỗi khi seed roles:', error.stack || error.message);
-  }
-
-  console.timeEnd('SeedRoles');
+    console.timeEnd('SeedRoles');
 };
