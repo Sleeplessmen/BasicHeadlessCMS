@@ -12,8 +12,10 @@ module.exports.bootstrap = function (done) {
 
         // // Load & chạy lần lượt để tránh lỗi phụ thuộc
         await require('../scripts/seedPermissions')();
-        // await require('../seeds/seedRoles')();
-        // await require('../seeds/seedUsers')();
+        await require('../scripts/seedRoles')();
+        await require('../scripts/seedUsers')();
+        await require('../scripts/seedProducts')();
+        await require('../scripts/seedPageConfigs')();
 
         // sails.log('🌱 Seed dữ liệu hoàn tất');
       }

@@ -10,13 +10,13 @@ module.exports = async function () {
     await Role.deleteMany({});
     sails.log('🧹 Đã xoá toàn bộ roles cũ');
 
-    // 2. Lấy permission từ DB
+    // 2. Lấy toàn bộ permission đã seed
     const allPermissions = await Permission.find({});
     if (allPermissions.length === 0) {
       throw new Error('❌ Cần seed permissions trước khi tạo role');
     }
 
-    // 3. Helper lấy _id theo name
+    // 3. Helper: Lấy _id từ tên quyền
     const getByName = name => {
       const found = allPermissions.find(p => p.name === name);
       if (!found) {
@@ -30,21 +30,21 @@ module.exports = async function () {
     const adminPermissions = allPermissions.map(p => p._id);
 
     const editorPermissions = [
-      'create_page',
-      'update_page',
-      'delete_page',
-      'view_cms_dashboard',
+      'view_product',
       'create_product',
-      'read_product',
       'update_product',
       'delete_product',
+
+      'view_page_config',
+      'update_page_config',
+      'publish_page',
     ].map(getByName).filter(Boolean);
 
     const userPermissions = [
       'auth_register',
       'auth_login',
       'auth_logout',
-      'read_product',
+      'view_product',
     ].map(getByName).filter(Boolean);
 
     // 5. Tạo role mới

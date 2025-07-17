@@ -1,37 +1,38 @@
-/**
- * Route Mappings
- * (sails.config.routes)
- *
- * Your routes tell Sails what to do each time it receives a request.
- *
- * For more information on configuring custom routes, check out:
- * https://sailsjs.com/anatomy/config/routes-js
- */
-
 module.exports.routes = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` your home page.            *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
-
+  // Trang chủ (nếu có dùng view)
   '/': { view: 'pages/homepage' },
 
+  // Auth API
+  'POST /api/v1/auth/register': 'AuthController.register',
+  'POST /api/v1/auth/login': 'AuthController.login',
+  'POST /api/v1/auth/logout': 'AuthController.logout',
 
-  /***************************************************************************
-  *                                                                          *
-  * More custom routes here...                                               *
-  * (See https://sailsjs.com/config/routes for examples.)                    *
-  *                                                                          *
-  * If a request to a URL doesn't match any of the routes in this file, it   *
-  * is matched against "shadow routes" (e.g. blueprint routes).  If it does  *
-  * not match any of those, it is matched against static assets.             *
-  *                                                                          *
-  ***************************************************************************/
+  // Product API
+  'GET    /api/v1/products': 'ProductController.findAll',
+  'GET    /api/v1/products/:id': 'ProductController.findOne',
+  'POST   /api/v1/products': 'ProductController.create',
+  'PUT    /api/v1/products/:id': 'ProductController.update',
+  'DELETE /api/v1/products/:id': 'ProductController.delete',
 
+  // // Page Config API
+  // 'GET    /api/v1/page-configs': 'PageConfigController.findAll',
+  // 'GET    /api/v1/page-configs/:slug': 'PageConfigController.findOne',
+  // 'POST   /api/v1/page-configs': 'PageConfigController.create',
+  // 'PUT    /api/v1/page-configs/:slug': 'PageConfigController.update',
+  // 'DELETE /api/v1/page-configs/:slug': 'PageConfigController.delete',
 
+  // // Role API
+  // 'GET    /api/v1/roles': 'RoleController.findAll',
+  // 'GET    /api/v1/roles/:id': 'RoleController.findOne',
+  // 'POST   /api/v1/roles': 'RoleController.create',
+  // 'PUT    /api/v1/roles/:id': 'RoleController.update',
+  // 'DELETE /api/v1/roles/:id': 'RoleController.delete',
+
+  // // Permission API
+  // 'GET    /api/v1/permissions': 'PermissionController.findAll',
+  // 'GET    /api/v1/permissions/:id': 'PermissionController.findOne',
+  // 'POST   /api/v1/permissions': 'PermissionController.create',
+  // 'PUT    /api/v1/permissions/:id': 'PermissionController.update',
+  // 'DELETE /api/v1/permissions/:id': 'PermissionController.delete',
 };

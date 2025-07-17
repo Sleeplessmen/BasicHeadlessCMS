@@ -5,25 +5,38 @@ module.exports = async function () {
   sails.log('🔧 Đang chạy seedPermissions.js...');
 
   const permissions = [
-    // CRUD sản phẩm
-    { name: 'create_product', description: 'Tạo sản phẩm' },
-    { name: 'read_product', description: 'Xem sản phẩm' },
+    // 👤 User Management
+    { name: 'view_user', description: 'Xem danh sách người dùng' },
+    { name: 'create_user', description: 'Tạo người dùng mới' },
+    { name: 'update_user', description: 'Cập nhật thông tin người dùng' },
+    { name: 'delete_user', description: 'Xoá người dùng' },
+    { name: 'assign_role', description: 'Gán vai trò cho người dùng' },
+
+    // 🔐 Role Management
+    { name: 'view_role', description: 'Xem danh sách vai trò' },
+    { name: 'create_role', description: 'Tạo vai trò mới' },
+    { name: 'update_role', description: 'Cập nhật vai trò' },
+    { name: 'delete_role', description: 'Xoá vai trò' },
+    { name: 'assign_permission', description: 'Gán quyền cho vai trò' },
+
+    // 🛡️ Permission Management
+    { name: 'view_permission', description: 'Xem danh sách quyền' },
+
+    // 📦 Product Management
+    { name: 'view_product', description: 'Xem danh sách sản phẩm' },
+    { name: 'create_product', description: 'Tạo sản phẩm mới' },
     { name: 'update_product', description: 'Cập nhật sản phẩm' },
     { name: 'delete_product', description: 'Xoá sản phẩm' },
 
-    // Auth
+    // 📄 PageConfig CMS
+    { name: 'view_page_config', description: 'Xem cấu hình trang CMS' },
+    { name: 'update_page_config', description: 'Cập nhật cấu hình trang CMS' },
+    { name: 'publish_page', description: 'Xuất bản trang CMS' },
+
+    // 🔐 Auth
     { name: 'auth_register', description: 'Đăng ký tài khoản' },
     { name: 'auth_login', description: 'Đăng nhập hệ thống' },
     { name: 'auth_logout', description: 'Đăng xuất hệ thống' },
-
-    // CMS / PageConfig
-    { name: 'create_page', description: 'Tạo page CMS' },
-    { name: 'update_page', description: 'Sửa page CMS' },
-    { name: 'delete_page', description: 'Xoá page CMS' },
-    { name: 'view_cms_dashboard', description: 'Xem giao diện CMS' },
-
-    // Role & Permission
-    { name: 'manage_roles', description: 'Quản lý role và quyền' },
   ];
 
   try {
