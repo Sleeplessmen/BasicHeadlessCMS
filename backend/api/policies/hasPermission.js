@@ -1,42 +1,43 @@
-const User = require('../mongoose-models/User');
+const { errorResponse, handleServerError } = require('../../utils/responseHelper');
 
 module.exports = (permissionName) => {
-    return async (req, res, next) => {
+    return (req, res, next) => {
         try {
-            const userId = req.user.id;
+            const user = req.user;
 
-            // Truy vấn user và populate role + permissions
-            const user = await User.findById(userId).populate({
-                path: 'role',
-                populate: {
-                    path: 'permissions',
-                    model: 'Permission'
-                }
-            });
-
-            if (!user) {
-                return res.status(401).json({ message: 'Unauthorized' });
+            if (!user || !user.role) {
+                return res.status(401).json(
+                    errorResponse('Unauthorized: Missing user or role')
+                );
             }
 
-            const role = user.role;
-            if (!role || !Array.isArray(role.permissions)) {
-                return res.status(403).json({ message: 'Bạn không có quyền truy cập.' });
+            const permissions = user.role.permissions || [];
+
+            if (!Array.isArray(permissions)) {
+                return res.status(500).json(
+                    errorResponse('Invalid permissions data structure')
+                );
             }
 
-            const userPermissions = role.permissions.map(p => p.name);
-            const hasPermission = userPermissions.includes(permissionName);
+            const permissionNames = permissions.map(p =>
+                typeof p === 'string' ? p : p.name
+            );
+
+            const hasPermission = permissionNames.includes(permissionName);
 
             if (!hasPermission) {
-                return res.status(403).json({
-                    message: `Forbidden: Missing permission '${permissionName}'`,
-                    yourPermissions: userPermissions,
-                });
+                return res.status(403).json(
+                    errorResponse(
+                        `Forbidden: Missing permission '${permissionName}'`,
+                        { yourPermissions: permissionNames }
+                    )
+                );
             }
 
             return next();
         } catch (err) {
             console.error('[hasPermission] Error:', err.message);
-            return res.status(500).json({ message: 'Internal Server Error' });
+            return res.status(500).json(handleServerError(err));
         }
     };
 };

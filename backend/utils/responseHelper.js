@@ -1,4 +1,3 @@
-// utils/responseHelper.js
 module.exports = {
     handleValidationError(error) {
         return {

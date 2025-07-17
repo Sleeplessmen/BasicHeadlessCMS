@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "fe/globals",
-        "be/globals"
+        "be/globals",
+        "be/policies"
     ]
 }
