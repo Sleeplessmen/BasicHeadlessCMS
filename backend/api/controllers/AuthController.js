@@ -218,14 +218,14 @@ module.exports = {
 
             const token = jwt.sign(
                 { id: user._id, role: roleName },
-                process.env.JWT_SECRET || 'secret_key',
+                process.env.JWT_SECRET || 'c87c419356e0de8e9f052efdd5aee2a5625f9a0933f09623ea4c3acc930e810378eba2a1',
                 { expiresIn: '2d' }
             );
 
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
+                sameSite: 'lax', // hoặc 'strict' nếu là hệ thống cực kỳ riêng tư
                 maxAge: 2 * 24 * 60 * 60 * 1000
             });
 
@@ -268,6 +268,30 @@ module.exports = {
         } catch (err) {
             sails.log.error('[AuthController.logout] Lỗi:', err);
             return res.status(500).json(responseHelper.handleServerError(err));
+        }
+    },
+
+    me: async (req, res) => {
+        try {
+            const user = await User.findById(req.user.id).populate({
+                path: 'role',
+                populate: { path: 'permissions' }
+            });
+
+            if (!user) {
+                return res.status(404).json(responseHelper.notFound('Không tìm thấy người dùng'));
+            }
+
+            return res.status(200).json(responseHelper.successResponse({
+                _id: user._id,
+                email: user.email,
+                role: {
+                    name: user.role.name,
+                    permissions: user.role.permissions.map(p => p.name)
+                }
+            }));
+        } catch (error) {
+            return res.status(500).json(responseHelper.handleServerError(error));
         }
     }
 };

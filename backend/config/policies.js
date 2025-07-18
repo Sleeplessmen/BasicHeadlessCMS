@@ -1,55 +1,55 @@
 const has = require('../api/permissions/hasPermissionPolicies');
 
+// Helper gộp isLoggedIn + hasPermission
+const withAuth = (permission) => ['isLoggedIn', permission];
+
 module.exports.policies = {
+    // Cho phép tự do với Auth
     AuthController: {
-        '*': true
+        '*': true,
+        me: 'isLoggedIn',
     },
 
     ProductController: {
-        '*': ['isLoggedIn'],
-        findAll: has.viewProduct,
-        findOne: has.viewProduct,
-        create: has.createProduct,
-        update: has.updateProduct,
-        delete: has.deleteProduct,
+        findAll: withAuth(has.viewProduct),
+        findOne: withAuth(has.viewProduct),
+        create: withAuth(has.createProduct),
+        update: withAuth(has.updateProduct),
+        delete: withAuth(has.deleteProduct),
     },
 
     PageConfigController: {
-        '*': ['isLoggedIn'],
-        findAll: has.viewPageConfig,
-        findOne: has.viewPageConfig,
-        create: has.createPageConfig,
-        update: has.updatePageConfig,
-        delete: has.deletePageConfig,
-        publish: has.publishPage,
+        findAll: withAuth(has.viewPageConfig),
+        findOne: withAuth(has.viewPageConfig),
+        create: withAuth(has.createPageConfig),
+        update: withAuth(has.updatePageConfig),
+        delete: withAuth(has.deletePageConfig),
+        publish: withAuth(has.publishPage),
     },
 
     RoleController: {
-        '*': ['isLoggedIn'],
-        findAll: has.viewRole,
-        findOne: has.viewRole,
-        create: has.createRole,
-        update: has.updateRole,
-        delete: has.deleteRole,
-        assignPerm: has.assignPermission,
+        findAll: withAuth(has.viewRole),
+        findOne: withAuth(has.viewRole),
+        create: withAuth(has.createRole),
+        update: withAuth(has.updateRole),
+        delete: withAuth(has.deleteRole),
+        assignPerm: withAuth(has.assignPermission),
     },
 
     PermissionController: {
-        '*': ['isLoggedIn'],
-        findAll: has.viewPermission,
-        findOne: has.viewPermission,
-        create: has.createPermission,
-        update: has.updatePermission,
-        delete: has.deletePermission,
+        findAll: withAuth(has.viewPermission),
+        findOne: withAuth(has.viewPermission),
+        create: withAuth(has.createPermission),
+        update: withAuth(has.updatePermission),
+        delete: withAuth(has.deletePermission),
     },
 
     UserController: {
-        '*': ['isLoggedIn'],
-        findAll: has.viewUser,
-        findOne: has.viewUser,
-        create: has.createUser,
-        update: has.updateUser,
-        delete: has.deleteUser,
-        assignRole: has.assignRole,
+        findAll: withAuth(has.viewUser),
+        findOne: withAuth(has.viewUser),
+        create: withAuth(has.createUser),
+        update: withAuth(has.updateUser),
+        delete: withAuth(has.deleteUser),
+        assignRole: withAuth(has.assignRole),
     },
 };

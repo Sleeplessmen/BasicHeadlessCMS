@@ -7,6 +7,7 @@ module.exports.routes = {
     'POST /api/v1/auth/register': 'AuthController.register',
     'POST /api/v1/auth/login': 'AuthController.login',
     'POST /api/v1/auth/logout': 'AuthController.logout',
+    'GET /api/v1/auth/me': 'AuthController.me',
 
     // Product API
     'GET    /api/v1/products': 'ProductController.findAll',
