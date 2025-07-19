@@ -1,18 +1,12 @@
 const fs = require('fs/promises');
 const path = require('path');
 const Joi = require('joi');
-const {
-    successResponse,
-    handleValidationError,
-    handleServerError,
-    notFound,
-} = require('../../utils/responseHelper');
+const responseHelper = require('../../utils/responseHelper');
 
 const validatePageConfig = (data) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         slug: Joi.string().required(),
-
         visibleForRoles: Joi.array().items(Joi.string()).optional(),
 
         layout: Joi.object({
@@ -63,61 +57,54 @@ const validatePageConfig = (data) => {
 };
 
 module.exports = {
-    // GET /page-config
     findAll: async (req, res) => {
         try {
             const configs = await PageConfig.find();
-            return res.status(200).json(successResponse(configs));
+            return res.status(200).json(responseHelper.success(configs, 'Lấy danh sách cấu hình thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PageConfigController.findAll'));
+            return res.status(500).json(responseHelper.serverError(err, 'PageConfigController.findAll'));
         }
     },
 
-    // GET /page-config/:slug
     findOne: async (req, res) => {
         try {
             const { slug } = req.params;
             const config = await PageConfig.findOne({ slug });
 
             if (!config) {
-                return res.status(404).json(notFound('Không tìm thấy cấu hình', slug));
+                return res.status(404).json(responseHelper.notFound('Không tìm thấy cấu hình', slug));
             }
 
-            return res.status(200).json(successResponse(config));
+            return res.status(200).json(responseHelper.success(config, 'Lấy cấu hình thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PageConfigController.findOne'));
+            return res.status(500).json(responseHelper.serverError(err, 'PageConfigController.findOne'));
         }
     },
 
-    // POST /page-config
     create: async (req, res) => {
         try {
             const { error, value } = validatePageConfig(req.body);
             if (error) {
-                return res.status(400).json(handleValidationError(error));
+                return res.status(400).json(responseHelper.validationError(error));
             }
 
             const existing = await PageConfig.findOne({ slug: value.slug });
             if (existing) {
-                return res.status(409).json({
-                    success: false,
-                    message: `Slug '${value.slug}' đã tồn tại`,
-                });
+                return res.status(409).json(responseHelper.badRequest(`Slug '${value.slug}' đã tồn tại`));
             }
 
             const created = await PageConfig.create(value).fetch();
-            return res.status(201).json(successResponse(created, 'Tạo cấu hình trang thành công'));
+            return res.status(201).json(responseHelper.success(created, 'Tạo cấu hình trang thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PageConfigController.create'));
+            return res.status(500).json(responseHelper.serverError(err, 'PageConfigController.create'));
         }
     },
 
-    // PUT /page-config
     update: async (req, res) => {
         try {
             const { error, value } = validatePageConfig(req.body);
             if (error) {
-                return res.status(400).json(handleValidationError(error));
+                return res.status(400).json(responseHelper.validationError(error));
             }
 
             const updated = await PageConfig.updateOne({ slug: value.slug }).set({
@@ -126,32 +113,30 @@ module.exports = {
             });
 
             if (!updated) {
-                return res.status(404).json(notFound('Không tìm thấy cấu hình', value.slug));
+                return res.status(404).json(responseHelper.notFound('Không tìm thấy cấu hình', value.slug));
             }
 
-            return res.status(200).json(successResponse(updated, 'Cập nhật thành công'));
+            return res.status(200).json(responseHelper.success(updated, 'Cập nhật cấu hình thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PageConfigController.update'));
+            return res.status(500).json(responseHelper.serverError(err, 'PageConfigController.update'));
         }
     },
 
-    // DELETE /page-config/:slug
     delete: async (req, res) => {
         try {
             const { slug } = req.params;
             const deleted = await PageConfig.destroyOne({ slug });
 
             if (!deleted) {
-                return res.status(404).json(notFound('Không tìm thấy cấu hình', slug));
+                return res.status(404).json(responseHelper.notFound('Không tìm thấy cấu hình để xoá', slug));
             }
 
-            return res.status(200).json(successResponse(deleted, 'Xoá cấu hình thành công'));
+            return res.status(200).json(responseHelper.success(deleted, 'Xoá cấu hình thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PageConfigController.delete'));
+            return res.status(500).json(responseHelper.serverError(err, 'PageConfigController.delete'));
         }
     },
 
-    // POST /page-config/publish
     publish: async (req, res) => {
         try {
             const configs = await PageConfig.find();
@@ -160,10 +145,10 @@ module.exports = {
             await fs.writeFile(outputPath, JSON.stringify(configs, null, 2), 'utf-8');
 
             return res.status(200).json(
-                successResponse({ path: '/public/page-configs.json' }, 'Đăng trang thành công')
+                responseHelper.success({ path: '/public/page-configs.json' }, 'Đăng trang thành công')
             );
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PageConfigController.publish'));
+            return res.status(500).json(responseHelper.serverError(err, 'PageConfigController.publish'));
         }
     },
 };

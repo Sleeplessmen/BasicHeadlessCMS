@@ -1,33 +1,63 @@
 const Joi = require('joi');
 const {
-    successResponse,
-    handleValidationError,
-    handleServerError,
+    success,
+    validationError,
+    serverError,
     notFound,
     errorResponse
 } = require('../../utils/responseHelper');
 
 module.exports = {
-    // GET /roles
+    // GET /roles?detail=true
     findAll: async (req, res) => {
         try {
+            const isDetail = req.query.detail === 'true';
+
             const roles = await Role.find().populate('permissions');
-            return res.status(200).json(successResponse(roles, 'Lấy danh sách vai trò thành công'));
+
+            const mapped = roles.map(role => ({
+                id: role.id,
+                name: role.name,
+                description: role.description,
+                permissions: isDetail
+                    ? role.permissions.map(p => ({
+                        name: p.name,
+                        description: p.description
+                    }))
+                    : role.permissions.map(p => p.name)
+            }));
+
+            return res.status(200).json(success(mapped, 'Lấy danh sách vai trò thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err));
+            return res.status(500).json(serverError(err));
         }
     },
 
-    // GET /roles/:id
+    // GET /roles/:id?detail=true
     findOne: async (req, res) => {
         try {
+            const isDetail = req.query.detail === 'true';
+
             const role = await Role.findOne({ id: req.params.id }).populate('permissions');
             if (!role) {
-                return res.status(404).json(notFound('Vai trò không tồn tại', `ID ${req.params.id}`));
+                return res.status(404).json(notFound(`Vai trò ID ${req.params.id} không tồn tại`));
             }
-            return res.status(200).json(successResponse(role, 'Lấy vai trò thành công'));
+
+            const result = {
+                id: role.id,
+                name: role.name,
+                description: role.description,
+                permissions: isDetail
+                    ? role.permissions.map(p => ({
+                        name: p.name,
+                        description: p.description
+                    }))
+                    : role.permissions.map(p => p.name)
+            };
+
+            return res.status(200).json(success(result, 'Lấy vai trò thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err));
+            return res.status(500).json(serverError(err));
         }
     },
 
@@ -40,14 +70,14 @@ module.exports = {
 
         const { error, value } = schema.validate(req.body);
         if (error) {
-            return res.status(400).json(handleValidationError(error));
+            return res.status(400).json(validationError(error));
         }
 
         try {
             const role = await Role.create(value).fetch();
-            return res.status(201).json(successResponse(role, 'Tạo vai trò thành công'));
+            return res.status(201).json(success(role, 'Tạo vai trò thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err));
+            return res.status(500).json(serverError(err));
         }
     },
 
@@ -60,17 +90,17 @@ module.exports = {
 
         const { error, value } = schema.validate(req.body);
         if (error) {
-            return res.status(400).json(handleValidationError(error));
+            return res.status(400).json(validationError(error));
         }
 
         try {
             const updated = await Role.updateOne({ id: req.params.id }).set(value);
             if (!updated) {
-                return res.status(404).json(notFound('Vai trò không tồn tại', `ID ${req.params.id}`));
+                return res.status(404).json(notFound(`Vai trò ID ${req.params.id} không tồn tại`));
             }
-            return res.status(200).json(successResponse(updated, 'Cập nhật vai trò thành công'));
+            return res.status(200).json(success(updated, 'Cập nhật vai trò thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err));
+            return res.status(500).json(serverError(err));
         }
     },
 
@@ -79,11 +109,11 @@ module.exports = {
         try {
             const deleted = await Role.destroyOne({ id: req.params.id });
             if (!deleted) {
-                return res.status(404).json(notFound('Vai trò không tồn tại', `ID ${req.params.id}`));
+                return res.status(404).json(notFound(`Vai trò ID ${req.params.id} không tồn tại`));
             }
-            return res.status(200).json(successResponse(deleted, 'Xoá vai trò thành công'));
+            return res.status(200).json(success(deleted, 'Xoá vai trò thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err));
+            return res.status(500).json(serverError(err));
         }
     },
 
@@ -95,20 +125,21 @@ module.exports = {
 
         const { error, value } = schema.validate(req.body);
         if (error) {
-            return res.status(400).json(handleValidationError(error));
+            return res.status(400).json(validationError(error));
         }
 
         try {
             const role = await Role.findOne({ id: req.params.id });
             if (!role) {
-                return res.status(404).json(notFound('Vai trò không tồn tại', `ID ${req.params.id}`));
+                return res.status(404).json(notFound(`Vai trò ID ${req.params.id} không tồn tại`));
             }
 
             const foundPermissions = await Permission.find({ name: value.permissions });
             if (foundPermissions.length !== value.permissions.length) {
                 return res.status(400).json(errorResponse(
                     'Một hoặc nhiều quyền không hợp lệ',
-                    'Vui lòng kiểm tra danh sách permission name truyền vào'
+                    'INVALID_PERMISSIONS',
+                    'Vui lòng kiểm tra danh sách quyền được cung cấp'
                 ));
             }
 
@@ -116,9 +147,19 @@ module.exports = {
             await Role.updateOne({ id: req.params.id }).set({ permissions: permissionIds });
 
             const updatedRole = await Role.findOne({ id: req.params.id }).populate('permissions');
-            return res.status(200).json(successResponse(updatedRole, 'Gán quyền cho vai trò thành công'));
+            const formatted = {
+                id: updatedRole.id,
+                name: updatedRole.name,
+                description: updatedRole.description,
+                permissions: updatedRole.permissions.map(p => ({
+                    name: p.name,
+                    description: p.description
+                }))
+            };
+
+            return res.status(200).json(success(formatted, 'Gán quyền cho vai trò thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err));
+            return res.status(500).json(serverError(err));
         }
     }
 };
