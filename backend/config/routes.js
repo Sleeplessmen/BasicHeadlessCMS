@@ -40,12 +40,12 @@ module.exports.routes = {
     'DELETE /api/v1/permissions/:id': 'PermissionController.delete',
 
     // User API
-    'GET    /api/v1/users': 'UserController.findAll',
-    'GET    /api/v1/users/:id': 'UserController.findOne',
-    'POST   /api/v1/users': 'UserController.create',
-    'PUT    /api/v1/users/:id': 'UserController.update',
-    'DELETE /api/v1/users/:id': 'UserController.delete',
-    'PUT    /api/v1/users/:id/role': 'UserController.assignRole',
+    'GET    /api/v1/users': 'AdminController.findAll',
+    'GET    /api/v1/users/:id': 'AdminController.findOne',
+    'POST   /api/v1/users': 'AdminController.create',
+    'PUT    /api/v1/users/:id': 'AdminController.update',
+    'DELETE /api/v1/users/:id': 'AdminController.delete',
+    'PUT    /api/v1/users/:id/role': 'AdminController.assignRole',
 
 };
 

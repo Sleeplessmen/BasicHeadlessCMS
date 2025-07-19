@@ -3,7 +3,7 @@ module.exports.models = {
     schema: true,
 
     // Với MongoDB, có thể dùng 'alter' để cập nhật tự động schema khi phát triển
-    migrate: 'alter',
+    migrate: process.env.NODE_ENV === 'development' ? 'alter' : 'safe',
 
     // Cấu trúc id chuẩn với MongoDB
     attributes: {

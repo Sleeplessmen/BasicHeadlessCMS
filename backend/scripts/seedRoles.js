@@ -1,5 +1,8 @@
-const Role = require('../api/mongoose-models/Role');
-const Permission = require('../api/mongoose-models/Permission');
+/**
+ * scripts/seedRoles.js
+ *
+ * @description :: Seed dữ liệu Role và gán quyền tương ứng bằng Waterline ORM (Sails.js).
+ */
 
 module.exports = async function () {
     console.time('SeedRoles');
@@ -38,22 +41,32 @@ module.exports = async function () {
     ];
 
     try {
-        await Role.deleteMany({});
-        sails.log('🧹 Đã xoá toàn bộ role cũ');
+        await User.destroy({}); // Xoá toàn bộ user hoặc lọc theo role cụ thể
+        sails.log('🧹 Đã xoá toàn bộ người dùng cũ.');
+        await Role.destroy({});
+        sails.log('🧹 Đã xoá toàn bộ roles cũ.');
 
         for (const role of roleData) {
-            const permissions = await Permission.find({ name: { $in: role.permissions } });
+            // Lấy permission tương ứng theo tên
+            const matchedPermissions = await Permission.find({
+                name: role.permissions
+            });
 
+            if (matchedPermissions.length !== role.permissions.length) {
+                sails.log.warn(`⚠️ Một số quyền không tìm thấy cho role ${role.name}`);
+            }
+
+            // Tạo role và gán quyền
             const createdRole = await Role.create({
                 name: role.name,
                 description: role.description,
-                permissions: permissions.map(p => p._id)
-            });
+                permissions: matchedPermissions.map(p => p.id)
+            }).fetch();
 
-            sails.log(`✅ Tạo role: ${createdRole.name} với ${permissions.length} quyền`);
+            sails.log(`✅ Tạo role '${createdRole.name}' với ${matchedPermissions.length} quyền.`);
         }
 
-        sails.log('🎉 Seed roles hoàn tất!');
+        sails.log('🎉 Hoàn tất seed roles.');
     } catch (err) {
         sails.log.error('❌ Lỗi khi seed roles:', err.stack || err.message);
         throw err;

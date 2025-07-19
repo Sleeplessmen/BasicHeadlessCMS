@@ -42,7 +42,7 @@ module.exports.policies = {
         delete: withAuth(has.deletePermission),
     },
 
-    UserController: {
+    AdminController: {
         findAll: withAuth(has.viewUser),
         findOne: withAuth(has.viewUser),
         create: withAuth(has.createUser),

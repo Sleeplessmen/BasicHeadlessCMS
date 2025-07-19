@@ -1,21 +1,22 @@
 const { errorResponse, handleServerError } = require('../../utils/responseHelper');
 
-module.exports = (permissionName) => {
+module.exports = (requiredPermission) => {
     return (req, res, next) => {
         try {
             const user = req.user;
 
             if (!user || !user.role) {
                 return res.status(401).json(
-                    errorResponse('Unauthorized: Missing user or role')
+                    errorResponse('Unauthorized: Người dùng chưa đăng nhập hoặc thiếu vai trò.')
                 );
             }
 
-            const permissions = user.role.permissions || [];
+            const permissions = user.role.permissions;
 
             if (!Array.isArray(permissions)) {
+                sails.log.error('[hasPermission] Role.permissions không phải là mảng:', permissions);
                 return res.status(500).json(
-                    errorResponse('Invalid permissions data structure')
+                    errorResponse('Lỗi dữ liệu: Role.permissions không hợp lệ.')
                 );
             }
 
@@ -23,12 +24,10 @@ module.exports = (permissionName) => {
                 typeof p === 'string' ? p : p.name
             );
 
-            const hasPermission = permissionNames.includes(permissionName);
-
-            if (!hasPermission) {
+            if (!permissionNames.includes(requiredPermission)) {
                 return res.status(403).json(
                     errorResponse(
-                        `Forbidden: Missing permission '${permissionName}'`,
+                        `Không đủ quyền: Bạn cần permission '${requiredPermission}'`,
                         { yourPermissions: permissionNames }
                     )
                 );
@@ -36,7 +35,7 @@ module.exports = (permissionName) => {
 
             return next();
         } catch (err) {
-            console.error('[hasPermission] Error:', err.message);
+            sails.log.error('[hasPermission] Lỗi xử lý middleware:', err);
             return res.status(500).json(handleServerError(err));
         }
     };

@@ -1,10 +1,13 @@
-const Permission = require('../api/mongoose-models/Permission');
+/**
+ * scripts/seedPermissions.js
+ *
+ * @description :: Seed dữ liệu permission sử dụng Waterline ORM (Sails.js).
+ */
 
 module.exports = async function () {
     console.time('SeedPermissions');
     sails.log('🔧 Đang chạy seedPermissions.js...');
 
-    // Danh sách permission thủ công
     const permissions = [
         // Auth
         { name: 'auth_register', description: 'Đăng ký' },
@@ -46,11 +49,13 @@ module.exports = async function () {
     ];
 
     try {
-        await Permission.deleteMany({});
-        sails.log('🧹 Đã xoá toàn bộ permission cũ');
+        // Xóa toàn bộ permission hiện có
+        await Permission.destroy({});
+        sails.log('🧹 Đã xoá toàn bộ permissions cũ.');
 
-        const created = await Permission.insertMany(permissions);
-        sails.log(`✅ Đã tạo ${created.length} permissions`);
+        // Tạo mới danh sách permissions
+        const createdPermissions = await Permission.createEach(permissions).fetch();
+        sails.log(`✅ Đã tạo ${createdPermissions.length} permission mới.`);
     } catch (err) {
         sails.log.error('❌ Lỗi khi seed permissions:', err.stack || err.message);
         throw err;

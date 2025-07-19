@@ -1,75 +1,64 @@
-const Permission = require('../mongoose-models/Permission');
-const {
-    successResponse,
-    handleServerError,
-    notFound,
-    errorResponse
-} = require('../../utils/responseHelper');
+const responseHelper = require('../../utils/responseHelper');
 
 module.exports = {
-    // Lấy tất cả permission
     findAll: async (req, res) => {
         try {
             const permissions = await Permission.find();
-            return res.status(200).json(successResponse(permissions, 'Lấy danh sách permission thành công'));
+            return res.status(200).json(responseHelper.success(permissions, 'Lấy danh sách permission thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PermissionController.findAll'));
+            return res.status(500).json(responseHelper.serverError(err));
         }
     },
 
-    // Lấy một permission theo ID
     findOne: async (req, res) => {
         try {
-            const permission = await Permission.findById(req.params.id);
+            const permission = await Permission.findOne({ id: req.params.id });
             if (!permission) {
-                return res.status(404).json(notFound('Không tìm thấy permission'));
+                return res.status(404).json(responseHelper.notFound('Không tìm thấy permission'));
             }
-            return res.status(200).json(successResponse(permission, 'Lấy permission thành công'));
+            return res.status(200).json(responseHelper.success(permission, 'Lấy permission thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PermissionController.findOne'));
+            return res.status(500).json(responseHelper.serverError(err));
         }
     },
 
-    // Tạo permission mới
     create: async (req, res) => {
         try {
             const { name, description } = req.body;
 
             const existing = await Permission.findOne({ name });
             if (existing) {
-                return res.status(400).json(errorResponse('Permission đã tồn tại'));
+                return res.status(400).json(responseHelper.badRequest('Permission đã tồn tại'));
             }
 
-            const newPermission = await Permission.create({ name, description });
-            return res.status(201).json(successResponse(newPermission, 'Tạo permission thành công'));
+            const newPermission = await Permission.create({ name, description }).fetch();
+            return res.status(201).json(responseHelper.success(newPermission, 'Tạo permission thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PermissionController.create'));
+            return res.status(500).json(responseHelper.serverError(err));
         }
     },
 
-    // Cập nhật permission
     update: async (req, res) => {
         try {
-            const updated = await Permission.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            const updated = await Permission.updateOne({ id: req.params.id }).set(req.body);
             if (!updated) {
-                return res.status(404).json(notFound('Không tìm thấy permission để cập nhật'));
+                return res.status(404).json(responseHelper.notFound('Không tìm thấy permission để cập nhật'));
             }
-            return res.status(200).json(successResponse(updated, 'Cập nhật permission thành công'));
+            return res.status(200).json(responseHelper.success(updated, 'Cập nhật permission thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PermissionController.update'));
+            return res.status(500).json(responseHelper.serverError(err));
         }
     },
 
-    // Xoá permission
     delete: async (req, res) => {
         try {
-            const deleted = await Permission.findByIdAndDelete(req.params.id);
+            const deleted = await Permission.destroyOne({ id: req.params.id });
             if (!deleted) {
-                return res.status(404).json(notFound('Không tìm thấy permission để xoá'));
+                return res.status(404).json(responseHelper.notFound('Không tìm thấy permission để xoá'));
             }
-            return res.status(200).json(successResponse(deleted, 'Xoá permission thành công'));
+            return res.status(200).json(responseHelper.success(deleted, 'Xoá permission thành công'));
         } catch (err) {
-            return res.status(500).json(handleServerError(err, 'PermissionController.delete'));
+            return res.status(500).json(responseHelper.serverError(err));
         }
     }
 };

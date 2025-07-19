@@ -1,51 +1,120 @@
-module.exports = {
-    handleValidationError(error) {
-        return {
-            success: false,
-            message: 'Tham số không hợp lệ',
-            error: error.details.map(e => e.message).join(', ')
-        };
-    },
+function buildResponse(params) {
+    var res = {
+        success: params.success,
+        message: params.message
+    };
 
-    handleServerError(err) {
-        sails.log.error(err);
-        return {
-            success: false,
-            message: 'Đã xảy ra lỗi server',
-            error: process.env.NODE_ENV === 'development' ? err.message : undefined
-        };
-    },
-
-    successResponse(data, message = 'Thành công', meta = {}) {
-        return {
-            success: true,
-            message,
-            meta,
-            data
-        };
-    },
-
-    notFound(message = 'Không tìm thấy dữ liệu', errorDetail) {
-        return {
-            success: false,
-            message,
-            error: errorDetail
-        };
-    },
-
-    errorResponse(message = 'Lỗi yêu cầu', error = null) {
-        return {
-            success: false,
-            message,
-            error
-        };
-    },
-
-    unauthorized(message = 'Không có quyền truy cập', error = null) {
-        return {
-            success: false,
-            message,
-            error
-        };
+    if (params.data) {
+        res.data = params.data;
     }
+
+    if (params.meta) {
+        res.meta = params.meta;
+    }
+
+    if (params.error) {
+        res.error = params.error;
+    }
+
+    if (params.code) {
+        res.code = params.code;
+    }
+
+    return res;
+}
+
+function success(data, message, meta) {
+    if (typeof message === 'undefined') message = 'Thành công';
+    if (typeof meta === 'undefined') meta = {};
+
+    return buildResponse({
+        success: true,
+        message: message,
+        data: data,
+        meta: meta
+    });
+}
+
+function mapErrorMessage(e) {
+    return e.message;
+}
+
+function validationError(error) {
+    var errorMsg = 'Tham số không hợp lệ';
+
+    if (error && error.details && Array.isArray(error.details)) {
+        errorMsg = error.details.map(mapErrorMessage).join(', ');
+    } else if (error && error.message) {
+        errorMsg = error.message;
+    }
+
+    return buildResponse({
+        success: false,
+        message: 'Tham số không hợp lệ',
+        error: errorMsg,
+        code: 'VALIDATION_ERROR'
+    });
+}
+
+
+function unauthorized(message) {
+    if (typeof message === 'undefined') message = 'Không có quyền truy cập';
+
+    return buildResponse({
+        success: false,
+        message: message,
+        code: 'UNAUTHORIZED'
+    });
+}
+
+function notFound(message) {
+    if (typeof message === 'undefined') message = 'Không tìm thấy dữ liệu';
+
+    return buildResponse({
+        success: false,
+        message: message,
+        code: 'NOT_FOUND'
+    });
+}
+
+function serverError(err) {
+    if (typeof sails !== 'undefined' && sails.log && sails.log.error) {
+        sails.log.error(err);
+    }
+
+    return buildResponse({
+        success: false,
+        message: 'Lỗi server',
+        error: (process.env.NODE_ENV === 'development' && err && err.message) ? err.message : undefined,
+        code: 'INTERNAL_ERROR'
+    });
+}
+
+function badRequest(message) {
+    if (typeof message === 'undefined') message = 'Tham số không hợp lệ';
+
+    return buildResponse({
+        success: false,
+        message: message,
+        code: 'BAD_REQUEST'
+    });
+}
+
+function errorResponse(message, code, error) {
+    return buildResponse({
+        success: false,
+        message: message || 'Lỗi không xác định',
+        code: code || 'ERROR',
+        error: error || null
+    });
+}
+
+module.exports = {
+    success: success,
+    validationError: validationError,
+    unauthorized: unauthorized,
+    notFound: notFound,
+    serverError: serverError,
+    badRequest: badRequest,
+    errorResponse: errorResponse
 };

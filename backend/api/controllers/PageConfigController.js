@@ -1,12 +1,11 @@
 const fs = require('fs/promises');
 const path = require('path');
 const Joi = require('joi');
-const PageConfig = require('../mongoose-models/PageConfig');
 const {
     successResponse,
     handleValidationError,
     handleServerError,
-    notFound
+    notFound,
 } = require('../../utils/responseHelper');
 
 const validatePageConfig = (data) => {
@@ -18,40 +17,46 @@ const validatePageConfig = (data) => {
 
         layout: Joi.object({
             table: Joi.object({
-                columns: Joi.array().items(Joi.object({
-                    key: Joi.string().required(),
-                    label: Joi.string().required(),
-                    type: Joi.string().required(),
-                    sortable: Joi.boolean(),
-                    searchable: Joi.boolean()
-                }))
+                columns: Joi.array().items(
+                    Joi.object({
+                        key: Joi.string().required(),
+                        label: Joi.string().required(),
+                        type: Joi.string().required(),
+                        sortable: Joi.boolean(),
+                        searchable: Joi.boolean(),
+                    })
+                ),
             }),
             form: Joi.object({
-                fields: Joi.array().items(Joi.object({
-                    key: Joi.string().required(),
-                    label: Joi.string().required(),
-                    type: Joi.string().required(),
-                    required: Joi.boolean(),
-                    options: Joi.array().items(Joi.string()).optional(),
-                    defaultValue: Joi.any().optional()
-                }))
-            })
+                fields: Joi.array().items(
+                    Joi.object({
+                        key: Joi.string().required(),
+                        label: Joi.string().required(),
+                        type: Joi.string().required(),
+                        required: Joi.boolean(),
+                        options: Joi.array().items(Joi.string()).optional(),
+                        defaultValue: Joi.any().optional(),
+                    })
+                ),
+            }),
         }),
 
         api: Joi.object({
             get: Joi.string(),
             create: Joi.string(),
             update: Joi.string(),
-            delete: Joi.string()
+            delete: Joi.string(),
         }),
 
-        actions: Joi.array().items(Joi.object({
-            label: Joi.string().required(),
-            type: Joi.string().required(),
-            method: Joi.string().required(),
-            endpoint: Joi.string().required(),
-            confirm: Joi.boolean()
-        }))
+        actions: Joi.array().items(
+            Joi.object({
+                label: Joi.string().required(),
+                type: Joi.string().required(),
+                method: Joi.string().required(),
+                endpoint: Joi.string().required(),
+                confirm: Joi.boolean(),
+            })
+        ),
     });
 
     return schema.validate(data);
@@ -96,11 +101,11 @@ module.exports = {
             if (existing) {
                 return res.status(409).json({
                     success: false,
-                    message: `Slug '${value.slug}' đã tồn tại`
+                    message: `Slug '${value.slug}' đã tồn tại`,
                 });
             }
 
-            const created = await PageConfig.create(value);
+            const created = await PageConfig.create(value).fetch();
             return res.status(201).json(successResponse(created, 'Tạo cấu hình trang thành công'));
         } catch (err) {
             return res.status(500).json(handleServerError(err, 'PageConfigController.create'));
@@ -115,11 +120,10 @@ module.exports = {
                 return res.status(400).json(handleValidationError(error));
             }
 
-            const updated = await PageConfig.findOneAndUpdate(
-                { slug: value.slug },
-                { ...value, updatedAt: new Date() },
-                { new: true }
-            );
+            const updated = await PageConfig.updateOne({ slug: value.slug }).set({
+                ...value,
+                updatedAt: new Date(),
+            });
 
             if (!updated) {
                 return res.status(404).json(notFound('Không tìm thấy cấu hình', value.slug));
@@ -135,8 +139,8 @@ module.exports = {
     delete: async (req, res) => {
         try {
             const { slug } = req.params;
+            const deleted = await PageConfig.destroyOne({ slug });
 
-            const deleted = await PageConfig.findOneAndDelete({ slug });
             if (!deleted) {
                 return res.status(404).json(notFound('Không tìm thấy cấu hình', slug));
             }
@@ -155,9 +159,11 @@ module.exports = {
 
             await fs.writeFile(outputPath, JSON.stringify(configs, null, 2), 'utf-8');
 
-            return res.status(200).json(successResponse({ path: '/public/page-configs.json' }, 'Đăng trang thành công'));
+            return res.status(200).json(
+                successResponse({ path: '/public/page-configs.json' }, 'Đăng trang thành công')
+            );
         } catch (err) {
             return res.status(500).json(handleServerError(err, 'PageConfigController.publish'));
         }
-    }
+    },
 };
