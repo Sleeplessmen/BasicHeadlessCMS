@@ -1,10 +1,8 @@
 const has = require('../api/permissions/hasPermissionPolicies');
 
-// Helper gộp isLoggedIn + hasPermission
 const withAuth = (permission) => ['isLoggedIn', permission];
 
 module.exports.policies = {
-    // Cho phép tự do với Auth
     AuthController: {
         '*': true,
         me: 'isLoggedIn',

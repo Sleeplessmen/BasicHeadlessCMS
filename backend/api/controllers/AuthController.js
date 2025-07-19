@@ -206,37 +206,31 @@ module.exports = {
                 return res.status(401).json(responseHelper.notFound('Email không tồn tại'));
             }
 
+            if (!user.role) {
+                return res.status(403).json(responseHelper.unauthorized('Người dùng chưa được gán role'));
+            }
+
             const valid = await bcrypt.compare(password, user.password);
             if (!valid) {
-                return res.status(401).json({
-                    success: false,
-                    message: 'Sai mật khẩu'
-                });
+                return res.status(401).json({ success: false, message: 'Sai mật khẩu' });
             }
 
             const roleName = (user.role && user.role.name) ? user.role.name : 'user';
 
             const token = jwt.sign(
                 { id: user._id, role: roleName },
-                process.env.JWT_SECRET || 'c87c419356e0de8e9f052efdd5aee2a5625f9a0933f09623ea4c3acc930e810378eba2a1',
+                process.env.JWT_SECRET,
                 { expiresIn: '2d' }
             );
 
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax', // hoặc 'strict' nếu là hệ thống cực kỳ riêng tư
+                sameSite: 'lax',
                 maxAge: 2 * 24 * 60 * 60 * 1000
             });
 
-            return res.status(200).json(responseHelper.successResponse({
-                user: {
-                    _id: user._id,
-                    email: user.email,
-                    role: roleName
-                },
-                token
-            }, 'Đăng nhập thành công'));
+            return res.status(200).json(responseHelper.successResponse(null, 'Đăng nhập thành công'));
 
         } catch (error) {
             return res.status(500).json(responseHelper.handleServerError(error));
@@ -280,6 +274,10 @@ module.exports = {
 
             if (!user) {
                 return res.status(404).json(responseHelper.notFound('Không tìm thấy người dùng'));
+            }
+
+            if (!user.role) {
+                return res.status(400).json(responseHelper.errorResponse('Người dùng chưa được gán vai trò'));
             }
 
             return res.status(200).json(responseHelper.successResponse({

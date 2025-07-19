@@ -39,5 +39,13 @@ module.exports = {
             message,
             error
         };
+    },
+
+    unauthorized(message = 'Không có quyền truy cập', error = null) {
+        return {
+            success: false,
+            message,
+            error
+        };
     }
 };

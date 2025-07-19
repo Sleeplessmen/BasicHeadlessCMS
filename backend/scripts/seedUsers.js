@@ -7,66 +7,54 @@ module.exports = async function () {
     sails.log('🔧 Đang chạy seedUsers.js...');
 
     try {
-        // 1. Lấy role từ DB
-        const [adminRole, editorRole, userRole] = await Promise.all([
-            Role.findOne({ name: 'admin' }),
-            Role.findOne({ name: 'editor' }),
-            Role.findOne({ name: 'user' }),
-        ]);
+        // B1. Lấy các role cần thiết
+        const roles = await Role.find({ name: { $in: ['admin', 'editor', 'user'] } });
+        const roleMap = roles.reduce((map, role) => {
+            map[role.name] = role._id;
+            return map;
+        }, {});
 
-        if (!adminRole || !editorRole || !userRole) {
-            throw new Error('❌ Role admin/editor/user chưa tồn tại. Hãy seed roles trước.');
+        const { admin, editor, user } = roleMap;
+
+        if (!admin || !editor || !user) {
+            throw new Error('❌ Role admin/editor/user chưa tồn tại. Hãy chạy seedRoles trước.');
         }
 
-        // 2. Xoá toàn bộ user ngoại trừ admin/editor
+        // B2. Xoá user trừ admin/editor
         const deleted = await User.deleteMany({
             email: { $nin: ['admin@example.com', 'editor@example.com'] },
         });
         sails.log(`🧹 Đã xoá ${deleted.deletedCount} user thường`);
 
-        // 3. Hash mật khẩu dùng lại
-        const passwordHashed = await bcrypt.hash('123456', 10);
+        // B3. Hash mật khẩu dùng lại
+        const hashedPassword = await bcrypt.hash('123456', 10);
 
-        // 4. Tạo admin nếu chưa có
-        const adminEmail = 'admin@example.com';
-        const existingAdmin = await User.findOne({ email: adminEmail });
-        if (!existingAdmin) {
-            await User.create({
-                email: adminEmail,
-                password: passwordHashed,
-                role: adminRole._id,
-            });
-            sails.log(`✅ Đã tạo admin: ${adminEmail}`);
-        } else {
-            sails.log(`ℹ️ Admin đã tồn tại: ${adminEmail}`);
-        }
+        // B4. Hàm tạo user nếu chưa tồn tại
+        const createIfNotExist = async (email, roleId) => {
+            const exists = await User.findOne({ email });
+            if (!exists) {
+                await User.create({ email, password: hashedPassword, role: roleId });
+                sails.log(`✅ Đã tạo user: ${email}`);
+            } else {
+                sails.log(`ℹ️ Đã tồn tại user: ${email}`);
+            }
+        };
 
-        // 5. Tạo editor nếu chưa có
-        const editorEmail = 'editor@example.com';
-        const existingEditor = await User.findOne({ email: editorEmail });
-        if (!existingEditor) {
-            await User.create({
-                email: editorEmail,
-                password: passwordHashed,
-                role: editorRole._id,
-            });
-            sails.log(`✅ Đã tạo editor: ${editorEmail}`);
-        } else {
-            sails.log(`ℹ️ Editor đã tồn tại: ${editorEmail}`);
-        }
+        await createIfNotExist('admin@example.com', admin);
+        await createIfNotExist('editor@example.com', editor);
 
-        // 6. Tạo 50 user thường
+        // B5. Tạo 50 user thường
         const users = Array.from({ length: 50 }, (_, i) => ({
             email: `user${i + 1}@example.com`,
-            password: passwordHashed,
-            role: userRole._id,
+            password: hashedPassword,
+            role: user
         }));
-
         await User.insertMany(users);
         sails.log('✅ Đã tạo 50 user thường');
 
     } catch (err) {
         sails.log.error('❌ Lỗi khi seed user:', err.stack || err.message);
+        throw err;
     }
 
     console.timeEnd('SeedUsers');

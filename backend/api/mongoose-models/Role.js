@@ -4,7 +4,7 @@ const roleSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true, // Ví dụ: 'super_vadmin', 'admin', 'editor', 'viewer', 'custom'
+        unique: true, // Ví dụ: 'super_admin', 'admin', 'editor', 'viewer', 'custom'
     },
     description: {
         type: String,
