@@ -8,51 +8,64 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true)
     const location = useLocation()
 
-    // Hàm gọi API lấy thông tin người dùng
+    const publicPaths = ['/login', '/register']
+    const isPublicRoute = publicPaths.includes(location.pathname)
+
     const fetchUser = async () => {
         try {
             const res = await axios.get('http://localhost:1338/api/v1/auth/me', {
                 withCredentials: true,
             })
-            setUser(res.data.data) // Giả sử response chuẩn hóa là { data: { ...user } }
+            setUser(res.data.data)
         } catch (err) {
-            console.error('Fetch user error:', err.message)
+            console.warn('⚠️ fetchUser error:', err.response?.data || err.message)
             setUser(null)
         } finally {
             setLoading(false)
         }
     }
 
-    // Hàm đăng nhập
-    const login = async (email, password) => {
-        await axios.post('http://localhost:1338/api/v1/auth/login', { email, password }, {
-            withCredentials: true
-        })
-        await fetchUser()
+    const login = async ({ email, password }) => {
+        try {
+            await axios.post('http://localhost:1338/api/v1/auth/login', { email, password }, {
+                withCredentials: true,
+            })
+
+            await fetchUser()
+            return { success: true }
+        } catch (err) {
+            console.warn('⚠️ Login error:', err.response?.data || err.message)
+            return {
+                success: false,
+                message: err.response?.data?.message || 'Đăng nhập thất bại.',
+            }
+        }
     }
 
-    // Hàm đăng xuất
     const logout = async () => {
-        await axios.post('http://localhost:1338/api/v1/auth/logout', {}, {
-            withCredentials: true
-        })
-        setUser(null)
+        try {
+            await axios.post('http://localhost:1338/api/v1/auth/logout', {}, {
+                withCredentials: true,
+            })
+        } catch (err) {
+            console.warn('⚠️ Logout error:', err.message)
+        } finally {
+            setUser(null)
+        }
     }
 
-    // Chỉ fetch user nếu không phải login/register
     useEffect(() => {
-        const publicPaths = ['/login', '/register']
-        if (!publicPaths.includes(location.pathname)) {
+        if (!isPublicRoute) {
             fetchUser()
         } else {
             setLoading(false)
         }
-    }, [location.pathname])
+    }, [isPublicRoute, location.pathname])
 
     const isLoggedIn = !!user
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading, isLoggedIn }}>
+        <AuthContext.Provider value={{ user, login, logout, isLoggedIn, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     )

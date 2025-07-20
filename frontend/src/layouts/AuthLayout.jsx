@@ -1,8 +1,10 @@
-export default function AuthLayout({ children }) {
+import { Outlet } from 'react-router-dom'
+
+export default function AuthLayout() {
     return (
-        <div className="flex h-screen items-center justify-center bg-gray-50">
-            <div className="w-full max-w-md p-6 bg-white shadow rounded-xl">
-                {children}
+        <div className="flex items-center justify-center min-h-screen bg-gray-50 font-sans p-lg">
+            <div className="bg-surface-light p-xl rounded-2xl shadow-strong w-full max-w-[400px]">
+                <Outlet />
             </div>
         </div>
     )

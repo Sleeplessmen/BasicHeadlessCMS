@@ -1,122 +1,151 @@
-import { useNavigate, Link } from 'react-router-dom'
-import { useState } from 'react'
-import AuthLayout from '../layouts/AuthLayout'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
+import axios from 'axios'
 
 export default function RegisterPage() {
+    const [form, setForm] = useState({
+        email: '',
+        password: '',
+        confirmPassword: '',
+        role: 'user',
+    })
+
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    const { login, isLoggedIn } = useAuth()
     const navigate = useNavigate()
-    const [form, setForm] = useState({ email: '', password: '', role: 'user' })
-    const [formError, setFormError] = useState({})
-    const [serverError, setServerError] = useState('')
-    const [success, setSuccess] = useState(false)
 
-    const validate = () => {
-        const errors = {}
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-        if (!form.email) {
-            errors.email = 'Email không được để trống'
-        } else if (!emailRegex.test(form.email)) {
-            errors.email = 'Email không hợp lệ'
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/home')
         }
+    }, [isLoggedIn, navigate])
 
-        if (!form.password) {
-            errors.password = 'Mật khẩu không được để trống'
-        } else if (form.password.length < 6) {
-            errors.password = 'Mật khẩu tối thiểu 6 ký tự'
-        }
-
-        if (!form.role || !['user', 'editor'].includes(form.role)) {
-            errors.role = 'Vai trò không hợp lệ'
-        }
-
-        setFormError(errors)
-        return Object.keys(errors).length === 0
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value })
+        setError('')
+        setSuccess('')
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setServerError('')
-        if (!validate()) return
 
+        if (!form.email || !form.password || !form.confirmPassword) {
+            return setError('Vui lòng điền đầy đủ thông tin.')
+        }
+
+        if (form.password !== form.confirmPassword) {
+            return setError('Mật khẩu không khớp.')
+        }
+
+        setLoading(true)
         try {
-            const res = await fetch('http://localhost:1338/api/v1/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(form),
+            // 1. Đăng ký
+            await axios.post('http://localhost:1338/api/v1/auth/register', {
+                email: form.email,
+                password: form.password,
+                role: form.role,
             })
 
-            const data = await res.json()
+            // 2. Tự động đăng nhập
+            const res = await login({ email: form.email, password: form.password })
 
-            if (!res.ok) {
-                setServerError(data.message || 'Đăng ký thất bại')
-                return
+            if (res.success) {
+                navigate('/')
+            } else {
+                setError('Đăng ký thành công nhưng đăng nhập thất bại.')
             }
-
-            setSuccess(true)
-            setTimeout(() => navigate('/login'), 2000)
         } catch (err) {
-            setServerError('Lỗi kết nối đến máy chủ' + (err.message ? `: ${err.message}` : ''))
+            setError(err.response?.data?.message || 'Đăng ký thất bại.')
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
-        <AuthLayout>
+        <div className="max-w-md mx-auto mt-10 font-sans">
+            <h2 className="text-xl font-semibold text-brand mb-6">📝 Đăng ký</h2>
+
             <form onSubmit={handleSubmit} className="space-y-4">
-                <h2 className="text-xl font-semibold text-center">Đăng ký</h2>
-
-                {serverError && <div className="text-red-500 text-sm">{serverError}</div>}
-                {success && <div className="text-green-500 text-sm">Đăng ký thành công! Đang chuyển hướng...</div>}
-
                 <div>
+                    <label htmlFor="email" className="block text-sm mb-1">
+                        Email
+                    </label>
                     <input
                         type="email"
-                        placeholder="Email"
-                        className="w-full p-2 border rounded"
+                        name="email"
+                        id="email"
                         value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        onChange={handleChange}
+                        placeholder="you@example.com"
+                        className="w-full p-2 border border-gray-100 rounded-md"
+                        autoComplete="username"
                     />
-                    {formError.email && <div className="text-red-500 text-sm mt-1">{formError.email}</div>}
                 </div>
 
                 <div>
+                    <label htmlFor="password" className="block text-sm mb-1">
+                        Mật khẩu
+                    </label>
                     <input
                         type="password"
-                        placeholder="Mật khẩu"
-                        className="w-full p-2 border rounded"
+                        name="password"
+                        id="password"
                         value={form.password}
-                        onChange={(e) => setForm({ ...form, password: e.target.value })}
+                        onChange={handleChange}
+                        placeholder="••••••"
+                        className="w-full p-2 border border-gray-100 rounded-md"
+                        autoComplete="current-password"
                     />
-                    {formError.password && <div className="text-red-500 text-sm mt-1">{formError.password}</div>}
                 </div>
 
                 <div>
+                    <label htmlFor="confirmPassword" className="block text-sm mb-1">
+                        Xác nhận mật khẩu
+                    </label>
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                        value={form.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="••••••"
+                        className="w-full p-2 border border-gray-100 rounded-md"
+                        autoComplete="new-password"
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="role" className="block text-sm mb-1">
+                        Vai trò
+                    </label>
                     <select
-                        className="w-full p-2 border rounded"
+                        name="role"
+                        id="role"
                         value={form.role}
-                        onChange={(e) => setForm({ ...form, role: e.target.value })}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-100 rounded-md"
                     >
                         <option value="user">Người dùng</option>
                         <option value="editor">Biên tập viên</option>
                     </select>
-                    {formError.role && <div className="text-red-500 text-sm mt-1">{formError.role}</div>}
                 </div>
+
+                {error && <p className="text-sm text-danger">{error}</p>}
+                {success && <p className="text-sm text-success">{success}</p>}
 
                 <button
                     type="submit"
-                    className="w-full p-2 bg-green-600 hover:bg-green-700 text-white rounded"
+                    disabled={loading}
+                    className={`w-full py-3 text-white font-bold rounded-md transition-opacity duration-200 ${loading ? 'opacity-60 cursor-not-allowed' : 'bg-brand hover:bg-brand-dark'
+                        }`}
                 >
-                    Đăng ký
+                    {loading ? 'Đang đăng ký...' : 'Đăng ký'}
                 </button>
-
-                <p className="text-sm text-center text-gray-600">
-                    Đã có tài khoản?{' '}
-                    <Link to="/login" className="text-blue-500 hover:underline">
-                        Đăng nhập
-                    </Link>
-                </p>
             </form>
-        </AuthLayout>
+        </div>
     )
 }

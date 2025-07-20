@@ -1,21 +1,21 @@
-'use client'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ThemeContext } from '../contexts/ThemeContext'
 
-export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem('theme') || 'light'
-    })
+export const ThemeProvider = ({ children }) => {
+    const [theme, setTheme] = useState(
+        () => localStorage.getItem('theme') || 'light'
+    )
 
+    // Gắn class lên <html> để Tailwind nhận biết
     useEffect(() => {
-        document.documentElement.classList.remove('light', 'dark')
-        document.documentElement.classList.add(theme)
+        const root = window.document.documentElement
+        root.classList.remove('light', 'dark')
+        root.classList.add(theme)
         localStorage.setItem('theme', theme)
     }, [theme])
 
-    const toggleTheme = () => {
+    const toggleTheme = () =>
         setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
-    }
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
