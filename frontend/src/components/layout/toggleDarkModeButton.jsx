@@ -1,5 +1,5 @@
 import { FiMoon, FiSun } from 'react-icons/fi'
-import styles from './ToggleDarkModeButton.module.css'
+import styles from './toggleDarkModeButton.module.css'
 import { useTheme } from '../../hooks/useTheme'
 
 export default function ToggleDarkModeButton() {
