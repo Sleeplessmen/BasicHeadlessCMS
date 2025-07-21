@@ -1,33 +1,35 @@
 import styles from './SaveButton.module.css';
 import { useState } from 'react';
+import axios from 'axios';
 
-export default function SaveButton({ config, mode, onSuccess }) {
+const API_BASE = 'http://localhost:1338/api/v1/page-config';
+
+export default function SaveButton({ config, mode, onSuccess, onError }) {
     const [saving, setSaving] = useState(false);
 
     const handleSave = async () => {
         setSaving(true);
         try {
-            const res = await fetch(
-                mode === 'edit'
-                    ? `http://localhost:1338/api/v1/page-config/${config._id}`
-                    : 'http://localhost:1338/api/v1/page-config',
-                {
-                    method: mode === 'edit' ? 'PUT' : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(config),
-                }
-            );
+            const url = mode === 'edit'
+                ? `${API_BASE}/${config._id}`
+                : API_BASE;
 
-            const json = await res.json();
-            if (!res.ok) throw new Error(json.message || 'Có lỗi xảy ra');
+            const method = mode === 'edit' ? 'put' : 'post';
+
+            const res = await axios[method](url, config, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
             alert('✅ Lưu thành công!');
-            onSuccess?.();
+            onSuccess?.(res.data);
         } catch (err) {
-            console.error(err);
-            alert('❌ Lỗi khi lưu trang: ' + err.message);
+            console.error('❌ Save failed:', err);
+            const message = err.response?.data?.message || 'Có lỗi xảy ra khi lưu';
+            alert('❌ ' + message);
+            onError?.(message);
         } finally {
             setSaving(false);
         }

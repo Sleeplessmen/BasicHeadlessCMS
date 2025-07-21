@@ -1,61 +1,84 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import PageGeneralSection from './PageGeneralSection';
 import PageFormLayoutSection from './PageFormLayoutSection';
 import PageTableLayoutSection from './PageTableLayoutSection';
-import PagePreviewButton from './PagePreviewButton';
 import SaveButton from './SaveButton';
+
+import styles from './PageEditor.module.css';
 
 const API_BASE = 'http://localhost:1338/api/v1/page-config';
 
 export default function PageEditor({ mode }) {
-    const { id } = useParams();
+    const { slug } = useParams();
     const navigate = useNavigate();
+
     const [pageConfig, setPageConfig] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        if (mode === 'edit' && id) {
-            fetch(`${API_BASE}/${id}`)
-                .then(res => res.json())
-                .then(data => {
-                    setPageConfig(data?.data);
+        if (mode === 'edit' && slug) {
+            axios
+                .get(`${API_BASE}/${slug}`, { withCredentials: true })
+                .then((res) => {
+                    setPageConfig(res.data?.data);
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    console.error('❌ Lỗi khi tải trang:', err);
+                    setError('Không thể tải dữ liệu từ máy chủ.');
                     setLoading(false);
                 });
         } else {
+            // Tạo cấu hình mặc định
             setPageConfig({
                 name: '',
                 slug: '',
                 visibleForRoles: [],
+                api: {
+                    get: '',
+                    create: '',
+                    update: '',
+                    delete: '',
+                },
                 layout: {
-                    type: 'form',
                     form: {
                         fields: [],
-                        api: '',
+                        api: {
+                            submit: '',
+                            method: 'POST',
+                        },
                     },
                     table: {
                         columns: [],
-                        api: '',
+                        actions: [],
+                        api: {
+                            get: '',
+                            delete: '',
+                        },
                     },
-                    buttons: [],
                 },
             });
             setLoading(false);
         }
-    }, [mode, id]);
+    }, [mode, slug]);
 
     const handleChange = (key, value) => {
-        setPageConfig(prev => ({
+        setPageConfig((prev) => ({
             ...prev,
             [key]: value,
         }));
     };
 
-    if (loading) return <p>Đang tải dữ liệu...</p>;
+    if (loading) return <p className={styles.loading}>Đang tải dữ liệu...</p>;
+    if (error) return <p className={styles.error}>{error}</p>;
 
     return (
-        <div className="p-6 space-y-6">
-            <h2 className="text-2xl font-bold">
+        <div className={styles.container}>
+            <h2 className={styles.title}>
                 {mode === 'edit' ? 'Chỉnh sửa trang động' : 'Tạo trang động mới'}
             </h2>
 
@@ -64,22 +87,17 @@ export default function PageEditor({ mode }) {
                 onChange={handleChange}
             />
 
-            {pageConfig.layout.type === 'form' && (
-                <PageFormLayoutSection
-                    config={pageConfig}
-                    setConfig={setPageConfig}
-                />
-            )}
+            <PageFormLayoutSection
+                config={pageConfig}
+                setConfig={setPageConfig}
+            />
 
-            {pageConfig.layout.type === 'table' && (
-                <PageTableLayoutSection
-                    config={pageConfig}
-                    setConfig={setPageConfig}
-                />
-            )}
+            <PageTableLayoutSection
+                config={pageConfig}
+                setConfig={setPageConfig}
+            />
 
-            <div className="flex gap-4">
-                <PagePreviewButton config={pageConfig} />
+            <div className={styles.actions}>
                 <SaveButton
                     config={pageConfig}
                     mode={mode}

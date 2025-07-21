@@ -8,7 +8,7 @@ module.exports = async function seedPageConfig() {
         {
             name: 'Quản lý sản phẩm',
             slug: 'product-management',
-            visibleForRoles: ['admin', 'manager'],
+            visibleForRoles: ['admin', 'editor', 'user'],
             api: {
                 get: '/api/products',
                 create: '/api/products',
@@ -42,13 +42,13 @@ module.exports = async function seedPageConfig() {
                     }
                 ]
             },
-            actions: ['create', 'edit', 'delete'], // tùy chọn
+            actions: ['create', 'edit', 'delete'],
         },
 
         {
             name: 'Quản lý người dùng',
             slug: 'user-management',
-            visibleForRoles: ['admin'],
+            visibleForRoles: ['admin', 'editor', 'user'],
             api: {
                 get: '/api/users',
                 create: '/api/users',

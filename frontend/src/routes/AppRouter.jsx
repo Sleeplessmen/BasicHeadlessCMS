@@ -40,7 +40,7 @@ export default function AppRouter() {
 
                     <Route path="/page-editor/new" element={<PageEditor mode="create" />} />
 
-                    <Route path="/page-editor/:id" element={<PageEditor mode="edit" />} />
+                    <Route path="/page-editor/:slug" element={<PageEditor mode="edit" />} />
 
                     <Route path="/pages/:slug" element={<DynamicPage />} />
 

@@ -1,59 +1,88 @@
 .section {
     border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #fff;
+    margin-bottom: 2rem;
 }
 
 .title {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.addRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.input,
+.select {
+    flex: 1 1 150px;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.addBtn {
+    background-color: #0070f3;
+    border: none;
+    color: white;
+    padding: 0.55rem 0.85rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.addBtn:hover {
+    background-color: #005bd1;
 }
 
 .columnList {
     list-style: none;
-    padding-left: 1rem;
-    margin-bottom: 1rem;
+    padding-left: 0;
+    margin-top: 1rem;
 }
 
 .columnItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.25rem 0;
+    padding: 0.6rem 0.8rem;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+}
+
+.columnText {
+    font-size: 0.95rem;
+    color: #333;
 }
 
 .deleteBtn {
-    background-color: #f87171;
-    border: none;
+    background: #e53e3e;
     color: white;
-    padding: 0.25rem 0.5rem;
+    border: none;
+    padding: 0.3rem 0.7rem;
     font-size: 0.875rem;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
 }
 
-.addRow {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+.deleteBtn:hover {
+    background: #c53030;
 }
 
-.input {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 120px;
-}
-
-.addBtn {
-    background-color: #34d399;
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    cursor: pointer;
+.empty {
+    font-style: italic;
+    color: #666;
 }

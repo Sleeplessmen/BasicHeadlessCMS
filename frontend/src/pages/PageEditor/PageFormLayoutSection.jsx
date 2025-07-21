@@ -1,36 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { FiPlus, FiX } from 'react-icons/fi';
 import styles from './PageFormLayoutSection.module.css';
 
 export default function PageFormLayoutSection({ config, setConfig }) {
-    const [fields, setFields] = useState(config?.form?.fields || []);
+    const [fields, setFields] = useState(config?.layout?.form?.fields || []);
     const [newField, setNewField] = useState({ label: '', type: 'text', required: false });
+    const [apiConfig, setApiConfig] = useState(config?.layout?.form?.api || { submit: '', method: 'POST' });
 
-    const updateParentConfig = (updatedFields) => {
-        setFields(updatedFields);
-        setConfig((prev) => ({
+    useEffect(() => {
+        setConfig(prev => ({
             ...prev,
-            form: {
-                ...(prev.form || {}),
-                fields: updatedFields,
+            layout: {
+                ...prev.layout,
+                form: {
+                    ...prev.layout.form,
+                    fields,
+                    api: apiConfig,
+                },
             },
         }));
-    };
+    }, [fields, apiConfig, setConfig]);
 
     const handleAddField = () => {
         if (!newField.label.trim()) return;
 
-        updateParentConfig([...fields, newField]);
+        setFields([...fields, newField]);
         setNewField({ label: '', type: 'text', required: false });
     };
 
     const handleRemove = (index) => {
         const updated = fields.filter((_, i) => i !== index);
-        updateParentConfig(updated);
+        setFields(updated);
     };
 
     return (
         <section className={styles.section}>
-            <h3 className={styles.title}>Cấu hình Form động</h3>
+            <h3 className={styles.title}>Cấu hình Mẫu điền thông tin</h3>
+
+            <div className={styles.apiConfig}>
+                <input
+                    type="text"
+                    className={styles.input}
+                    placeholder="API Submit URL (e.g. /api/products)"
+                    value={apiConfig.submit}
+                    onChange={(e) => setApiConfig({ ...apiConfig, submit: e.target.value })}
+                />
+                <select
+                    className={styles.select}
+                    value={apiConfig.method}
+                    onChange={(e) => setApiConfig({ ...apiConfig, method: e.target.value })}
+                >
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                </select>
+            </div>
 
             <div className={styles.inputRow}>
                 <input
@@ -59,7 +82,9 @@ export default function PageFormLayoutSection({ config, setConfig }) {
                     />
                     Bắt buộc
                 </label>
-                <button className={styles.addBtn} onClick={handleAddField}>➕</button>
+                <button className={styles.addBtn} onClick={handleAddField}>
+                    <FiPlus size={16} />
+                </button>
             </div>
 
             <ul className={styles.fieldList}>
@@ -68,7 +93,9 @@ export default function PageFormLayoutSection({ config, setConfig }) {
                         <span>
                             <strong>{field.label}</strong> ({field.type}) {field.required ? ' *' : ''}
                         </span>
-                        <button onClick={() => handleRemove(idx)} className={styles.removeBtn}>❌</button>
+                        <button onClick={() => handleRemove(idx)} className={styles.removeBtn}>
+                            <FiX size={16} />
+                        </button>
                     </li>
                 ))}
             </ul>
