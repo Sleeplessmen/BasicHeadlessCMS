@@ -36,8 +36,13 @@
 }
 
 .slug {
-    color: #3b82f6;
-    /* text-blue-500 */
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.slug:hover {
+    opacity: 0.8;
 }
 
 .wrap {

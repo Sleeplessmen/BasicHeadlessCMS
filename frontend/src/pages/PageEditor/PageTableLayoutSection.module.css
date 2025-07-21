@@ -13,6 +13,36 @@
     color: #333;
 }
 
+/* Thêm phần này để fix input dính viền */
+.row {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.apiSection {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.apiLabel {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.apiInput {
+    flex: 1 1 300px;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+}
+
 .addRow {
     display: flex;
     flex-wrap: wrap;
@@ -29,6 +59,7 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;
+    background: #fff;
 }
 
 .addBtn {
@@ -40,6 +71,11 @@
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
 }
 
 .addBtn:hover {
@@ -66,6 +102,7 @@
 .columnText {
     font-size: 0.95rem;
     color: #333;
+    word-break: break-word;
 }
 
 .deleteBtn {

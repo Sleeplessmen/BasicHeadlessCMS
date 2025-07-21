@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { getAllPageConfigs } from '../../services/pageConfig'
+import { useNavigate } from 'react-router-dom'
 import styles from './PageConfigTable.module.css'
 
 export default function PageConfigTable() {
     const [configs, setConfigs] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         async function fetchConfigs() {
@@ -34,9 +36,9 @@ export default function PageConfigTable() {
                     <tr className={styles.tableHeadRow}>
                         <th className={styles.tableCell}>Tên trang</th>
                         <th className={styles.tableCell}>Đường dẫn</th>
-                        <th className={styles.tableCell}>Bảng - Các nhãn cột</th>
-                        <th className={styles.tableCell}>Form - Các nhãn trường</th>
-                        <th className={styles.tableCell}>Button</th>
+                        <th className={styles.tableCell}>Các nhãn của Table</th>
+                        <th className={styles.tableCell}>Các nhãn của Form</th>
+                        <th className={styles.tableCell}>Các nhãn của Button</th>
                         <th className={styles.tableCell}>API</th>
                     </tr>
                 </thead>
@@ -44,9 +46,13 @@ export default function PageConfigTable() {
                     {configs.map((config) => (
                         <tr key={config.id} className={styles.tableBodyRow}>
                             <td className={styles.tableCell}>{config.name}</td>
-                            <td className={`${styles.tableCell} ${styles.slug}`}>{config.slug}</td>
+                            <td
+                                className={`${styles.tableCell} ${styles.slug}`}
+                                onClick={() => navigate(`/pages/${config.slug}`)}
+                            >
+                                {config.slug}
+                            </td>
 
-                            {/* Table Columns */}
                             <td className={`${styles.tableCell} ${styles.wrap}`}>
                                 {config.layout?.table?.columns?.length > 0 ? (
                                     config.layout.table.columns.map((col, index) => (
@@ -57,7 +63,6 @@ export default function PageConfigTable() {
                                 )}
                             </td>
 
-                            {/* Form Fields */}
                             <td className={`${styles.tableCell} ${styles.wrap}`}>
                                 {config.layout?.form?.fields?.length > 0 ? (
                                     config.layout.form.fields.map((field, index) => (
@@ -68,7 +73,6 @@ export default function PageConfigTable() {
                                 )}
                             </td>
 
-                            {/* Buttons */}
                             <td className={`${styles.tableCell} ${styles.wrap}`}>
                                 {config.layout?.buttons?.length > 0 ? (
                                     config.layout.buttons.map((btn, index) => (
@@ -81,7 +85,6 @@ export default function PageConfigTable() {
                                 )}
                             </td>
 
-                            {/* API */}
                             <td className={`${styles.tableCell} ${styles.api}`}>
                                 {config.api ? (
                                     Object.entries(config.api).map(([method, endpoint]) => (

@@ -5,9 +5,14 @@ import styles from './PageFormLayoutSection.module.css';
 export default function PageFormLayoutSection({ config, setConfig }) {
     const [fields, setFields] = useState(config?.layout?.form?.fields || []);
     const [newField, setNewField] = useState({ label: '', type: 'text', required: false });
-    const [apiConfig, setApiConfig] = useState(config?.layout?.form?.api || { submit: '', method: 'POST' });
+    const [apiConfig, setApiConfig] = useState(() => {
+        const defaultConfig = { submit: '', method: 'POST' };
+        const incoming = config?.layout?.form?.api;
+        return incoming?.submit ? incoming : defaultConfig;
+    });
 
     useEffect(() => {
+        const method = ['GET', 'POST'].includes(apiConfig.method.toUpperCase()) ? apiConfig.method.toUpperCase() : 'POST';
         setConfig(prev => ({
             ...prev,
             layout: {
@@ -15,7 +20,10 @@ export default function PageFormLayoutSection({ config, setConfig }) {
                 form: {
                     ...prev.layout.form,
                     fields,
-                    api: apiConfig,
+                    api: {
+                        ...apiConfig,
+                        method,
+                    },
                 },
             },
         }));
@@ -24,7 +32,14 @@ export default function PageFormLayoutSection({ config, setConfig }) {
     const handleAddField = () => {
         if (!newField.label.trim()) return;
 
-        setFields([...fields, newField]);
+        const key = newField.label
+            .toLowerCase()
+            .replace(/\s+/g, '_')
+            .replace(/[^a-z0-9_]/g, '') + '_' + Date.now();
+
+        const newFieldWithKey = { ...newField, key };
+
+        setFields([...fields, newFieldWithKey]);
         setNewField({ label: '', type: 'text', required: false });
     };
 
@@ -41,7 +56,7 @@ export default function PageFormLayoutSection({ config, setConfig }) {
                 <input
                     type="text"
                     className={styles.input}
-                    placeholder="API Submit URL (e.g. /api/products)"
+                    placeholder="API Submit URL (VD: /api/products)"
                     value={apiConfig.submit}
                     onChange={(e) => setApiConfig({ ...apiConfig, submit: e.target.value })}
                 />
@@ -51,8 +66,9 @@ export default function PageFormLayoutSection({ config, setConfig }) {
                     onChange={(e) => setApiConfig({ ...apiConfig, method: e.target.value })}
                 >
                     <option value="POST">POST</option>
-                    <option value="PUT">PUT</option>
+                    <option value="GET">GET</option>
                 </select>
+
             </div>
 
             <div className={styles.inputRow}>
@@ -72,7 +88,7 @@ export default function PageFormLayoutSection({ config, setConfig }) {
                     <option value="email">Email</option>
                     <option value="password">Password</option>
                     <option value="date">Date</option>
-                    <option value="select">Select</option>
+                    {/* <option value="select">Select</option> */}
                 </select>
                 <label className={styles.checkbox}>
                     <input

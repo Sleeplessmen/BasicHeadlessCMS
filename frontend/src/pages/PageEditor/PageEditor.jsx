@@ -33,17 +33,10 @@ export default function PageEditor({ mode }) {
                     setLoading(false);
                 });
         } else {
-            // Tạo cấu hình mặc định
             setPageConfig({
                 name: '',
                 slug: '',
-                visibleForRoles: [],
-                api: {
-                    get: '',
-                    create: '',
-                    update: '',
-                    delete: '',
-                },
+                visibleForRoles: ['admin', 'editor', 'user'],
                 layout: {
                     form: {
                         fields: [],
@@ -57,10 +50,15 @@ export default function PageEditor({ mode }) {
                         actions: [],
                         api: {
                             get: '',
-                            delete: '',
                         },
                     },
                 },
+                // api: {
+                //     get: '',
+                //     create: '',
+                //     update: '',
+                //     delete: '',
+                // },
             });
             setLoading(false);
         }

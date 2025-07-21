@@ -40,6 +40,7 @@ const validatePageConfig = (data) => {
             form: Joi.object({
                 fields: Joi.array().items(
                     Joi.object({
+                        id: Joi.string().optional(),
                         key: Joi.string().required(),
                         label: Joi.string().required(),
                         type: Joi.string().required(),
@@ -53,6 +54,14 @@ const validatePageConfig = (data) => {
                     method: Joi.string().valid('POST', 'PUT').default('POST'),
                 }).optional(),
             }).optional(),
+
+            buttons: Joi.array().items(
+                Joi.object({
+                    label: Joi.string().required(),
+                    action: Joi.string().required(),
+                    style: Joi.string().optional(), // nếu có thêm thuộc tính style hay icon thì thêm ở đây
+                })
+            ).optional(),
         }).required(),
 
         api: Joi.object({

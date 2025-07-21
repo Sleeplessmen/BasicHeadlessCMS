@@ -14,9 +14,14 @@ export default function SaveButton({ config, mode, onSuccess, onError }) {
                 ? `${API_BASE}/${config._id}`
                 : API_BASE;
 
-            const method = mode === 'edit' ? 'put' : 'post';
+            const method = mode === 'edit' ? 'put' : 'post'; // phải lowercase!
 
-            const res = await axios[method](url, config, {
+            console.log("🟡 Payload gửi lên:", config);
+
+            const res = await axios({
+                method,
+                url,
+                data: config,
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,6 +32,7 @@ export default function SaveButton({ config, mode, onSuccess, onError }) {
             onSuccess?.(res.data);
         } catch (err) {
             console.error('❌ Save failed:', err);
+            console.log('📦 Server response:', err.response?.data); // 👈 thêm dòng này
             const message = err.response?.data?.message || 'Có lỗi xảy ra khi lưu';
             alert('❌ ' + message);
             onError?.(message);
