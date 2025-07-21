@@ -1,5 +1,5 @@
 import { FaReact } from 'react-icons/fa';
-import ToggleDarkModeButton from './ToggleDarkModeButton';
+import ToggleDarkModeButton from './toggleDarkModeButton';
 import LogoutButton from '../auth/LogoutButton';
 import styles from './Navbar.module.css';
 
