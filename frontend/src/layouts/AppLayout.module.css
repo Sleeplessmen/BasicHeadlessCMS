@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.main {
+    flex: 1;
+    padding: 1.5rem;
+    /* tương đương p-lg */
+    background-color: #f9fafb;
+    /* giống bg-gray-50 */
+    overflow-y: auto;
+}

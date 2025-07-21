@@ -1,0 +1,9 @@
+@layer components {
+    .layout-auth {
+        @apply flex items-center justify-center min-h-screen bg-gray-50 font-sans p-lg;
+    }
+
+    .card-auth {
+        @apply bg-surface-light p-xl rounded-2xl shadow-strong w-full max-w-[400px];
+    }
+}

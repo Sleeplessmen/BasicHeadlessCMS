@@ -1,11 +1,13 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
+import styles from './AuthLayout.module.css';
 
 export default function AuthLayout() {
+    // console.log('📦 AuthLayout rendered');
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50 font-sans p-lg">
-            <div className="bg-surface-light p-xl rounded-2xl shadow-strong w-full max-w-[400px]">
+        <div className={styles.layout}>
+            <div className={styles.card}>
                 <Outlet />
             </div>
         </div>
-    )
+    );
 }

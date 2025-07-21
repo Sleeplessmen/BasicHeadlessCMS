@@ -1,5 +1,6 @@
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import styles from './LogoutButton.module.css'
 
 export default function LogoutButton() {
     const { logout } = useAuth()
@@ -7,10 +8,9 @@ export default function LogoutButton() {
 
     const handleLogout = async () => {
         try {
-            // Gọi API logout
             await fetch('http://localhost:1338/api/v1/auth/logout', {
                 method: 'POST',
-                credentials: 'include' // cần thiết để gửi cookie JWT
+                credentials: 'include'
             })
         } catch (err) {
             console.error('Logout error:', err)
@@ -22,7 +22,7 @@ export default function LogoutButton() {
     }
 
     return (
-        <button onClick={handleLogout} className="p-2 text-red-500 hover:underline">
+        <button onClick={handleLogout} className={styles.logoutButton}>
             Đăng xuất
         </button>
     )

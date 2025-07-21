@@ -1,10 +1,18 @@
-import ToggleDarkModeButton from './ToggleDarkModeButton'
+import { FaReact } from 'react-icons/fa';
+import ToggleDarkModeButton from './ToggleDarkModeButton';
+import LogoutButton from '../auth/LogoutButton';
+import styles from './Navbar.module.css';
 
 export default function Navbar({ toggleDarkMode }) {
     return (
-        <header className="h-[60px] flex justify-between items-center px-lg bg-surface-light shadow-soft">
-            <div className="font-bold">🌟 Logo</div>
-            <ToggleDarkModeButton onClick={toggleDarkMode} />
+        <header className={styles.navbar}>
+            <div className={styles.logo}>
+                <FaReact size={28} />
+            </div>
+            <div className={styles.actions}>
+                <ToggleDarkModeButton onClick={toggleDarkMode} />
+                <LogoutButton />
+            </div>
         </header>
-    )
+    );
 }

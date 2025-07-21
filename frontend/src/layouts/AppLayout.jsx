@@ -1,20 +1,21 @@
-import { Outlet } from 'react-router-dom'
-import Sidebar from '../components/layout/Sidebar'
-import Navbar from '../components/layout/Navbar'
-import { useTheme } from '../hooks/useTheme'
+import { Outlet } from 'react-router-dom';
+import Sidebar from '../components/layout/Sidebar';
+import Navbar from '../components/layout/Navbar';
+import { useTheme } from '../hooks/useTheme';
+import styles from './AppLayout.module.css';
 
 export default function AppLayout() {
-    const { toggleTheme } = useTheme()
+    const { toggleTheme } = useTheme();
 
     return (
-        <div className="flex h-screen font-sans">
+        <div className={styles.container}>
             <Sidebar />
-            <div className="flex flex-col flex-1">
+            <div className={styles.contentWrapper}>
                 <Navbar toggleDarkMode={toggleTheme} />
-                <main className="flex-1 p-lg bg-gray-50 overflow-y-auto">
+                <main className={styles.main}>
                     <Outlet />
                 </main>
             </div>
         </div>
-    )
+    );
 }

@@ -1,0 +1,46 @@
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background-color: #ffffff;
+    /* Nền trắng */
+    color: #1a202c;
+    /* Chữ đen */
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.link {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s ease;
+}
+
+.link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    /* hover nhẹ nền xám */
+}
+
+.active {
+    background-color: #2563eb;
+    /* brand màu xanh */
+    color: white;
+}

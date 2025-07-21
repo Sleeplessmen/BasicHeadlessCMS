@@ -1,0 +1,12 @@
+.registerWrapper {
+    max-width: 400px;
+    margin: 60px auto;
+    font-family: sans-serif;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    /* color: #1d4ed8; */
+    margin-bottom: 24px;
+}
