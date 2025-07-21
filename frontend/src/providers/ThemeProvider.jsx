@@ -6,7 +6,6 @@ export const ThemeProvider = ({ children }) => {
         () => localStorage.getItem('theme') || 'light'
     )
 
-    // Gắn class lên <html> để Tailwind nhận biết
     useEffect(() => {
         const root = window.document.documentElement
         root.classList.remove('light', 'dark')

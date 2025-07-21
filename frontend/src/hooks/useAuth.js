@@ -11,10 +11,10 @@ export function useAuth() {
     const { user, login, logout, isLoggedIn, loading } = context
 
     const can = (permission) =>
-        user?.permissions?.includes(permission)
+        user?.role?.permissions?.includes(permission)
 
     const isRole = (roleName) =>
-        user?.role === roleName
+        user?.role?.name === roleName
 
     return {
         user,

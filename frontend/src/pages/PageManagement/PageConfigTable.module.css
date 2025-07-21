@@ -1,44 +1,46 @@
 .wrapper {
-    border: 1px solid #e5e7eb;
-    border-radius: 0.375rem;
-    padding: 1rem;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: var(--rounded-md, 0.375rem);
+    padding: var(--spacing-md, 1rem);
+    background-color: var(--bg-surface, #ffffff);
 }
 
 .title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+    font-size: var(--text-lg, 1.125rem);
+    font-weight: var(--font-semibold, 600);
+    margin-bottom: var(--spacing-md, 1rem);
 }
 
 .table {
     width: 100%;
     text-align: left;
     border-collapse: collapse;
-    font-size: 0.875rem;
+    font-size: var(--text-sm, 0.875rem);
 }
 
 .tableHeadRow {
-    background-color: #f3f4f6;
-    border-bottom: 1px solid #e5e7eb;
+    background-color: var(--bg-muted, #f3f4f6);
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
 }
 
 .tableBodyRow {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
 }
 
 .tableBodyRow:hover {
-    background-color: #f9fafb;
+    background-color: var(--bg-hover, #f9fafb);
 }
 
 .tableCell {
-    padding: 0.5rem;
+    padding: var(--spacing-sm, 0.5rem);
     vertical-align: top;
 }
 
 .slug {
-    color: #007bff;
+    color: var(--primary-color, #2563eb);
     cursor: pointer;
     text-decoration: underline;
+    transition: opacity 0.2s ease;
 }
 
 .slug:hover {
@@ -50,12 +52,10 @@
 }
 
 .api {
-    font-size: 0.75rem;
-    color: #374151;
-    /* text-gray-800 */
+    font-size: var(--text-xs, 0.75rem);
+    color: var(--text-secondary, #374151);
 }
 
 .error {
-    color: #ef4444;
-    /* text-red-500 */
+    color: var(--color-danger, #ef4444);
 }

@@ -9,26 +9,29 @@
     flex-direction: column;
     font-size: 14px;
     font-weight: 500;
-    color: #111827;
+    color: var(--text-color);
 }
 
 .input {
     padding: 10px 12px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--input-text);
     border-radius: 8px;
     font-size: 14px;
     margin-top: 4px;
+    transition: border-color var(--transition-duration), background-color var(--transition-duration), color var(--transition-duration);
 }
 
 .button {
-    background-color: #2563eb;
-    color: white;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
     font-weight: 600;
     padding: 10px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color var(--transition-duration);
 }
 
 .button:disabled {
@@ -37,11 +40,12 @@
 }
 
 .button:hover:not(:disabled) {
-    background-color: #1e40af;
+    background-color: var(--btn-hover-bg);
 }
 
 .error {
     color: #dc2626;
+    /* vẫn dùng màu lỗi cố định cho dễ nhận diện */
     font-size: 13px;
     margin-top: -8px;
 }

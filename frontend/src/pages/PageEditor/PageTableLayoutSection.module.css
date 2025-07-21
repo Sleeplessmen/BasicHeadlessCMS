@@ -1,16 +1,17 @@
 .section {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color, #ddd);
     padding: 1.5rem;
     border-radius: 8px;
-    background: #fff;
+    background: var(--card-bg, #fff);
     margin-bottom: 2rem;
+    color: var(--text-color, #333);
 }
 
 .title {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    color: #333;
+    color: var(--text-color, #333);
 }
 
 /* Thêm phần này để fix input dính viền */
@@ -29,7 +30,7 @@
 
 .apiLabel {
     font-weight: 500;
-    color: #333;
+    color: var(--text-color, #333);
     font-size: 0.95rem;
 }
 
@@ -37,10 +38,14 @@
     flex: 1 1 300px;
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border, #ccc);
     border-radius: 6px;
     outline: none;
-    background: #fff;
+    background: var(--input-bg, #fff);
+    color: var(--input-text, #111827);
+    transition: background-color var(--transition-duration, 0.3s),
+        color var(--transition-duration, 0.3s),
+        border-color var(--transition-duration, 0.3s);
 }
 
 .addRow {
@@ -56,16 +61,20 @@
     flex: 1 1 150px;
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border, #ccc);
     border-radius: 6px;
     outline: none;
-    background: #fff;
+    background: var(--input-bg, #fff);
+    color: var(--input-text, #111827);
+    transition: background-color var(--transition-duration, 0.3s),
+        color var(--transition-duration, 0.3s),
+        border-color var(--transition-duration, 0.3s);
 }
 
 .addBtn {
-    background-color: #0070f3;
+    background-color: var(--btn-bg, #0070f3);
     border: none;
-    color: white;
+    color: var(--btn-text, white);
     padding: 0.55rem 0.85rem;
     font-size: 1rem;
     border-radius: 6px;
@@ -79,7 +88,7 @@
 }
 
 .addBtn:hover {
-    background-color: #005bd1;
+    background-color: var(--btn-hover-bg, #005bd1);
 }
 
 .columnList {
@@ -93,33 +102,38 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.6rem 0.8rem;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
+    background: var(--bg-muted, #f9f9f9);
+    border: 1px solid var(--border-color, #ddd);
     border-radius: 6px;
     margin-bottom: 0.6rem;
+    color: var(--text-color, #333);
+    transition: background-color var(--transition-duration, 0.3s),
+        color var(--transition-duration, 0.3s),
+        border-color var(--transition-duration, 0.3s);
 }
 
 .columnText {
     font-size: 0.95rem;
-    color: #333;
+    color: var(--text-color, #333);
     word-break: break-word;
 }
 
 .deleteBtn {
-    background: #e53e3e;
-    color: white;
+    background: var(--danger-color, #e53e3e);
+    color: var(--btn-text, white);
     border: none;
     padding: 0.3rem 0.7rem;
     font-size: 0.875rem;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .deleteBtn:hover {
-    background: #c53030;
+    background: var(--danger-hover-color, #c53030);
 }
 
 .empty {
     font-style: italic;
-    color: #666;
+    color: var(--subtle-text-color, #666);
 }

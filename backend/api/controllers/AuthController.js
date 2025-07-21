@@ -185,7 +185,7 @@ module.exports = {
 
             const role = await Role.findOne({ id: user.role.id }).populate('permissions');
 
-            console.log(`👤 Thông tin user '${user.email}' - Vai trò: '${role.name}' - Permissions:`, role.permissions.map(p => p.name));
+            // console.log(`👤 Thông tin user '${user.email}' - Vai trò: '${role.name}' - Permissions:`, role.permissions.map(p => p.name));
 
             return res.status(200).json(responseHelper.success({
                 _id: user.id,

@@ -5,15 +5,17 @@
     min-height: 100vh;
     padding: 1.5rem;
     font-family: 'Inter', sans-serif;
-    background-color: #f9fafb;
-    /* giống bg-gray-50 */
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-duration), color var(--transition-duration);
 }
 
 .card {
-    background-color: white;
+    background-color: var(--card-bg);
     padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px var(--shadow-color);
     width: 100%;
     max-width: 400px;
+    transition: background-color var(--transition-duration), box-shadow var(--transition-duration);
 }

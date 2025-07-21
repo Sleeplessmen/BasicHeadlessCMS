@@ -1,0 +1,11 @@
+.heading {
+    font-size: var(--text-2xl, 1.5rem);
+    font-weight: var(--font-semibold, 600);
+    margin-bottom: var(--spacing-md, 1rem);
+}
+
+.description {
+    font-size: var(--text-base, 1rem);
+    color: var(--text-color, #374151);
+    /* gray-700 */
+}

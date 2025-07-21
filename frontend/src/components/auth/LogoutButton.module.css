@@ -2,16 +2,14 @@
     background: none;
     border: none;
     padding: 0.5rem;
-    color: #ef4444;
-    /* red-500 */
+    color: var(--danger-color);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.2s ease;
+    transition: color var(--transition-duration);
 }
 
 .logoutButton:hover {
-    color: #dc2626;
-    /* red-600 */
+    color: var(--danger-hover-color);
 }

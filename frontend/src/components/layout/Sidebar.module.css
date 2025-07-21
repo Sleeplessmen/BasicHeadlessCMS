@@ -1,12 +1,11 @@
 .sidebar {
     width: 240px;
     height: 100vh;
-    background-color: #ffffff;
-    /* Nền trắng */
-    color: #1a202c;
-    /* Chữ đen */
+    background-color: var(--card-bg);
+    color: var(--text-color);
     padding: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 10px var(--shadow-color);
+    border-right: 1px solid var(--border-color);
 }
 
 .header {
@@ -17,6 +16,7 @@
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
+    color: var(--text-color);
 }
 
 .nav {
@@ -31,16 +31,20 @@
     border-radius: 6px;
     text-decoration: none;
     color: inherit;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-duration) ease;
 }
 
 .link:hover {
     background-color: rgba(0, 0, 0, 0.05);
-    /* hover nhẹ nền xám */
+    /* Có thể đổi thành: var(--hover-bg) nếu cần custom thêm */
+}
+
+.dark .link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    /* Hover nhẹ trên nền tối */
 }
 
 .active {
-    background-color: #2563eb;
-    /* brand màu xanh */
-    color: white;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
 }
