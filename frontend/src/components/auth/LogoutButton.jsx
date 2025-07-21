@@ -1,5 +1,6 @@
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { FiLogOut } from 'react-icons/fi'
 import styles from './LogoutButton.module.css'
 
 export default function LogoutButton() {
@@ -14,16 +15,15 @@ export default function LogoutButton() {
             })
         } catch (err) {
             console.error('Logout error:', err)
-            // Không chặn logout FE nếu BE lỗi
         }
 
-        logout() // Xóa local user info
+        logout()
         navigate('/login')
     }
 
     return (
-        <button onClick={handleLogout} className={styles.logoutButton}>
-            Đăng xuất
+        <button onClick={handleLogout} className={styles.logoutButton} title="Đăng xuất">
+            <FiLogOut size={20} />
         </button>
     )
 }

@@ -9,6 +9,7 @@ module.exports.bootstrap = async function (done) {
             await require('../scripts/seedRoles')();
             await require('../scripts/seedUsers')();
             await require('../scripts/seedProducts')();
+            await require('../scripts/seedPageConfigs')();
         }
 
         return done();

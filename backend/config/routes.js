@@ -20,7 +20,7 @@ module.exports.routes = {
     'GET    /api/v1/page-config': 'PageConfigController.findAll',
     'GET    /api/v1/page-config/:slug': 'PageConfigController.findOne',
     'POST   /api/v1/page-config': 'PageConfigController.create',
-    'PUT    /api/v1/page-config': 'PageConfigController.update',
+    'PUT    /api/v1/page-config/:slug': 'PageConfigController.update',
     'DELETE /api/v1/page-config/:slug': 'PageConfigController.delete',
     'POST   /api/v1/page-config/publish': 'PageConfigController.publish',
 

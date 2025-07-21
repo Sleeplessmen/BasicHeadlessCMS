@@ -1,9 +1,3 @@
-/**
- * PageConfig.js
- *
- * @description :: Cấu hình trang động (CMS) cho hệ thống.
- */
-
 module.exports = {
     attributes: {
         name: {
@@ -20,18 +14,21 @@ module.exports = {
         visibleForRoles: {
             type: 'json',
             defaultsTo: []
-            // Mảng các role dạng string
+            // Mảng role có thể thấy trang này
         },
 
         layout: {
             type: 'json',
             defaultsTo: {
                 table: {
-                    columns: []
+                    columns: [],
+                    actions: []
                 },
                 form: {
-                    fields: []
-                }
+                    fields: [],
+                    actions: []
+                },
+                buttons: []
             }
         },
 
@@ -49,5 +46,5 @@ module.exports = {
             type: 'json',
             defaultsTo: []
         }
-    },
+    }
 };

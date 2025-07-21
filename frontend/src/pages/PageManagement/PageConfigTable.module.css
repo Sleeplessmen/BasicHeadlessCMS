@@ -1,0 +1,56 @@
+.wrapper {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    padding: 1rem;
+}
+
+.title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.tableHeadRow {
+    background-color: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tableBodyRow {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tableBodyRow:hover {
+    background-color: #f9fafb;
+}
+
+.tableCell {
+    padding: 0.5rem;
+    vertical-align: top;
+}
+
+.slug {
+    color: #3b82f6;
+    /* text-blue-500 */
+}
+
+.wrap {
+    white-space: pre-wrap;
+}
+
+.api {
+    font-size: 0.75rem;
+    color: #374151;
+    /* text-gray-800 */
+}
+
+.error {
+    color: #ef4444;
+    /* text-red-500 */
+}

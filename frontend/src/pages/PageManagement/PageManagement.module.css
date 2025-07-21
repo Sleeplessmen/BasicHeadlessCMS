@@ -1,0 +1,9 @@
+.wrapper {
+    padding: 2rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}

@@ -20,7 +20,23 @@ const validatePageConfig = (data) => {
                         searchable: Joi.boolean(),
                     })
                 ),
-            }),
+                actions: Joi.array().items(
+                    Joi.object({
+                        label: Joi.string().required(),
+                        type: Joi.string().valid('button', 'link', 'modal').required(),
+                        method: Joi.string().valid('GET', 'POST', 'PUT', 'DELETE').required(),
+                        endpoint: Joi.string().required(),
+                        confirm: Joi.boolean(),
+                    })
+                ).optional(),
+                api: Joi.object({
+                    get: Joi.string(),
+                    create: Joi.string(),
+                    update: Joi.string(),
+                    delete: Joi.string(),
+                }).optional(),
+            }).optional(),
+
             form: Joi.object({
                 fields: Joi.array().items(
                     Joi.object({
@@ -32,25 +48,19 @@ const validatePageConfig = (data) => {
                         defaultValue: Joi.any().optional(),
                     })
                 ),
-            }),
-        }),
+                api: Joi.object({
+                    submit: Joi.string(),
+                    method: Joi.string().valid('POST', 'PUT').default('POST'),
+                }).optional(),
+            }).optional(),
+        }).required(),
 
         api: Joi.object({
             get: Joi.string(),
             create: Joi.string(),
             update: Joi.string(),
             delete: Joi.string(),
-        }),
-
-        actions: Joi.array().items(
-            Joi.object({
-                label: Joi.string().required(),
-                type: Joi.string().required(),
-                method: Joi.string().required(),
-                endpoint: Joi.string().required(),
-                confirm: Joi.boolean(),
-            })
-        ),
+        }).optional(), // fallback nếu block không có api riêng
     });
 
     return schema.validate(data);

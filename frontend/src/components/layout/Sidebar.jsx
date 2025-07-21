@@ -2,12 +2,12 @@ import { NavLink } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 
 const navItems = [
+    { path: '/page-editor/new', label: 'Page Editor' },
+    { path: '/page-management', label: 'Saved Pages' },
     { path: '/product', label: 'Product' },
     { path: '/user', label: 'User' },
     { path: '/permission', label: 'Permission' },
     { path: '/role', label: 'Role' },
-    { path: '/builder', label: 'Builder' },
-    { path: '/pages', label: 'Saved Pages' },
 ];
 
 export default function Sidebar() {
