@@ -22,22 +22,22 @@ module.exports = {
         }
     },
 
-    // ✅ Lifecycle mới dùng async/await
-    beforeCreate: async function (valuesToSet) {
-        if (valuesToSet.name) {
-            valuesToSet.name = valuesToSet.name.trim();
-        }
-        if (valuesToSet.description) {
-            valuesToSet.description = valuesToSet.description.trim();
-        }
-    },
+    // // ✅ Lifecycle mới dùng async/await
+    // beforeCreate: async function (valuesToSet) {
+    //     if (valuesToSet.name) {
+    //         valuesToSet.name = valuesToSet.name.trim();
+    //     }
+    //     if (valuesToSet.description) {
+    //         valuesToSet.description = valuesToSet.description.trim();
+    //     }
+    // },
 
-    beforeUpdate: async function (valuesToSet) {
-        if (valuesToSet.name) {
-            valuesToSet.name = valuesToSet.name.trim();
-        }
-        if (valuesToSet.description) {
-            valuesToSet.description = valuesToSet.description.trim();
-        }
-    }
+    // beforeUpdate: async function (valuesToSet) {
+    //     if (valuesToSet.name) {
+    //         valuesToSet.name = valuesToSet.name.trim();
+    //     }
+    //     if (valuesToSet.description) {
+    //         valuesToSet.description = valuesToSet.description.trim();
+    //     }
+    // }
 };

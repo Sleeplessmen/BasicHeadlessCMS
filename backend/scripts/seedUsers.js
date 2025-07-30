@@ -41,6 +41,8 @@ module.exports = async function () {
             }))
         ];
 
+
+
         // B5. Tìm các user đã tồn tại
         const existingUsers = await User.find({
             email: usersToSeed.map(u => u.email)
