@@ -1,76 +1,132 @@
-/**
- * scripts/seedRoles.js
- *
- * @description :: Seed dữ liệu Role và gán quyền tương ứng bằng Waterline ORM (Sails.js).
- */
+// api/data/seedRoles.js
 
-module.exports = async function () {
-    console.time('SeedRoles');
-    sails.log('🔧 Đang chạy seedRoles.js...');
+module.exports = async function seedRoles() {
+    console.time("SeedRoles");
+    sails.log("🔧 Đang chạy seedRoles.js...");
 
-    const roleData = [
+    // Định nghĩa role và danh sách permission theo (action + resource)
+    const rolePermissions = [
         {
-            name: 'admin',
-            description: 'Quản trị toàn hệ thống',
+            name: "admin",
+            description: "Quản trị toàn hệ thống",
             permissions: [
-                "auth_register", "auth_login", "auth_logout",
-                "view_product", "create_product", "update_product", "delete_product",
-                "view_page_config", "create_page_config", "update_page_config", "delete_page_config", "publish_page",
-                "view_role", "create_role", "update_role", "delete_role", "assign_permission",
-                "view_permission", "create_permission", "update_permission", "delete_permission",
-                "view_user", "create_user", "update_user", "delete_user", "assign_role"
-            ]
+                // Auth
+                { action: "read", resource: "user" },
+                { action: "create", resource: "user" },
+                { action: "update", resource: "user" },
+                { action: "delete", resource: "user" },
+                { action: "assign-role", resource: "user" },
+
+                { action: "read", resource: "role" },
+                { action: "create", resource: "role" },
+                { action: "update", resource: "role" },
+                { action: "delete", resource: "role" },
+                { action: "assign-permission", resource: "role" },
+
+                { action: "read", resource: "permission" },
+                { action: "create", resource: "permission" },
+                { action: "update", resource: "permission" },
+                { action: "delete", resource: "permission" },
+
+                { action: "read", resource: "content-type" },
+                { action: "create", resource: "content-type" },
+                { action: "update", resource: "content-type" },
+                { action: "delete", resource: "content-type" },
+
+                { action: "read", resource: "content-entry" },
+                { action: "create", resource: "content-entry" },
+                { action: "update", resource: "content-entry" },
+                { action: "delete", resource: "content-entry" },
+                { action: "export", resource: "content-entry" },
+
+                { action: "read", resource: "page" },
+                { action: "create", resource: "page" },
+                { action: "update", resource: "page" },
+                { action: "delete", resource: "page" },
+
+                { action: "read", resource: "file" },
+                { action: "create", resource: "file" },
+                { action: "delete", resource: "file" },
+            ],
         },
         {
-            name: 'editor',
-            description: 'Biên tập viên nội dung',
+            name: "editor",
+            description: "Biên tập viên nội dung",
             permissions: [
-                "auth_register", "auth_login", "auth_logout",
-                "view_product", "create_product", "update_product", "delete_product",
-                "view_page_config", "create_page_config", "update_page_config", "delete_page_config", "publish_page"
-            ]
+                { action: "read", resource: "user" },
+                { action: "read", resource: "role" },
+                { action: "read", resource: "content-type" },
+                { action: "read", resource: "page" },
+
+                { action: "read", resource: "content-entry" },
+                { action: "create", resource: "content-entry" },
+                { action: "update", resource: "content-entry" },
+                { action: "delete", resource: "content-entry" },
+                { action: "export", resource: "content-entry" },
+
+                { action: "read", resource: "file" },
+                { action: "create", resource: "file" },
+            ],
         },
         {
-            name: 'user',
-            description: 'Người dùng thông thường',
+            name: "user",
+            description: "Người dùng thông thường",
             permissions: [
-                "auth_register", "auth_login", "auth_logout",
-                "view_product"
-            ]
-        }
+                { action: "read", resource: "content-entry" },
+                { action: "read", resource: "content-type" },
+            ],
+        },
     ];
 
     try {
-        await User.destroy({}); // Xoá toàn bộ user hoặc lọc theo role cụ thể
-        sails.log('🧹 Đã xoá toàn bộ người dùng cũ.');
+        // 🔥 Xóa toàn bộ role cũ (sẽ tự động xóa liên kết với permission)
         await Role.destroy({});
-        sails.log('🧹 Đã xoá toàn bộ roles cũ.');
+        sails.log("🧹 Đã xoá toàn bộ roles cũ.");
 
-        for (const role of roleData) {
-            // Lấy permission tương ứng theo tên
-            const matchedPermissions = await Permission.find({
-                name: role.permissions
-            });
+        // 🔁 Tạo từng role
+        for (const roleDef of rolePermissions) {
+            // Tìm các permission theo action + resource
+            const permissionIds = [];
+            const notFound = [];
 
-            if (matchedPermissions.length !== role.permissions.length) {
-                sails.log.warn(`⚠️ Một số quyền không tìm thấy cho role ${role.name}`);
+            for (const perm of roleDef.permissions) {
+                const found = await Permission.findOne({
+                    action: perm.action,
+                    resource: perm.resource,
+                });
+
+                if (found) {
+                    permissionIds.push(found.id);
+                } else {
+                    notFound.push(`${perm.action}:${perm.resource}`);
+                }
             }
 
-            // Tạo role và gán quyền
+            if (notFound.length > 0) {
+                sails.log.warn(
+                    `⚠️ Không tìm thấy permission cho role '${roleDef.name}':`,
+                    notFound
+                );
+            }
+
+            // Tạo role và gán permission qua collection
             const createdRole = await Role.create({
-                name: role.name,
-                description: role.description,
-                permissions: matchedPermissions.map(p => p.id)
+                name: roleDef.name,
+                description: roleDef.description,
+                permissions: permissionIds,
             }).fetch();
 
-            sails.log(`✅ Tạo role '${createdRole.name}' với ${matchedPermissions.length} quyền.`);
+            sails.log(
+                `✅ Tạo role '${createdRole.name}' với ${permissionIds.length}/${roleDef.permissions.length} quyền.`
+            );
         }
 
-        sails.log('🎉 Hoàn tất seed roles.');
+        sails.log("🎉 Hoàn tất seed roles.");
     } catch (err) {
-        sails.log.error('❌ Lỗi khi seed roles:', err.stack || err.message);
+        sails.log.error("❌ Lỗi khi seed roles:", err.message || err);
+        if (err.stack) sails.log.error(err.stack);
         throw err;
+    } finally {
+        console.timeEnd("SeedRoles");
     }
-
-    console.timeEnd('SeedRoles');
 };

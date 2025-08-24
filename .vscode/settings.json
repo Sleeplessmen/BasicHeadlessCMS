@@ -1,8 +1,9 @@
 {
-    "conventionalCommits.scopes": [
-        "fe/globals",
-        "be/globals",
-        "be/policies",
-        "fe/auth"
-    ]
+  "conventionalCommits.scopes": [
+    "fe/globals",
+    "be/globals",
+    "be/policies",
+    "fe/auth",
+    "be/rbac"
+  ]
 }

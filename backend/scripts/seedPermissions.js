@@ -1,65 +1,201 @@
-/**
- * scripts/seedPermissions.js
- *
- * @description :: Seed dữ liệu permission sử dụng Waterline ORM (Sails.js).
- */
+module.exports = async function seedPermissions() {
+    console.time("SeedPermissions");
+    sails.log("🔧 Đang chạy seedPermissions.js...");
 
-module.exports = async function () {
-    console.time('SeedPermissions');
-    sails.log('🔧 Đang chạy seedPermissions.js...');
+    // Danh sách permission: action + resource + description
+    const permissionsToSeed = [
+        // ————————————————————————
+        // 🔐 USER
+        // ————————————————————————
+        {
+            action: "read",
+            resource: "user",
+            description: "Xem danh sách và thông tin người dùng",
+        },
+        {
+            action: "create",
+            resource: "user",
+            description: "Tạo người dùng mới",
+        },
+        {
+            action: "update",
+            resource: "user",
+            description: "Cập nhật thông tin người dùng",
+        },
+        {
+            action: "delete",
+            resource: "user",
+            description: "Xoá hoặc vô hiệu hoá người dùng",
+        },
+        {
+            action: "assign-role",
+            resource: "user",
+            description: "Gán vai trò cho người dùng",
+        },
 
-    const permissions = [
-        // Auth
-        { name: 'auth_register', description: 'Đăng ký' },
-        { name: 'auth_login', description: 'Đăng nhập' },
-        { name: 'auth_logout', description: 'Đăng xuất' },
+        // ————————————————————————
+        // 🎖️ ROLE
+        // ————————————————————————
+        {
+            action: "read",
+            resource: "role",
+            description: "Xem danh sách và chi tiết vai trò",
+        },
+        {
+            action: "create",
+            resource: "role",
+            description: "Tạo vai trò mới",
+        },
+        {
+            action: "update",
+            resource: "role",
+            description: "Cập nhật tên, mô tả vai trò",
+        },
+        {
+            action: "delete",
+            resource: "role",
+            description: "Xoá vai trò",
+        },
+        {
+            action: "assign-permission",
+            resource: "role",
+            description: "Gán hoặc bỏ quyền cho vai trò",
+        },
 
-        // Product
-        { name: 'view_product', description: 'Xem sản phẩm' },
-        { name: 'create_product', description: 'Tạo sản phẩm' },
-        { name: 'update_product', description: 'Cập nhật sản phẩm' },
-        { name: 'delete_product', description: 'Xoá sản phẩm' },
+        // ————————————————————————
+        // 🔐 PERMISSION
+        // ————————————————————————
+        {
+            action: "read",
+            resource: "permission",
+            description: "Xem danh sách quyền hệ thống",
+        },
+        {
+            action: "create",
+            resource: "permission",
+            description: "Tạo quyền mới (chỉ admin hệ thống)",
+        },
+        {
+            action: "update",
+            resource: "permission",
+            description: "Cập nhật quyền",
+        },
+        {
+            action: "delete",
+            resource: "permission",
+            description: "Xoá quyền",
+        },
 
-        // Page Config
-        { name: 'view_page_config', description: 'Xem cấu hình trang' },
-        { name: 'create_page_config', description: 'Tạo cấu hình trang' },
-        { name: 'update_page_config', description: 'Cập nhật cấu hình trang' },
-        { name: 'delete_page_config', description: 'Xoá cấu hình trang' },
-        { name: 'publish_page', description: 'Xuất bản trang' },
+        // ————————————————————————
+        // 📄 CONTENT-TYPE (Schema)
+        // ————————————————————————
+        {
+            action: "read",
+            resource: "content-type",
+            description: "Xem danh sách và cấu trúc loại nội dung",
+        },
+        {
+            action: "create",
+            resource: "content-type",
+            description: "Tạo loại nội dung mới (ví dụ: Blog, FAQ)",
+        },
+        {
+            action: "update",
+            resource: "content-type",
+            description: "Chỉnh sửa field, schema của loại nội dung",
+        },
+        {
+            action: "delete",
+            resource: "content-type",
+            description: "Xoá loại nội dung",
+        },
 
-        // Role
-        { name: 'view_role', description: 'Xem vai trò' },
-        { name: 'create_role', description: 'Tạo vai trò' },
-        { name: 'update_role', description: 'Cập nhật vai trò' },
-        { name: 'delete_role', description: 'Xoá vai trò' },
-        { name: 'assign_permission', description: 'Gán quyền cho vai trò' },
+        // ————————————————————————
+        // 🧩 CONTENT-ENTRY (Dữ liệu thực tế)
+        // ————————————————————————
+        {
+            action: "read",
+            resource: "content-entry",
+            description: "Xem danh sách và chi tiết bản ghi nội dung",
+        },
+        {
+            action: "create",
+            resource: "content-entry",
+            description: "Tạo bản ghi mới trong loại nội dung",
+        },
+        {
+            action: "update",
+            resource: "content-entry",
+            description: "Chỉnh sửa bản ghi nội dung",
+        },
+        {
+            action: "delete",
+            resource: "content-entry",
+            description: "Xoá bản ghi nội dung",
+        },
+        {
+            action: "export",
+            resource: "content-entry",
+            description: "Xuất dữ liệu nội dung ra file (Excel, CSV)",
+        },
 
-        // Permission
-        { name: 'view_permission', description: 'Xem quyền' },
-        { name: 'create_permission', description: 'Tạo quyền' },
-        { name: 'update_permission', description: 'Cập nhật quyền' },
-        { name: 'delete_permission', description: 'Xoá quyền' },
+        // ————————————————————————
+        // 🖥️ PAGE (Cấu hình giao diện quản trị)
+        // ————————————————————————
+        {
+            action: "read",
+            resource: "page",
+            description: "Xem cấu hình trang quản trị",
+        },
+        {
+            action: "create",
+            resource: "page",
+            description: "Tạo trang quản trị mới",
+        },
+        {
+            action: "update",
+            resource: "page",
+            description: "Chỉnh sửa cấu hình giao diện trang",
+        },
+        {
+            action: "delete",
+            resource: "page",
+            description: "Xoá trang cấu hình",
+        },
 
-        // User
-        { name: 'view_user', description: 'Xem người dùng' },
-        { name: 'create_user', description: 'Tạo người dùng' },
-        { name: 'update_user', description: 'Cập nhật người dùng' },
-        { name: 'delete_user', description: 'Xoá người dùng' },
-        { name: 'assign_role', description: 'Gán vai trò cho người dùng' },
+        // ————————————————————————
+        // 📁 FILE (Upload)
+        // ————————————————————————
+        {
+            action: "read",
+            resource: "file",
+            description: "Xem danh sách file đã upload",
+        },
+        {
+            action: "create",
+            resource: "file",
+            description: "Upload file mới (hình ảnh, tài liệu)",
+        },
+        {
+            action: "delete",
+            resource: "file",
+            description: "Xoá file",
+        },
     ];
 
     try {
-        // Xóa toàn bộ permission hiện có
+        // 🔥 Xoá toàn bộ permission cũ
         await Permission.destroy({});
-        sails.log('🧹 Đã xoá toàn bộ permissions cũ.');
+        sails.log("🧹 Đã xoá toàn bộ permissions cũ.");
 
-        // Tạo mới danh sách permissions
-        const createdPermissions = await Permission.createEach(permissions).fetch();
-        sails.log(`✅ Đã tạo ${createdPermissions.length} permission mới.`);
+        // ✅ Tạo mới các permission
+        const created = await Permission.createEach(permissionsToSeed).fetch();
+        sails.log(`✅ Đã tạo ${created.length} permission mới.`);
     } catch (err) {
-        sails.log.error('❌ Lỗi khi seed permissions:', err.stack || err.message);
+        sails.log.error("❌ Lỗi khi seed permissions:", err.message || err);
+        if (err.stack) sails.log.error(err.stack);
         throw err;
+    } finally {
+        console.timeEnd("SeedPermissions");
     }
-
-    console.timeEnd('SeedPermissions');
 };

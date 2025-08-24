@@ -1,21 +1,32 @@
 module.exports = {
     attributes: {
         email: {
-            type: 'string',
+            type: "string",
             required: true,
             unique: true,
-            isEmail: true
+            isEmail: true,
         },
-
         password: {
-            type: 'string',
+            type: "string",
             required: true,
-            protect: true
+            protect: true,
+        },
+        fullName: {
+            type: "string",
+            defaultsTo: "",
+        },
+        isActive: {
+            type: "boolean",
+            defaultsTo: true,
+        },
+        lastLoginAt: {
+            type: "ref",
+            columnType: "datetime",
         },
 
-        role: {
-            model: 'role',
-            required: true
-        }
-    }
+        roles: {
+            collection: "role",
+            via: "users",
+        },
+    },
 };
