@@ -15,13 +15,6 @@ module.exports.routes = {
     // "PUT    /api/v1/products/:id": "ProductController.update",
     // "DELETE /api/v1/products/:id": "ProductController.delete",
 
-    // // Page Config API
-    // "GET    /api/v1/page-config": "PageConfigController.findAll",
-    // "GET    /api/v1/page-config/:slug": "PageConfigController.findOne",
-    // "POST   /api/v1/page-config": "PageConfigController.create",
-    // "PUT    /api/v1/page-config/:slug": "PageConfigController.update",
-    // "DELETE /api/v1/page-config/:slug": "PageConfigController.delete",
-
     // Role API
     "GET    /api/v1/roles": "RoleController.findAll",
     "GET    /api/v1/roles/:id": "RoleController.findOne",

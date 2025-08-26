@@ -39,11 +39,6 @@ module.exports = async function seedRoles() {
                 { action: "delete", resource: "content-entry" },
                 { action: "export", resource: "content-entry" },
 
-                { action: "read", resource: "page" },
-                { action: "create", resource: "page" },
-                { action: "update", resource: "page" },
-                { action: "delete", resource: "page" },
-
                 { action: "read", resource: "file" },
                 { action: "create", resource: "file" },
                 { action: "delete", resource: "file" },
@@ -56,7 +51,6 @@ module.exports = async function seedRoles() {
                 { action: "read", resource: "user" },
                 { action: "read", resource: "role" },
                 { action: "read", resource: "content-type" },
-                { action: "read", resource: "page" },
 
                 { action: "read", resource: "content-entry" },
                 { action: "create", resource: "content-entry" },

@@ -20,7 +20,6 @@ module.exports = {
                 "permission",
                 "role",
                 "user",
-                "page",
                 "content-type",
                 "content-entry",
                 "file",

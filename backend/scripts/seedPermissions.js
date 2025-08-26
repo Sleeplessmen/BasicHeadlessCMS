@@ -140,30 +140,6 @@ module.exports = async function seedPermissions() {
         },
 
         // ————————————————————————
-        // 🖥️ PAGE (Cấu hình giao diện quản trị)
-        // ————————————————————————
-        {
-            action: "read",
-            resource: "page",
-            description: "Xem cấu hình trang quản trị",
-        },
-        {
-            action: "create",
-            resource: "page",
-            description: "Tạo trang quản trị mới",
-        },
-        {
-            action: "update",
-            resource: "page",
-            description: "Chỉnh sửa cấu hình giao diện trang",
-        },
-        {
-            action: "delete",
-            resource: "page",
-            description: "Xoá trang cấu hình",
-        },
-
-        // ————————————————————————
         // 📁 FILE (Upload)
         // ————————————————————————
         {

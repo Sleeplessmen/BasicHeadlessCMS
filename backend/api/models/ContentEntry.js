@@ -1,5 +1,3 @@
-// api/models/ContentEntry.js
-
 module.exports = {
     attributes: {
         // Tham chiếu đến ContentType

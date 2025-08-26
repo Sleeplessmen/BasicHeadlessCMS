@@ -12,15 +12,6 @@ module.exports.policies = {
     //     delete: withAuth(has.deleteProduct),
     // },
 
-    // PageConfigController: {
-    //     findAll: withAuth(has.viewPageConfig),
-    //     findOne: withAuth(has.viewPageConfig),
-    //     create: withAuth(has.createPageConfig),
-    //     update: withAuth(has.updatePageConfig),
-    //     delete: withAuth(has.deletePageConfig),
-    //     publish: withAuth(has.publishPage),
-    // },
-
     // RoleController: {
     //     findAll: withAuth(has.viewRole),
     //     findOne: withAuth(has.viewRole),
