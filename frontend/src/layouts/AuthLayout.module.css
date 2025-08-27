@@ -7,7 +7,6 @@
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color var(--transition-duration), color var(--transition-duration);
 }
 
 .card {
@@ -17,5 +16,4 @@
     box-shadow: 0 4px 12px var(--shadow-color);
     width: 100%;
     max-width: 400px;
-    transition: background-color var(--transition-duration), box-shadow var(--transition-duration);
 }

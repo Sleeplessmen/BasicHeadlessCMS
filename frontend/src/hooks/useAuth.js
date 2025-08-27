@@ -1,28 +1,28 @@
-import { useContext } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 export function useAuth() {
-    const context = useContext(AuthContext)
+  useContext(AuthContext);
 
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider')
-    }
+  // if (!context) {
+  //     throw new Error('useAuth must be used within an AuthProvider')
+  // }
 
-    const { user, login, logout, isLoggedIn, loading } = context
+  // const { user, login, logout, isLoggedIn, loading } = context
 
-    const can = (permission) =>
-        user?.role?.permissions?.includes(permission)
+  // const can = (permission) =>
+  //     user?.role?.permissions?.includes(permission)
 
-    const isRole = (roleName) =>
-        user?.role?.name === roleName
+  // const isRole = (roleName) =>
+  //     user?.role?.name === roleName
 
-    return {
-        user,
-        login,
-        logout,
-        isLoggedIn,
-        loading,
-        can,
-        isRole,
-    }
+  // return {
+  //     user,
+  //     login,
+  //     logout,
+  //     isLoggedIn,
+  //     loading,
+  //     can,
+  //     isRole,
+  // }
 }
