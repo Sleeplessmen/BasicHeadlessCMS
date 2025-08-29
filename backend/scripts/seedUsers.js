@@ -1,5 +1,3 @@
-// api/data/seedUsers.js
-
 const bcrypt = require("bcryptjs");
 
 module.exports = async function seedUsers() {
@@ -9,28 +7,28 @@ module.exports = async function seedUsers() {
     try {
         // B1. Lấy các role cần thiết
         const roles = await Role.find({
-            where: { name: ["admin", "editor", "user"] },
-            select: ["id", "name"],
+            where: { type: ["super-admin", "editor", "author"] },
+            select: ["id", "name", "type"],
         });
 
         const roleMap = roles.reduce((map, role) => {
-            map[role.name] = role.id;
+            map[role.type] = role.id;
             return map;
         }, {});
 
         // B2. Đảm bảo các role tồn tại
-        ["admin", "editor", "user"].forEach((roleName) => {
-            if (!roleMap[roleName]) {
+        ["super-admin", "editor", "author"].forEach((roleType) => {
+            if (!roleMap[roleType]) {
                 throw new Error(
-                    `❌ Role '${roleName}' chưa tồn tại. Hãy chạy seedRoles.js trước.`
+                    `❌ Role '${roleType}' chưa tồn tại. Hãy chạy seedRoles.js trước.`
                 );
             }
         });
 
         const {
-            admin: adminRoleId,
+            "super-admin": superAdminRoleId,
             editor: editorRoleId,
-            user: userRoleId,
+            author: authorRoleId,
         } = roleMap;
 
         // B3. Hash mật khẩu
@@ -40,8 +38,8 @@ module.exports = async function seedUsers() {
         const usersToSeed = [
             {
                 email: "admin@example.com",
-                fullName: "System Administrator",
-                roles: [adminRoleId], // Mảng role
+                fullName: "System Super Admin",
+                roles: [superAdminRoleId],
                 isActive: true,
             },
             {
@@ -50,11 +48,11 @@ module.exports = async function seedUsers() {
                 roles: [editorRoleId],
                 isActive: true,
             },
-            // Tạo 50 user thường
-            ...Array.from({ length: 50 }, (v, i) => ({
+            // Tạo 50 user thường (author)
+            ...Array.from({ length: 50 }, (_, i) => ({
                 email: `user${i + 1}@example.com`,
                 fullName: `Người dùng ${i + 1}`,
-                roles: [userRoleId],
+                roles: [authorRoleId],
                 isActive: true,
             })),
         ];
@@ -76,7 +74,6 @@ module.exports = async function seedUsers() {
                 fullName: u.fullName,
                 roles: u.roles, // ← mảng role
                 isActive: u.isActive,
-                // lastLoginAt: null (mặc định)
             }));
 
         // B7. Tạo user mới

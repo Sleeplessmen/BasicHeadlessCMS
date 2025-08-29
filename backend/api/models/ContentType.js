@@ -8,7 +8,6 @@ module.exports = {
             regex: /^[a-z0-9-]+$/,
         },
 
-        // Tên hiển thị trong CMS
         displayName: {
             type: "string",
             required: true,
@@ -29,11 +28,6 @@ module.exports = {
             collection: "ContentField",
             via: "contentType",
         },
-
-        // components: {
-        //     collection: "Component",
-        //     via: "contentTypes",
-        // },
 
         isPrivate: {
             type: "boolean",

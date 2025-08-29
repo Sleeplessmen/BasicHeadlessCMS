@@ -13,8 +13,8 @@ module.exports = {
 
         type: {
             type: "string",
-            isIn: ["super-admin", "editor", "author", "custom"],
-            defaultsTo: "custom",
+            isIn: ["super-admin", "editor", "author"],
+            defaultsTo: "super-admin",
         },
 
         users: {

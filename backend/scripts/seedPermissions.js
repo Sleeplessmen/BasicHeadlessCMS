@@ -2,11 +2,8 @@ module.exports = async function seedPermissions() {
     console.time("SeedPermissions");
     sails.log("🔧 Đang chạy seedPermissions.js...");
 
-    // Danh sách permission: action + resource + description
     const permissionsToSeed = [
-        // ————————————————————————
-        // 🔐 USER
-        // ————————————————————————
+        // USER
         {
             action: "read",
             resource: "user",
@@ -33,9 +30,7 @@ module.exports = async function seedPermissions() {
             description: "Gán vai trò cho người dùng",
         },
 
-        // ————————————————————————
-        // 🎖️ ROLE
-        // ————————————————————————
+        // ROLE
         {
             action: "read",
             resource: "role",
@@ -62,9 +57,7 @@ module.exports = async function seedPermissions() {
             description: "Gán hoặc bỏ quyền cho vai trò",
         },
 
-        // ————————————————————————
-        // 🔐 PERMISSION
-        // ————————————————————————
+        // PERMISSION
         {
             action: "read",
             resource: "permission",
@@ -80,15 +73,9 @@ module.exports = async function seedPermissions() {
             resource: "permission",
             description: "Cập nhật quyền",
         },
-        {
-            action: "delete",
-            resource: "permission",
-            description: "Xoá quyền",
-        },
+        { action: "delete", resource: "permission", description: "Xoá quyền" },
 
-        // ————————————————————————
-        // 📄 CONTENT-TYPE (Schema)
-        // ————————————————————————
+        // CONTENT-TYPE
         {
             action: "read",
             resource: "content-type",
@@ -110,9 +97,7 @@ module.exports = async function seedPermissions() {
             description: "Xoá loại nội dung",
         },
 
-        // ————————————————————————
-        // 🧩 CONTENT-ENTRY (Dữ liệu thực tế)
-        // ————————————————————————
+        // CONTENT-ENTRY
         {
             action: "read",
             resource: "content-entry",
@@ -139,37 +124,53 @@ module.exports = async function seedPermissions() {
             description: "Xuất dữ liệu nội dung ra file (Excel, CSV)",
         },
 
-        // ————————————————————————
-        // 📁 FILE (Upload)
-        // ————————————————————————
+        // ASSET
         {
             action: "read",
-            resource: "file",
+            resource: "asset",
             description: "Xem danh sách file đã upload",
         },
         {
             action: "create",
-            resource: "file",
+            resource: "asset",
             description: "Upload file mới (hình ảnh, tài liệu)",
         },
-        {
-            action: "delete",
-            resource: "file",
-            description: "Xoá file",
-        },
+        { action: "delete", resource: "asset", description: "Xoá file" },
     ];
 
     try {
-        // 🔥 Xoá toàn bộ permission cũ
-        await Permission.destroy({});
-        sails.log("🧹 Đã xoá toàn bộ permissions cũ.");
+        let createdCount = 0;
+        for (let p of permissionsToSeed) {
+            const existing = await Permission.findOne({
+                action: p.action,
+                resource: p.resource,
+            });
+            if (!existing) {
+                await Permission.create(p);
+                createdCount++;
+                sails.log(`✅ Tạo mới permission: ${p.action} ${p.resource}`);
+            } else {
+                // Có thể update description nếu muốn
+                if (existing.description !== p.description) {
+                    await Permission.updateOne({ id: existing.id }).set({
+                        description: p.description,
+                    });
+                    sails.log(
+                        `✏️ Cập nhật mô tả cho permission: ${p.action} ${p.resource}`
+                    );
+                } else {
+                    sails.log(
+                        `⏩ Bỏ qua (đã tồn tại): ${p.action} ${p.resource}`
+                    );
+                }
+            }
+        }
 
-        // ✅ Tạo mới các permission
-        const created = await Permission.createEach(permissionsToSeed).fetch();
-        sails.log(`✅ Đã tạo ${created.length} permission mới.`);
+        sails.log(
+            `🎉 SeedPermissions hoàn tất. Đã thêm mới ${createdCount} permission.`
+        );
     } catch (err) {
         sails.log.error("❌ Lỗi khi seed permissions:", err.message || err);
-        if (err.stack) sails.log.error(err.stack);
         throw err;
     } finally {
         console.timeEnd("SeedPermissions");

@@ -1,52 +1,57 @@
-// api/data/seedRoles.js
-
 module.exports = async function seedRoles() {
     console.time("SeedRoles");
     sails.log("🔧 Đang chạy seedRoles.js...");
 
     // Định nghĩa role và danh sách permission theo (action + resource)
-    const rolePermissions = [
+    const roleDefinitions = [
         {
-            name: "admin",
+            name: "Super Admin",
             description: "Quản trị toàn hệ thống",
+            type: "super-admin",
             permissions: [
-                // Auth
+                // User
                 { action: "read", resource: "user" },
                 { action: "create", resource: "user" },
                 { action: "update", resource: "user" },
                 { action: "delete", resource: "user" },
                 { action: "assign-role", resource: "user" },
 
+                // Role
                 { action: "read", resource: "role" },
                 { action: "create", resource: "role" },
                 { action: "update", resource: "role" },
                 { action: "delete", resource: "role" },
                 { action: "assign-permission", resource: "role" },
 
+                // Permission
                 { action: "read", resource: "permission" },
                 { action: "create", resource: "permission" },
                 { action: "update", resource: "permission" },
                 { action: "delete", resource: "permission" },
 
+                // Content Type
                 { action: "read", resource: "content-type" },
                 { action: "create", resource: "content-type" },
                 { action: "update", resource: "content-type" },
                 { action: "delete", resource: "content-type" },
 
+                // Content Entry
                 { action: "read", resource: "content-entry" },
                 { action: "create", resource: "content-entry" },
                 { action: "update", resource: "content-entry" },
                 { action: "delete", resource: "content-entry" },
                 { action: "export", resource: "content-entry" },
 
+                // File
                 { action: "read", resource: "file" },
                 { action: "create", resource: "file" },
                 { action: "delete", resource: "file" },
             ],
         },
         {
-            name: "editor",
+            name: "Editor",
             description: "Biên tập viên nội dung",
+            type: "editor",
             permissions: [
                 { action: "read", resource: "user" },
                 { action: "read", resource: "role" },
@@ -63,8 +68,9 @@ module.exports = async function seedRoles() {
             ],
         },
         {
-            name: "user",
+            name: "Author",
             description: "Người dùng thông thường",
+            type: "author",
             permissions: [
                 { action: "read", resource: "content-entry" },
                 { action: "read", resource: "content-type" },
@@ -73,13 +79,12 @@ module.exports = async function seedRoles() {
     ];
 
     try {
-        // 🔥 Xóa toàn bộ role cũ (sẽ tự động xóa liên kết với permission)
+        // 🔥 Xóa toàn bộ role cũ (cùng liên kết permission)
         await Role.destroy({});
         sails.log("🧹 Đã xoá toàn bộ roles cũ.");
 
         // 🔁 Tạo từng role
-        for (const roleDef of rolePermissions) {
-            // Tìm các permission theo action + resource
+        for (const roleDef of roleDefinitions) {
             const permissionIds = [];
             const notFound = [];
 
@@ -103,15 +108,16 @@ module.exports = async function seedRoles() {
                 );
             }
 
-            // Tạo role và gán permission qua collection
+            // 👉 Tạo role kèm type
             const createdRole = await Role.create({
                 name: roleDef.name,
                 description: roleDef.description,
+                type: roleDef.type,
                 permissions: permissionIds,
             }).fetch();
 
             sails.log(
-                `✅ Tạo role '${createdRole.name}' với ${permissionIds.length}/${roleDef.permissions.length} quyền.`
+                `✅ Tạo role '${createdRole.name}' (${createdRole.type}) với ${permissionIds.length}/${roleDef.permissions.length} quyền.`
             );
         }
 
