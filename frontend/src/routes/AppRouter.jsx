@@ -1,48 +1,30 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth'
+import { Routes, Route, Navigate } from "react-router-dom";
 
-import LoginPage from '../pages/Login'
-import RegisterPage from '../pages/Register'
-import HomePage from '../pages/Home'
-import MePage from '../pages/Me'
+import LoginPage from "../pages/Login";
+import RegisterPage from "../pages/Register";
+import HomePage from "../pages/Home";
+import MePage from "../pages/Me";
 
-import AppLayout from '../layouts/AppLayout'
-import AuthLayout from '../layouts/AuthLayout'
+import AppLayout from "../layouts/AppLayout";
+import AuthLayout from "../layouts/AuthLayout";
 
 export default function AppRouter() {
-    const { isLoggedIn } = useAuth()
+  return (
+    <Routes>
+      {/* Auth routes */}
+      <Route element={<AuthLayout />}>
+        <Route path="/admin/auth/login" element={<LoginPage />} />
+        <Route path="/admin/auth/register" element={<RegisterPage />} />
+      </Route>
 
-    return (
-        <Routes>
-            <Route
-                path="/"
-                element={
-                    isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />
-                }
-            />
+      {/* App routes */}
+      <Route element={<AppLayout />}>
+        <Route path="/admin" element={<HomePage />} />
+        <Route path="/admin/me" element={<MePage />} />
+      </Route>
 
-            <Route element={<AuthLayout />}>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-            </Route>
-
-            {isLoggedIn && (
-                <Route element={<AppLayout />}>
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/me" element={<MePage />} />
-
-                    {/* {(isRole('admin') || isRole('editor')) && (
-                        <>
-                            <Route path="/page-management" element={<PageManagementPage />} />
-                            <Route path="/page-editor/new" element={<PageEditor mode="create" />} />
-                            <Route path="/page-editor/:slug" element={<PageEditor mode="edit" />} />
-                            <Route path="/pages/:slug" element={<DynamicPage />} />
-                        </>
-                    )} */}
-                </Route>
-            )}
-
-            <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-    )
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/admin" replace />} />
+    </Routes>
+  );
 }

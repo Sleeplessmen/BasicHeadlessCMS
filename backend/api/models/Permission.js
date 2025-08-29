@@ -10,9 +10,10 @@ module.exports = {
                 "delete",
                 "assign-permission",
                 "assign-role",
-                "export",
+                "publish",
             ],
         },
+
         resource: {
             type: "string",
             required: true,
@@ -25,8 +26,17 @@ module.exports = {
                 "file",
             ],
         },
+
         description: { type: "string" },
 
+        // // Optional: scope (admin, public, custom) -> giống Strapi
+        // scope: {
+        //     type: "string",
+        //     isIn: ["admin", "application"],
+        //     defaultsTo: "application",
+        // },
+
+        // Relation with Role
         roles: {
             collection: "role",
             via: "permissions",

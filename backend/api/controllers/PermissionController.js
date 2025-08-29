@@ -1,19 +1,30 @@
+const { success, errorResponse } = require("../../utils/responseHelper");
 const {
-    success,
-    serverError,
-    notFound,
-    badRequest,
-    validationError
-} = require('../../utils/responseHelper');
+    ValidationError,
+    NotFoundError,
+    ConflictError,
+    ApplicationError,
+} = require("../../utils/errors");
 
 module.exports = {
     // GET /permissions
     findAll: async (req, res) => {
         try {
             const permissions = await Permission.find();
-            return res.status(200).json(success(permissions, 'Lấy danh sách permission thành công'));
+            return res
+                .status(200)
+                .json(
+                    success(permissions, "Lấy danh sách permission thành công")
+                );
         } catch (err) {
-            return res.status(500).json(serverError(err, 'PermissionController.findAll'));
+            return res.status(500).json(
+                errorResponse(
+                    new ApplicationError("Lỗi khi lấy danh sách", {
+                        source: "PermissionController.findAll",
+                        raw: err,
+                    })
+                )
+            );
         }
     },
 
@@ -22,17 +33,19 @@ module.exports = {
         try {
             const { id } = req.params;
             if (!id || id.length !== 24) {
-                return res.status(400).json(validationError(null, 'ID không hợp lệ'));
+                throw new ValidationError("ID không hợp lệ");
             }
 
             const permission = await Permission.findOne({ id });
             if (!permission) {
-                return res.status(404).json(notFound('Không tìm thấy permission', `ID ${id}`));
+                throw new NotFoundError("Không tìm thấy permission", { id });
             }
 
-            return res.status(200).json(success(permission, 'Lấy permission thành công'));
+            return res
+                .status(200)
+                .json(success(permission, "Lấy permission thành công"));
         } catch (err) {
-            return res.status(500).json(serverError(err, 'PermissionController.findOne'));
+            return res.status(err.status || 500).json(errorResponse(err));
         }
     },
 
@@ -41,18 +54,23 @@ module.exports = {
         try {
             const { name, description } = req.body;
             if (!name) {
-                return res.status(400).json(validationError(null, 'Tên permission là bắt buộc'));
+                throw new ValidationError("Tên permission là bắt buộc");
             }
 
             const existing = await Permission.findOne({ name });
             if (existing) {
-                return res.status(409).json(badRequest('Permission đã tồn tại', `Tên '${name}' đã được sử dụng`));
+                throw new ConflictError("Permission đã tồn tại", { name });
             }
 
-            const newPermission = await Permission.create({ name, description }).fetch();
-            return res.status(201).json(success(newPermission, 'Tạo permission thành công'));
+            const newPermission = await Permission.create({
+                name,
+                description,
+            }).fetch();
+            return res
+                .status(201)
+                .json(success(newPermission, "Tạo permission thành công"));
         } catch (err) {
-            return res.status(500).json(serverError(err, 'PermissionController.create'));
+            return res.status(err.status || 500).json(errorResponse(err));
         }
     },
 
@@ -61,17 +79,22 @@ module.exports = {
         try {
             const { id } = req.params;
             if (!id || id.length !== 24) {
-                return res.status(400).json(validationError(null, 'ID không hợp lệ'));
+                throw new ValidationError("ID không hợp lệ");
             }
 
             const updated = await Permission.updateOne({ id }).set(req.body);
             if (!updated) {
-                return res.status(404).json(notFound('Không tìm thấy permission để cập nhật', `ID ${id}`));
+                throw new NotFoundError(
+                    "Không tìm thấy permission để cập nhật",
+                    { id }
+                );
             }
 
-            return res.status(200).json(success(updated, 'Cập nhật permission thành công'));
+            return res
+                .status(200)
+                .json(success(updated, "Cập nhật permission thành công"));
         } catch (err) {
-            return res.status(500).json(serverError(err, 'PermissionController.update'));
+            return res.status(err.status || 500).json(errorResponse(err));
         }
     },
 
@@ -80,17 +103,21 @@ module.exports = {
         try {
             const { id } = req.params;
             if (!id || id.length !== 24) {
-                return res.status(400).json(validationError(null, 'ID không hợp lệ'));
+                throw new ValidationError("ID không hợp lệ");
             }
 
             const deleted = await Permission.destroyOne({ id });
             if (!deleted) {
-                return res.status(404).json(notFound('Không tìm thấy permission để xoá', `ID ${id}`));
+                throw new NotFoundError("Không tìm thấy permission để xoá", {
+                    id,
+                });
             }
 
-            return res.status(200).json(success(deleted, 'Xoá permission thành công'));
+            return res
+                .status(200)
+                .json(success(deleted, "Xoá permission thành công"));
         } catch (err) {
-            return res.status(500).json(serverError(err, 'PermissionController.delete'));
+            return res.status(err.status || 500).json(errorResponse(err));
         }
-    }
+    },
 };

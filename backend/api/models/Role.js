@@ -1,5 +1,3 @@
-// api/models/Role.js
-
 module.exports = {
     attributes: {
         name: {
@@ -13,13 +11,17 @@ module.exports = {
             defaultsTo: "",
         },
 
-        // Mối quan hệ ngược với User
+        type: {
+            type: "string",
+            isIn: ["super-admin", "editor", "author", "custom"],
+            defaultsTo: "custom",
+        },
+
         users: {
             collection: "user",
             via: "roles",
         },
 
-        // Mối quan hệ với Permission
         permissions: {
             collection: "permission",
             via: "roles",
