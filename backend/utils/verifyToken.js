@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = function verifyToken(req) {
     let token = null;
@@ -9,26 +9,28 @@ module.exports = function verifyToken(req) {
     }
 
     // Nếu không có trong cookie, thử lấy từ header Authorization: Bearer <token>
-    else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-        token = req.headers.authorization.split(' ')[1];
+    else if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith("Bearer ")
+    ) {
+        token = req.headers.authorization.split(" ")[1];
     }
 
     if (!token) {
-        sails.log.warn('[verifyToken] Không tìm thấy token trong request');
-        throw { status: 401, message: 'Token không tồn tại hoặc không hợp lệ' };
+        sails.log.warn("[verifyToken] Không tìm thấy token trong request");
+        throw { status: 401, message: "Token không tồn tại hoặc không hợp lệ" };
     }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         if (!decoded || !decoded.id) {
-            throw { status: 403, message: 'Token không hợp lệ' };
+            throw { status: 403, message: "Token không hợp lệ" };
         }
 
         return decoded; // Trả payload = { id, role, ... }
     } catch (err) {
-        sails.log.error('[verifyToken] JWT error:', err);
-        throw { status: 403, message: 'Token không hợp lệ hoặc đã hết hạn' };
+        sails.log.error("[verifyToken] JWT error:", err);
+        throw { status: 403, message: "Token không hợp lệ hoặc đã hết hạn" };
     }
-
 };

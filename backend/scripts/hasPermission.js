@@ -1,4 +1,4 @@
-// const { errorResponse, handleServerError } = require('../../utils/responseHelper');
+// const { errorResponse, handleServerError } = require('../../utils/response');
 
 // module.exports = (requiredPermission) => {
 //     return (req, res, next) => {

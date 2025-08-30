@@ -1,4 +1,4 @@
-const { success, errorResponse } = require("../../utils/responseHelper");
+const { success, errorResponse } = require("../../utils/response");
 const {
     ValidationError,
     NotFoundError,

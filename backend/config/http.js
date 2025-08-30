@@ -1,60 +1,33 @@
-/**
- * HTTP Server Settings
- * (sails.config.http)
- *
- * Configuration for the underlying HTTP server in Sails.
- * (for additional recommended settings, see `config/env/production.js`)
- *
- * For more information on configuration, check out:
- * https://sailsjs.com/config/http
- */
+const logRequest = require("../api/middlewares/logRequest");
+const rateLimiter = require("../api/middlewares/rateLimiter");
+const errorHandler = require("../api/middlewares/errorHandler");
+const stateInitializer = require("../api/middlewares/stateInitializer"); // tạo state object
+const attachUser = require("../api/middlewares/attachUser"); // decode JWT, load user
+const attachRouteInfo = require("../api/middlewares/attachRouteInfo"); // phân tích route
 
 module.exports.http = {
-
-    /****************************************************************************
-    *                                                                           *
-    * Sails/Express middleware to run for every HTTP request.                   *
-    * (Only applies to HTTP requests -- not virtual WebSocket requests.)        *
-    *                                                                           *
-    * https://sailsjs.com/documentation/concepts/middleware                     *
-    *                                                                           *
-    ****************************************************************************/
-
     middleware: {
+        // Custom middleware
+        logRequest,
+        rateLimiter,
+        stateInitializer,
+        attachUser,
+        attachRouteInfo,
+        errorHandler,
 
-        /***************************************************************************
-        *                                                                          *
-        * The order in which middleware should be run for HTTP requests.           *
-        * (This Sails app's routes are handled by the "router" middleware below.)  *
-        *                                                                          *
-        ***************************************************************************/
-
-        // order: [
-        //   'cookieParser',
-        //   'session',
-        //   'bodyParser',
-        //   'compress',
-        //   'poweredBy',
-        //   'router',
-        //   'www',
-        //   'favicon',
-        // ],
-
-
-        /***************************************************************************
-        *                                                                          *
-        * The body parser that will handle incoming multipart HTTP requests.       *
-        *                                                                          *
-        * https://sailsjs.com/config/http#?customizing-the-body-parser             *
-        *                                                                          *
-        ***************************************************************************/
-
-        // bodyParser: (function _configureBodyParser(){
-        //   var skipper = require('skipper');
-        //   var middlewareFn = skipper({ strict: true });
-        //   return middlewareFn;
-        // })(),
-
+        // Order of execution
+        order: [
+            "cookieParser",
+            "session",
+            "logRequest", // log trước
+            "rateLimiter", // hạn chế request
+            "bodyParser",
+            "compress",
+            "stateInitializer", // khởi tạo req.state = {}
+            "attachUser", // decode token, gắn user, user.role
+            "attachRouteInfo", // phân tích route, gắn route info
+            "router", // router Sails
+            "errorHandler", // gom lỗi cuối cùng
+        ],
     },
-
 };

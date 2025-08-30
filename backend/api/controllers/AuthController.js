@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const responseHelper = require("../../utils/responseHelper");
+const response = require("../../utils/response");
 
 module.exports = {
     register: async function (req, res) {
@@ -17,7 +17,7 @@ module.exports = {
                 console.warn("Validate thất bại:", result.error.details);
                 return res
                     .status(400)
-                    .json(responseHelper.validationError(result.error));
+                    .json(response.validationError(result.error));
             }
 
             const { email, password, role } = result.value;
@@ -29,7 +29,7 @@ module.exports = {
                 return res
                     .status(409)
                     .json(
-                        responseHelper.errorResponse(
+                        response.errorResponse(
                             "Email đã được đăng ký",
                             "EMAIL_EXISTS"
                         )
@@ -41,11 +41,7 @@ module.exports = {
                 console.warn("Vai trò không tồn tại:", role);
                 return res
                     .status(400)
-                    .json(
-                        responseHelper.notFound(
-                            `Vai trò '${role}' không tồn tại`
-                        )
-                    );
+                    .json(response.notFound(`Vai trò '${role}' không tồn tại`));
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -69,7 +65,7 @@ module.exports = {
             );
 
             return res.status(201).json(
-                responseHelper.success(
+                response.success(
                     {
                         token,
                         user: {
@@ -83,7 +79,7 @@ module.exports = {
             );
         } catch (err) {
             console.error("Lỗi trong register:", err);
-            return res.status(500).json(responseHelper.serverError(err));
+            return res.status(500).json(response.serverError(err));
         }
     },
 
@@ -97,9 +93,7 @@ module.exports = {
             const { error, value } = schema.validate(req.body);
             if (error) {
                 console.warn("Validate thất bại:", error.details);
-                return res
-                    .status(400)
-                    .json(responseHelper.validationError(error));
+                return res.status(400).json(response.validationError(error));
             }
 
             const { email, password } = value;
@@ -110,7 +104,7 @@ module.exports = {
                 console.warn("Không tìm thấy user:", email);
                 return res
                     .status(401)
-                    .json(responseHelper.notFound("Email không tồn tại"));
+                    .json(response.notFound("Email không tồn tại"));
             }
 
             console.log("User tìm được:", {
@@ -124,9 +118,7 @@ module.exports = {
                 return res
                     .status(403)
                     .json(
-                        responseHelper.unauthorized(
-                            "Người dùng chưa được gán role"
-                        )
+                        response.unauthorized("Người dùng chưa được gán role")
                     );
             }
 
@@ -135,7 +127,7 @@ module.exports = {
                 console.warn("Sai mật khẩu cho user:", email);
                 return res
                     .status(401)
-                    .json(responseHelper.unauthorized("Sai mật khẩu"));
+                    .json(response.unauthorized("Sai mật khẩu"));
             }
 
             const token = jwt.sign(
@@ -154,7 +146,7 @@ module.exports = {
             });
 
             return res.status(200).json(
-                responseHelper.success(
+                response.success(
                     {
                         token,
                         user: {
@@ -168,7 +160,7 @@ module.exports = {
             );
         } catch (err) {
             console.error("Lỗi trong login:", err);
-            return res.status(500).json(responseHelper.serverError(err));
+            return res.status(500).json(response.serverError(err));
         }
     },
 
@@ -188,7 +180,7 @@ module.exports = {
                 return res
                     .status(200)
                     .json(
-                        responseHelper.success(
+                        response.success(
                             null,
                             "Bạn đã đăng xuất hoặc chưa đăng nhập"
                         )
@@ -204,10 +196,10 @@ module.exports = {
             console.log("Token đã được xóa khỏi cookie");
             return res
                 .status(200)
-                .json(responseHelper.success(null, "Đăng xuất thành công"));
+                .json(response.success(null, "Đăng xuất thành công"));
         } catch (err) {
             console.error("Lỗi trong logout:", err);
-            return res.status(500).json(responseHelper.serverError(err));
+            return res.status(500).json(response.serverError(err));
         }
     },
 
@@ -228,7 +220,7 @@ module.exports = {
                 console.warn("Không tìm thấy user với ID:", req.user.id);
                 return res
                     .status(404)
-                    .json(responseHelper.notFound("Không tìm thấy người dùng"));
+                    .json(response.notFound("Không tìm thấy người dùng"));
             }
 
             if (!user.role) {
@@ -236,9 +228,7 @@ module.exports = {
                 return res
                     .status(400)
                     .json(
-                        responseHelper.badRequest(
-                            "Người dùng chưa được gán vai trò"
-                        )
+                        response.badRequest("Người dùng chưa được gán vai trò")
                     );
             }
 
@@ -249,7 +239,7 @@ module.exports = {
             // console.log(`👤 Thông tin user '${user.email}' - Vai trò: '${role.name}' - Permissions:`, role.permissions.map(p => p.name));
 
             return res.status(200).json(
-                responseHelper.success({
+                response.success({
                     _id: user.id,
                     email: user.email,
                     role: {
@@ -260,7 +250,7 @@ module.exports = {
             );
         } catch (error) {
             console.error("Lỗi trong me:", error);
-            return res.status(500).json(responseHelper.serverError(error));
+            return res.status(500).json(response.serverError(error));
         }
     },
 };

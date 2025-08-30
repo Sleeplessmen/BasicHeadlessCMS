@@ -1,7 +1,7 @@
 module.exports.policies = {
     AuthController: {
         "*": true,
-        me: "isLoggedIn",
+        me: "isAuthenticated",
     },
 
     // ProductController: {

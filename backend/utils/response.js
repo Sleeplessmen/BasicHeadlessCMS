@@ -1,4 +1,4 @@
-const BaseError = require("./errors");
+const BaseError = require("../errors");
 
 function success(data, message = "Thành công", meta = {}) {
     return {

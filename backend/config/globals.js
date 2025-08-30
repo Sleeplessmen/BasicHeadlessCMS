@@ -1,15 +1,14 @@
 module.exports.globals = {
-
-    _: require('@sailshq/lodash'),
+    _: require("@sailshq/lodash"),
     async: false,
     models: true,
     sails: true,
 
     /****************************************************************************
-    *                                                                           *
-    * Custom globals                                                            *
-    *                                                                           *
-    ****************************************************************************/
+     *                                                                           *
+     * Custom globals                                                            *
+     *                                                                           *
+     ****************************************************************************/
 
-    responseHelper: require('../utils/responseHelper'),
+    response: require("../utils/response"),
 };
