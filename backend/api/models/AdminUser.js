@@ -1,11 +1,5 @@
 module.exports = {
     attributes: {
-        username: {
-            type: "string",
-            required: true,
-            unique: true,
-        },
-
         email: {
             type: "string",
             required: true,
@@ -19,23 +13,23 @@ module.exports = {
             protect: true,
         },
 
-        confirmed: {
-            type: "boolean",
-            defaultsTo: false,
-        }, // user có xác nhận email chưa
+        fullName: {
+            type: "string",
+        },
 
-        blocked: {
+        isActive: {
             type: "boolean",
-            defaultsTo: false,
-        }, // user có bị khóa không
+            defaultsTo: true,
+        },
 
         lastLoginAt: {
             type: "ref",
             columnType: "datetime",
         },
 
-        role: {
-            model: "Role",
-        }, // Role thuộc end-user
+        roles: {
+            collection: "AdminRole",
+            via: "users",
+        },
     },
 };

@@ -3,19 +3,19 @@ module.exports = {
         action: {
             type: "string",
             required: true,
-            // ví dụ: create, read, update, delete
+            // ví dụ: create, read, update, delete, manage-users, manage-roles
         },
 
         resource: {
             type: "string",
             required: true,
-            // ví dụ: "user", "content-entry", "asset"
+            // ví dụ: "admin-user", "admin-role", "admin-permission", "content-type"
         },
 
         description: { type: "string" },
 
         roles: {
-            collection: "Role",
+            collection: "AdminRole",
             via: "permissions",
             dominant: true,
         },

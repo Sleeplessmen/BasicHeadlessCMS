@@ -11,20 +11,20 @@ module.exports = {
             defaultsTo: "",
         },
 
-        // Role mặc định của end-user
+        // Chỉ dành cho admin panel
         type: {
             type: "string",
-            isIn: ["public", "authenticated"],
-            defaultsTo: "public",
+            isIn: ["super-admin", "editor", "author"],
+            defaultsTo: "super-admin",
         },
 
         users: {
-            collection: "User", // end-user
-            via: "role",
+            collection: "AdminUser",
+            via: "roles",
         },
 
         permissions: {
-            collection: "Permission",
+            collection: "AdminPermission",
             via: "roles",
             dominant: true,
         },
