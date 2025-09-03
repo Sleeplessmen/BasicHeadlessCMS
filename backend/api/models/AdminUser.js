@@ -1,5 +1,20 @@
 module.exports = {
     attributes: {
+        firstname: {
+            type: "string",
+            required: true,
+        },
+
+        lastname: {
+            type: "string",
+            required: true,
+        },
+
+        username: {
+            type: "string",
+            allowNull: true,
+        },
+
         email: {
             type: "string",
             required: true,
@@ -13,16 +28,27 @@ module.exports = {
             protect: true,
         },
 
-        fullName: {
-            type: "string",
-        },
-
         isActive: {
             type: "boolean",
             defaultsTo: true,
         },
 
-        lastLoginAt: {
+        blocked: {
+            type: "boolean",
+            defaultsTo: false,
+        },
+
+        resetPasswordToken: {
+            type: "string",
+            allowNull: true,
+        },
+
+        registrationToken: {
+            type: "string",
+            allowNull: true,
+        },
+
+        lastLogin: {
             type: "ref",
             columnType: "datetime",
         },

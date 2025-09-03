@@ -4,7 +4,7 @@ const {
     notFound,
     errorResponse,
     serverError,
-} = require("../../utils/response");
+} = require("../../../utils/response");
 
 module.exports = {
     // GET /users
@@ -66,8 +66,8 @@ module.exports = {
                     .json(
                         errorResponse(
                             "Email đã tồn tại",
-                            `Email ${email} đã được đăng ký`
-                        )
+                            `Email ${email} đã được đăng ký`,
+                        ),
                     );
             }
 
@@ -78,8 +78,8 @@ module.exports = {
                     .json(
                         errorResponse(
                             `Vai trò '${role}' không tồn tại`,
-                            "Vui lòng chọn lại vai trò hợp lệ"
-                        )
+                            "Vui lòng chọn lại vai trò hợp lệ",
+                        ),
                     );
             }
 
@@ -96,8 +96,8 @@ module.exports = {
                         email: newUser.email,
                         role: roleRecord.name,
                     },
-                    "Tạo người dùng thành công"
-                )
+                    "Tạo người dùng thành công",
+                ),
             );
         } catch (err) {
             return res
@@ -116,7 +116,7 @@ module.exports = {
             if (password) updateData.password = password;
 
             const updated = await User.updateOne({ id: req.params.id }).set(
-                updateData
+                updateData,
             );
             if (!updated) {
                 return res
@@ -124,8 +124,8 @@ module.exports = {
                     .json(
                         notFound(
                             "Người dùng không tồn tại",
-                            `ID ${req.params.id}`
-                        )
+                            `ID ${req.params.id}`,
+                        ),
                     );
             }
 
@@ -149,8 +149,8 @@ module.exports = {
                     .json(
                         notFound(
                             "Người dùng không tồn tại",
-                            `ID ${req.params.id}`
-                        )
+                            `ID ${req.params.id}`,
+                        ),
                     );
             }
 
@@ -181,8 +181,8 @@ module.exports = {
                     .json(
                         errorResponse(
                             `Vai trò '${role}' không tồn tại`,
-                            "Vui lòng chọn lại vai trò hợp lệ"
-                        )
+                            "Vui lòng chọn lại vai trò hợp lệ",
+                        ),
                     );
             }
 
@@ -195,8 +195,8 @@ module.exports = {
                     .json(
                         notFound(
                             "Người dùng không tồn tại",
-                            `ID ${req.params.id}`
-                        )
+                            `ID ${req.params.id}`,
+                        ),
                     );
             }
 
@@ -207,8 +207,8 @@ module.exports = {
                         email: user.email,
                         role: roleDoc.name,
                     },
-                    "Gán vai trò thành công"
-                )
+                    "Gán vai trò thành công",
+                ),
             );
         } catch (err) {
             return res

@@ -1,4 +1,4 @@
-const { success, errorResponse } = require("../../utils/response");
+const { success, errorResponse } = require("../../../utils/response");
 const {
     ValidationError,
     NotFoundError,
@@ -14,7 +14,7 @@ module.exports = {
             return res
                 .status(200)
                 .json(
-                    success(permissions, "Lấy danh sách permission thành công")
+                    success(permissions, "Lấy danh sách permission thành công"),
                 );
         } catch (err) {
             return res.status(500).json(
@@ -22,8 +22,8 @@ module.exports = {
                     new ApplicationError("Lỗi khi lấy danh sách", {
                         source: "PermissionController.findAll",
                         raw: err,
-                    })
-                )
+                    }),
+                ),
             );
         }
     },
@@ -86,7 +86,7 @@ module.exports = {
             if (!updated) {
                 throw new NotFoundError(
                     "Không tìm thấy permission để cập nhật",
-                    { id }
+                    { id },
                 );
             }
 

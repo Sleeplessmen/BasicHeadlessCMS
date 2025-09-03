@@ -141,33 +141,37 @@ module.exports = async function seedPermissions() {
     try {
         let createdCount = 0;
         for (let p of permissionsToSeed) {
-            const existing = await Permission.findOne({
-                action: p.action,
-                resource: p.resource,
+            const formatted = {
+                action: `admin::${p.resource}.${p.action}`,
+                subject: `admin::${p.resource}`,
+                description: p.description,
+            };
+
+            const existing = await AdminPermission.findOne({
+                action: formatted.action,
+                subject: formatted.subject,
             });
+
             if (!existing) {
-                await Permission.create(p);
+                await AdminPermission.create(formatted);
                 createdCount++;
-                sails.log(`✅ Tạo mới permission: ${p.action} ${p.resource}`);
+                sails.log(`✅ Tạo mới permission: ${formatted.action}`);
             } else {
-                // Có thể update description nếu muốn
-                if (existing.description !== p.description) {
-                    await Permission.updateOne({ id: existing.id }).set({
-                        description: p.description,
+                if (existing.description !== formatted.description) {
+                    await AdminPermission.updateOne({ id: existing.id }).set({
+                        description: formatted.description,
                     });
                     sails.log(
-                        `✏️ Cập nhật mô tả cho permission: ${p.action} ${p.resource}`
+                        `✏️ Cập nhật mô tả cho permission: ${formatted.action}`,
                     );
                 } else {
-                    sails.log(
-                        `⏩ Bỏ qua (đã tồn tại): ${p.action} ${p.resource}`
-                    );
+                    sails.log(`⏩ Bỏ qua (đã tồn tại): ${formatted.action}`);
                 }
             }
         }
 
         sails.log(
-            `🎉 SeedPermissions hoàn tất. Đã thêm mới ${createdCount} permission.`
+            `🎉 SeedPermissions hoàn tất. Đã thêm mới ${createdCount} permission.`,
         );
     } catch (err) {
         sails.log.error("❌ Lỗi khi seed permissions:", err.message || err);

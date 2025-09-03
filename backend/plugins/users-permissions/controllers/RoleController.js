@@ -5,7 +5,7 @@ const {
     serverError,
     notFound,
     errorResponse,
-} = require("../../utils/response");
+} = require("../../../utils/response");
 
 module.exports = {
     // GET /roles?detail=true
@@ -41,13 +41,13 @@ module.exports = {
             const isDetail = req.query.detail === "true";
 
             const role = await Role.findOne({ id: req.params.id }).populate(
-                "permissions"
+                "permissions",
             );
             if (!role) {
                 return res
                     .status(404)
                     .json(
-                        notFound(`Vai trò ID ${req.params.id} không tồn tại`)
+                        notFound(`Vai trò ID ${req.params.id} không tồn tại`),
                     );
             }
 
@@ -107,13 +107,13 @@ module.exports = {
 
         try {
             const updated = await Role.updateOne({ id: req.params.id }).set(
-                value
+                value,
             );
             if (!updated) {
                 return res
                     .status(404)
                     .json(
-                        notFound(`Vai trò ID ${req.params.id} không tồn tại`)
+                        notFound(`Vai trò ID ${req.params.id} không tồn tại`),
                     );
             }
             return res
@@ -132,7 +132,7 @@ module.exports = {
                 return res
                     .status(404)
                     .json(
-                        notFound(`Vai trò ID ${req.params.id} không tồn tại`)
+                        notFound(`Vai trò ID ${req.params.id} không tồn tại`),
                     );
             }
             return res
@@ -160,7 +160,7 @@ module.exports = {
                 return res
                     .status(404)
                     .json(
-                        notFound(`Vai trò ID ${req.params.id} không tồn tại`)
+                        notFound(`Vai trò ID ${req.params.id} không tồn tại`),
                     );
             }
 
@@ -174,8 +174,8 @@ module.exports = {
                         errorResponse(
                             "Một hoặc nhiều quyền không hợp lệ",
                             "INVALID_PERMISSIONS",
-                            "Vui lòng kiểm tra danh sách quyền được cung cấp"
-                        )
+                            "Vui lòng kiểm tra danh sách quyền được cung cấp",
+                        ),
                     );
             }
 

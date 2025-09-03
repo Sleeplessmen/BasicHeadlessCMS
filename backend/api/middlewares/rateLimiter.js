@@ -1,8 +1,8 @@
 const rateLimit = require("express-rate-limit");
 
 const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 phút
-    max: 100, // tối đa 100 request / windowMs / IP
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // maximum 100 requests/windowMs/IP
     message: {
         error: {
             status: 429,
@@ -11,7 +11,7 @@ const apiLimiter = rateLimit({
             details: {},
         },
     },
-    standardHeaders: true, // gửi info trong header RateLimit-*
+    standardHeaders: true, // send info in header RateLimit-*
     legacyHeaders: false,
 });
 

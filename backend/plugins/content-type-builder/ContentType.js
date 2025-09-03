@@ -34,6 +34,11 @@ module.exports = {
             defaultsTo: true,
         },
 
+        isSystem: {
+            type: "boolean",
+            defaultsTo: false, // true = User, Role, Permission..., false = do ContentType Builder tạo
+        },
+
         apiConfig: {
             type: "json",
             description:

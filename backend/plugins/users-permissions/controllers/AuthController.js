@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const response = require("../../utils/response");
+const response = require("../../../utils/response");
 
 module.exports = {
     register: async function (req, res) {
@@ -31,8 +31,8 @@ module.exports = {
                     .json(
                         response.errorResponse(
                             "Email đã được đăng ký",
-                            "EMAIL_EXISTS"
-                        )
+                            "EMAIL_EXISTS",
+                        ),
                     );
             }
 
@@ -61,7 +61,7 @@ module.exports = {
             const token = jwt.sign(
                 { userId: newUser.id },
                 process.env.JWT_SECRET,
-                { expiresIn: "1d" }
+                { expiresIn: "1d" },
             );
 
             return res.status(201).json(
@@ -74,8 +74,8 @@ module.exports = {
                             role: roleDoc.name,
                         },
                     },
-                    "Đăng ký thành công"
-                )
+                    "Đăng ký thành công",
+                ),
             );
         } catch (err) {
             console.error("Lỗi trong register:", err);
@@ -118,7 +118,7 @@ module.exports = {
                 return res
                     .status(403)
                     .json(
-                        response.unauthorized("Người dùng chưa được gán role")
+                        response.unauthorized("Người dùng chưa được gán role"),
                     );
             }
 
@@ -133,7 +133,7 @@ module.exports = {
             const token = jwt.sign(
                 { id: user.id, role: user.role.name },
                 process.env.JWT_SECRET,
-                { expiresIn: "2d" }
+                { expiresIn: "2d" },
             );
 
             console.log("Đăng nhập thành công:", { userId: user.id });
@@ -155,8 +155,8 @@ module.exports = {
                             role: user.role.name,
                         },
                     },
-                    "Đăng nhập thành công"
-                )
+                    "Đăng nhập thành công",
+                ),
             );
         } catch (err) {
             console.error("Lỗi trong login:", err);
@@ -173,7 +173,7 @@ module.exports = {
 
             console.log(
                 "Logout request nhận được - Có token không?",
-                !!hasToken
+                !!hasToken,
             );
 
             if (!hasToken) {
@@ -182,8 +182,8 @@ module.exports = {
                     .json(
                         response.success(
                             null,
-                            "Bạn đã đăng xuất hoặc chưa đăng nhập"
-                        )
+                            "Bạn đã đăng xuất hoặc chưa đăng nhập",
+                        ),
                     );
             }
 
@@ -208,12 +208,12 @@ module.exports = {
             if (req.user && req.user.id) {
                 console.log(
                     "Yêu cầu lấy thông tin user - userId:",
-                    req.user.id
+                    req.user.id,
                 );
             }
 
             const user = await User.findOne({ id: req.user.id }).populate(
-                "role"
+                "role",
             );
 
             if (!user) {
@@ -228,12 +228,12 @@ module.exports = {
                 return res
                     .status(400)
                     .json(
-                        response.badRequest("Người dùng chưa được gán vai trò")
+                        response.badRequest("Người dùng chưa được gán vai trò"),
                     );
             }
 
             const role = await Role.findOne({ id: user.role.id }).populate(
-                "permissions"
+                "permissions",
             );
 
             // console.log(`👤 Thông tin user '${user.email}' - Vai trò: '${role.name}' - Permissions:`, role.permissions.map(p => p.name));
@@ -246,7 +246,7 @@ module.exports = {
                         name: role.name,
                         permissions: role.permissions.map((p) => p.name),
                     },
-                })
+                }),
             );
         } catch (error) {
             console.error("Lỗi trong me:", error);
