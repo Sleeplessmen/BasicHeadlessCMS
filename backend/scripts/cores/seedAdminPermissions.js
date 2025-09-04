@@ -1,150 +1,60 @@
+// api/db/seeds/seedPermissions.js
 module.exports = async function seedPermissions() {
     console.time("SeedPermissions");
     sails.log("🔧 Đang chạy seedPermissions.js...");
 
     const permissionsToSeed = [
         // USER
-        {
-            action: "read",
-            resource: "user",
-            description: "Xem danh sách và thông tin người dùng",
-        },
-        {
-            action: "create",
-            resource: "user",
-            description: "Tạo người dùng mới",
-        },
-        {
-            action: "update",
-            resource: "user",
-            description: "Cập nhật thông tin người dùng",
-        },
-        {
-            action: "delete",
-            resource: "user",
-            description: "Xoá hoặc vô hiệu hoá người dùng",
-        },
-        {
-            action: "assign-role",
-            resource: "user",
-            description: "Gán vai trò cho người dùng",
-        },
+        ["read", "user", "Xem danh sách và thông tin người dùng"],
+        ["create", "user", "Tạo người dùng mới"],
+        ["update", "user", "Cập nhật thông tin người dùng"],
+        ["delete", "user", "Xoá hoặc vô hiệu hoá người dùng"],
+        ["assign-role", "user", "Gán vai trò cho người dùng"],
 
         // ROLE
-        {
-            action: "read",
-            resource: "role",
-            description: "Xem danh sách và chi tiết vai trò",
-        },
-        {
-            action: "create",
-            resource: "role",
-            description: "Tạo vai trò mới",
-        },
-        {
-            action: "update",
-            resource: "role",
-            description: "Cập nhật tên, mô tả vai trò",
-        },
-        {
-            action: "delete",
-            resource: "role",
-            description: "Xoá vai trò",
-        },
-        {
-            action: "assign-permission",
-            resource: "role",
-            description: "Gán hoặc bỏ quyền cho vai trò",
-        },
+        ["read", "role", "Xem danh sách và chi tiết vai trò"],
+        ["create", "role", "Tạo vai trò mới"],
+        ["update", "role", "Cập nhật tên, mô tả vai trò"],
+        ["delete", "role", "Xoá vai trò"],
+        ["assign-permission", "role", "Gán hoặc bỏ quyền cho vai trò"],
 
         // PERMISSION
-        {
-            action: "read",
-            resource: "permission",
-            description: "Xem danh sách quyền hệ thống",
-        },
-        {
-            action: "create",
-            resource: "permission",
-            description: "Tạo quyền mới (chỉ admin hệ thống)",
-        },
-        {
-            action: "update",
-            resource: "permission",
-            description: "Cập nhật quyền",
-        },
-        { action: "delete", resource: "permission", description: "Xoá quyền" },
+        ["read", "permission", "Xem danh sách quyền hệ thống"],
+        ["create", "permission", "Tạo quyền mới (chỉ admin hệ thống)"],
+        ["update", "permission", "Cập nhật quyền"],
+        ["delete", "permission", "Xoá quyền"],
 
         // CONTENT-TYPE
-        {
-            action: "read",
-            resource: "content-type",
-            description: "Xem danh sách và cấu trúc loại nội dung",
-        },
-        {
-            action: "create",
-            resource: "content-type",
-            description: "Tạo loại nội dung mới (ví dụ: Blog, FAQ)",
-        },
-        {
-            action: "update",
-            resource: "content-type",
-            description: "Chỉnh sửa field, schema của loại nội dung",
-        },
-        {
-            action: "delete",
-            resource: "content-type",
-            description: "Xoá loại nội dung",
-        },
+        ["read", "content-type", "Xem danh sách và cấu trúc loại nội dung"],
+        ["create", "content-type", "Tạo loại nội dung mới (ví dụ: Blog, FAQ)"],
+        ["update", "content-type", "Chỉnh sửa field, schema của loại nội dung"],
+        ["delete", "content-type", "Xoá loại nội dung"],
 
         // CONTENT-ENTRY
-        {
-            action: "read",
-            resource: "content-entry",
-            description: "Xem danh sách và chi tiết bản ghi nội dung",
-        },
-        {
-            action: "create",
-            resource: "content-entry",
-            description: "Tạo bản ghi mới trong loại nội dung",
-        },
-        {
-            action: "update",
-            resource: "content-entry",
-            description: "Chỉnh sửa bản ghi nội dung",
-        },
-        {
-            action: "delete",
-            resource: "content-entry",
-            description: "Xoá bản ghi nội dung",
-        },
-        {
-            action: "export",
-            resource: "content-entry",
-            description: "Xuất dữ liệu nội dung ra file (Excel, CSV)",
-        },
+        ["read", "content-entry", "Xem danh sách và chi tiết bản ghi nội dung"],
+        ["create", "content-entry", "Tạo bản ghi mới trong loại nội dung"],
+        ["update", "content-entry", "Chỉnh sửa bản ghi nội dung"],
+        ["delete", "content-entry", "Xoá bản ghi nội dung"],
+        [
+            "export",
+            "content-entry",
+            "Xuất dữ liệu nội dung ra file (Excel, CSV)",
+        ],
 
         // ASSET
-        {
-            action: "read",
-            resource: "asset",
-            description: "Xem danh sách file đã upload",
-        },
-        {
-            action: "create",
-            resource: "asset",
-            description: "Upload file mới (hình ảnh, tài liệu)",
-        },
-        { action: "delete", resource: "asset", description: "Xoá file" },
+        ["read", "asset", "Xem danh sách file đã upload"],
+        ["create", "asset", "Upload file mới (hình ảnh, tài liệu)"],
+        ["delete", "asset", "Xoá file"],
     ];
 
     try {
         let createdCount = 0;
-        for (let p of permissionsToSeed) {
+
+        for (const [action, resource, description] of permissionsToSeed) {
             const formatted = {
-                action: `admin::${p.resource}.${p.action}`,
-                subject: `admin::${p.resource}`,
-                description: p.description,
+                action: `admin::${resource}.${action}`,
+                subject: `admin::${resource}`,
+                description,
             };
 
             const existing = await AdminPermission.findOne({
@@ -156,17 +66,13 @@ module.exports = async function seedPermissions() {
                 await AdminPermission.create(formatted);
                 createdCount++;
                 sails.log(`✅ Tạo mới permission: ${formatted.action}`);
+            } else if (existing.description !== formatted.description) {
+                await AdminPermission.updateOne({ id: existing.id }).set({
+                    description: formatted.description,
+                });
+                sails.log(`✏️ Cập nhật mô tả: ${formatted.action}`);
             } else {
-                if (existing.description !== formatted.description) {
-                    await AdminPermission.updateOne({ id: existing.id }).set({
-                        description: formatted.description,
-                    });
-                    sails.log(
-                        `✏️ Cập nhật mô tả cho permission: ${formatted.action}`,
-                    );
-                } else {
-                    sails.log(`⏩ Bỏ qua (đã tồn tại): ${formatted.action}`);
-                }
+                sails.log(`⏩ Bỏ qua (đã tồn tại): ${formatted.action}`);
             }
         }
 

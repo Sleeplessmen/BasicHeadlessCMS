@@ -33,25 +33,20 @@ module.exports = {
             defaultsTo: true,
         },
 
-        blocked: {
-            type: "boolean",
-            defaultsTo: false,
-        },
+        // resetPasswordToken: {
+        //     type: "string",
+        //     allowNull: true,
+        // },
 
-        resetPasswordToken: {
-            type: "string",
-            allowNull: true,
-        },
+        // registrationToken: {
+        //     type: "string",
+        //     allowNull: true,
+        // },
 
-        registrationToken: {
-            type: "string",
-            allowNull: true,
-        },
-
-        lastLogin: {
-            type: "ref",
-            columnType: "datetime",
-        },
+        // lastLogin: {
+        //     type: "ref",
+        //     columnType: "datetime",
+        // },
 
         roles: {
             collection: "AdminRole",

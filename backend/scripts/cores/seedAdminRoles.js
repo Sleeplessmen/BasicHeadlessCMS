@@ -1,8 +1,8 @@
+// api/db/seeds/seedRoles.js
 module.exports = async function seedRoles() {
     console.time("SeedRoles");
     sails.log("🔧 Đang chạy seedRoles.js...");
 
-    // Định nghĩa role và danh sách permission theo (action + resource)
     const roleDefinitions = [
         {
             name: "Super Admin",
@@ -10,42 +10,42 @@ module.exports = async function seedRoles() {
             description: "Quản trị toàn hệ thống",
             permissions: [
                 // User
-                { action: "read", resource: "user" },
-                { action: "create", resource: "user" },
-                { action: "update", resource: "user" },
-                { action: "delete", resource: "user" },
-                { action: "assign-role", resource: "user" },
+                ["read", "user"],
+                ["create", "user"],
+                ["update", "user"],
+                ["delete", "user"],
+                ["assign-role", "user"],
 
                 // Role
-                { action: "read", resource: "role" },
-                { action: "create", resource: "role" },
-                { action: "update", resource: "role" },
-                { action: "delete", resource: "role" },
-                { action: "assign-permission", resource: "role" },
+                ["read", "role"],
+                ["create", "role"],
+                ["update", "role"],
+                ["delete", "role"],
+                ["assign-permission", "role"],
 
                 // Permission
-                { action: "read", resource: "permission" },
-                { action: "create", resource: "permission" },
-                { action: "update", resource: "permission" },
-                { action: "delete", resource: "permission" },
+                ["read", "permission"],
+                ["create", "permission"],
+                ["update", "permission"],
+                ["delete", "permission"],
 
                 // Content Type
-                { action: "read", resource: "content-type" },
-                { action: "create", resource: "content-type" },
-                { action: "update", resource: "content-type" },
-                { action: "delete", resource: "content-type" },
+                ["read", "content-type"],
+                ["create", "content-type"],
+                ["update", "content-type"],
+                ["delete", "content-type"],
 
                 // Content Entry
-                { action: "read", resource: "content-entry" },
-                { action: "create", resource: "content-entry" },
-                { action: "update", resource: "content-entry" },
-                { action: "delete", resource: "content-entry" },
-                { action: "export", resource: "content-entry" },
+                ["read", "content-entry"],
+                ["create", "content-entry"],
+                ["update", "content-entry"],
+                ["delete", "content-entry"],
+                ["export", "content-entry"],
 
                 // Asset
-                { action: "read", resource: "asset" },
-                { action: "create", resource: "asset" },
-                { action: "delete", resource: "asset" },
+                ["read", "asset"],
+                ["create", "asset"],
+                ["delete", "asset"],
             ],
         },
         {
@@ -53,18 +53,18 @@ module.exports = async function seedRoles() {
             code: "strapi-editor",
             description: "Biên tập viên nội dung",
             permissions: [
-                { action: "read", resource: "user" },
-                { action: "read", resource: "role" },
-                { action: "read", resource: "content-type" },
+                ["read", "user"],
+                ["read", "role"],
+                ["read", "content-type"],
 
-                { action: "read", resource: "content-entry" },
-                { action: "create", resource: "content-entry" },
-                { action: "update", resource: "content-entry" },
-                { action: "delete", resource: "content-entry" },
-                { action: "export", resource: "content-entry" },
+                ["read", "content-entry"],
+                ["create", "content-entry"],
+                ["update", "content-entry"],
+                ["delete", "content-entry"],
+                ["export", "content-entry"],
 
-                { action: "read", resource: "asset" },
-                { action: "create", resource: "asset" },
+                ["read", "asset"],
+                ["create", "asset"],
             ],
         },
         {
@@ -72,64 +72,65 @@ module.exports = async function seedRoles() {
             code: "strapi-author",
             description: "Người dùng thông thường",
             permissions: [
-                { action: "read", resource: "content-entry" },
-                { action: "read", resource: "content-type" },
+                ["read", "content-entry"],
+                ["read", "content-type"],
             ],
         },
     ];
 
     try {
-        // 🔥 Xoá toàn bộ role cũ (cùng liên kết permission)
+        // Xoá toàn bộ role cũ (và liên kết permission)
         await AdminRole.destroy({});
         sails.log("🧹 Đã xoá toàn bộ roles cũ.");
 
-        // 🔁 Tạo từng role
         for (const roleDef of roleDefinitions) {
             const permissionIds = [];
             const notFound = [];
 
-            for (const perm of roleDef.permissions) {
-                const formatted = {
-                    action: `admin::${perm.resource}.${perm.action}`,
-                    subject: `admin::${perm.resource}`,
-                };
+            for (const [action, resource] of roleDef.permissions) {
+                const actionKey = `admin::${resource}.${action}`;
+                const subjectKey = `admin::${resource}`;
 
-                const found = await AdminPermission.findOne({
-                    action: formatted.action,
-                    subject: formatted.subject,
+                const perm = await AdminPermission.findOne({
+                    action: actionKey,
+                    subject: subjectKey,
                 });
 
-                if (found) {
-                    permissionIds.push(found.id);
+                if (perm) {
+                    permissionIds.push(perm.id);
                 } else {
-                    notFound.push(`${formatted.action}`);
+                    notFound.push(actionKey);
                 }
             }
 
             if (notFound.length > 0) {
                 sails.log.warn(
-                    `⚠️ Không tìm thấy permission cho role '${roleDef.name}':`,
+                    `⚠️ Role '${roleDef.name}' thiếu ${notFound.length} permission:`,
                     notFound,
                 );
             }
 
-            // 👉 Tạo role kèm permissions
-            const createdRole = await AdminRole.create({
+            const created = await AdminRole.create({
                 name: roleDef.name,
                 code: roleDef.code,
                 description: roleDef.description,
-                permissions: permissionIds,
             }).fetch();
 
+            if (permissionIds.length > 0) {
+                await AdminRole.addToCollection(
+                    created.id,
+                    "permissions",
+                ).members(permissionIds);
+            }
+
             sails.log(
-                `✅ Tạo role '${createdRole.name}' (${createdRole.code}) với ${permissionIds.length}/${roleDef.permissions.length} quyền.`,
+                `✅ Tạo role '${created.name}' (${created.code}) với ${permissionIds.length}/${roleDef.permissions.length} quyền.`,
             );
         }
 
         sails.log("🎉 Hoàn tất seed roles.");
     } catch (err) {
         sails.log.error("❌ Lỗi khi seed roles:", err.message || err);
-        if (err.stack) sails.log.error(err.stack);
         throw err;
     } finally {
         console.timeEnd("SeedRoles");

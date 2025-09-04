@@ -1,17 +1,18 @@
 const rateLimit = require("express-rate-limit");
+const { TooManyRequestsError } = require("../../errors");
 
 const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // maximum 100 requests/windowMs/IP
-    message: {
-        error: {
-            status: 429,
-            name: "TooManyRequests",
-            message: "Bạn đã gửi quá nhiều request. Vui lòng thử lại sau.",
-            details: {},
-        },
+    windowMs: 15 * 60 * 1000, // 15 phút
+    max: 100, // tối đa 100 request / windowMs / IP
+
+    handler: function () {
+        // Thay vì res.json ở đây, ta throw để ErrorHandler xử lý
+        throw new TooManyRequestsError(
+            "Bạn đã gửi quá nhiều request. Vui lòng thử lại sau.",
+        );
     },
-    standardHeaders: true, // send info in header RateLimit-*
+
+    standardHeaders: true, // gửi info trong header RateLimit-*
     legacyHeaders: false,
 });
 

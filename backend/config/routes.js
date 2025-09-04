@@ -1,25 +1,70 @@
 module.exports.routes = {
-    // // Trang chủ (nếu có dùng view)
-    // '/': { view: 'pages/homepage' },
+    // Auth routes
+    "POST /api/v1/auth/register": {
+        controller: "AdminAuthController",
+        action: "register",
+    },
+    "POST /api/v1/auth/login": {
+        controller: "AdminAuthController",
+        action: "login",
+    },
+    "POST /api/v1/auth/logout": {
+        controller: "AdminAuthController",
+        action: "logout",
+    },
+    "GET /api/v1/auth/me": {
+        controller: "AdminAuthController",
+        action: "me",
+    },
 
-    // Auth API
-    "POST /api/v1/auth/register": "AuthController.register",
-    "POST /api/v1/auth/login": "AuthController.login",
-    "POST /api/v1/auth/logout": "AuthController.logout",
-    "GET /api/v1/auth/me": "AuthController.me",
+    // Permission routes
+    "GET /api/v1/permissions": {
+        controller: "AdminPermissionController",
+        action: "listAllPermissions",
+    },
 
-    // Role API
-    "GET    /api/v1/roles": "RoleController.findAll",
-    "GET    /api/v1/roles/:id": "RoleController.findOne",
-    "POST   /api/v1/roles": "RoleController.create",
-    "PUT    /api/v1/roles/:id": "RoleController.update",
-    "DELETE /api/v1/roles/:id": "RoleController.delete",
-    "PUT    /api/v1/roles/:id/permission": "RoleController.assignPerm",
+    // Role routes
+    "GET /api/v1/roles": {
+        controller: "AdminRoleController",
+        action: "find",
+    },
+    "GET /api/v1/roles/:id": {
+        controller: "AdminRoleController",
+        action: "findOne",
+    },
+    "POST /api/v1/roles": {
+        controller: "AdminRoleController",
+        action: "create",
+    },
+    "PUT /api/v1/roles/:id": {
+        controller: "AdminRoleController",
+        action: "update",
+    },
+    "DELETE /api/v1/roles/:id": {
+        controller: "AdminRoleController",
+        action: "destroy",
+    },
 
-    // Permission API
-    "GET    /api/v1/permissions": "PermissionController.findAll",
-    "GET    /api/v1/permissions/:id": "PermissionController.findOne",
-    "POST   /api/v1/permissions": "PermissionController.create",
-    "PUT    /api/v1/permissions/:id": "PermissionController.update",
-    "DELETE /api/v1/permissions/:id": "PermissionController.delete",
+    // User routes
+    "GET /api/v1/users": {
+        controller: "AdminUserController",
+        action: "find",
+        policies: ["isAdminAuthenticated", "isSuperAdmin"],
+    },
+    "GET /api/v1/users/:id": {
+        controller: "AdminUserController",
+        action: "findOne",
+    },
+    "POST /api/v1/users": {
+        controller: "AdminUserController",
+        action: "create",
+    },
+    "PUT /api/v1/users/:id": {
+        controller: "AdminUserController",
+        action: "update",
+    },
+    "DELETE /api/v1/users/:id": {
+        controller: "AdminUserController",
+        action: "destroy",
+    },
 };
