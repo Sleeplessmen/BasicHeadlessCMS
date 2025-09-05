@@ -1,5 +1,3 @@
-const { ApplicationError } = require("../../errors");
-
 // Helper nhỏ để group permission theo prefix
 function groupPermissions(permissions) {
     const result = {
@@ -43,44 +41,24 @@ function groupPermissions(permissions) {
 }
 
 module.exports = {
+    // fixing
     listAllPermissions: async function (req, res) {
-        try {
-            const permissions = await AdminPermission.find();
-            const grouped = groupPermissions(permissions);
+        const permissions = await AdminPermission.find();
+        const grouped = groupPermissions(permissions);
 
-            return res.ok(
-                await sails.helpers.response.success.with({
-                    data: grouped,
-                    message: "Lấy danh sách permissions thành công",
-                    meta: {
-                        total: permissions.length,
-                        groupsCount: {
-                            plugins: Object.keys(grouped.plugins).length,
-                            contentTypes: Object.keys(grouped.contentTypes)
-                                .length,
-                            settings: Object.keys(grouped.settings).length,
-                        },
+        return res.ok(
+            await sails.helpers.response.success.with({
+                data: grouped,
+                message: "Lấy danh sách permissions thành công",
+                meta: {
+                    total: permissions.length,
+                    groupsCount: {
+                        plugins: Object.keys(grouped.plugins).length,
+                        contentTypes: Object.keys(grouped.contentTypes).length,
+                        settings: Object.keys(grouped.settings).length,
                     },
-                }),
-            );
-        } catch (err) {
-            sails.log.error(
-                "AdminPermissionController.listAllPermissions - lỗi:",
-                err,
-            );
-            return res.status(err.status || 500).json(
-                await sails.helpers.response.errorResponse.with({
-                    err:
-                        err instanceof BaseError
-                            ? err
-                            : new ApplicationError(
-                                  "Lỗi khi lấy danh sách permissions",
-                                  {
-                                      raw: err,
-                                  },
-                              ),
-                }),
-            );
-        }
+                },
+            }),
+        );
     },
 };

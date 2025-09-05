@@ -8,6 +8,7 @@ const {
     ConflictError,
     PayloadTooLargeError,
     PolicyError,
+    TooManyRequestsError,
 } = require("../../errors");
 
 module.exports = async function errorHandler(err, req, res, unusedNext) {
@@ -23,7 +24,8 @@ module.exports = async function errorHandler(err, req, res, unusedNext) {
             err instanceof BadRequestError ||
             err instanceof ConflictError ||
             err instanceof PayloadTooLargeError ||
-            err instanceof PolicyError
+            err instanceof PolicyError ||
+            err instanceof TooManyRequestsError
         ) {
             return res
                 .status(err.status)
@@ -37,15 +39,14 @@ module.exports = async function errorHandler(err, req, res, unusedNext) {
             method: req.method,
         });
 
-        return res
-            .status(wrapped.status)
-            .json(
-                await sails.helpers.response.errorResponse.with({
-                    err: wrapped,
-                }),
-            );
+        return res.status(wrapped.status).json(
+            await sails.helpers.response.errorResponse.with({
+                err: wrapped,
+            }),
+        );
     } catch (formatErr) {
         sails.log.error("Error Handler - lỗi khi format:", formatErr);
+
         return res.status(500).json({
             error: {
                 name: "ApplicationError",

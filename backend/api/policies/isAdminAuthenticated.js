@@ -26,8 +26,8 @@ module.exports = async function (req, res, proceed) {
             process.env.JWT_SECRET || "default_secret",
         );
 
-        req.user = decoded; // Gán thông tin user
-        req.token = token; // Gán luôn token để logout tiện xử lý
+        req.user = decoded;
+        req.token = token;
 
         return proceed();
     } catch (err) {

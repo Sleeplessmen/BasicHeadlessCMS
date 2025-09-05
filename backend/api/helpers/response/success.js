@@ -5,7 +5,7 @@ module.exports = {
     inputs: {
         data: {
             type: "ref",
-            required: true,
+            defaultsTo: {},
         },
         message: {
             type: "string",

@@ -1,4 +1,15 @@
-const BaseError = require("../../../errors");
+const {
+    ApplicationError,
+    ValidationError,
+    ForbiddenError,
+    UnauthorizedError,
+    NotFoundError,
+    BadRequestError,
+    ConflictError,
+    PayloadTooLargeError,
+    PolicyError,
+    TooManyRequestsError,
+} = require("../../../errors");
 
 module.exports = {
     friendlyName: "Error response",
@@ -20,14 +31,25 @@ module.exports = {
     fn: async function (inputs) {
         const err = inputs.err;
 
-        if (err instanceof BaseError) {
+        if (
+            err instanceof ApplicationError ||
+            err instanceof ValidationError ||
+            err instanceof ForbiddenError ||
+            err instanceof UnauthorizedError ||
+            err instanceof NotFoundError ||
+            err instanceof BadRequestError ||
+            err instanceof ConflictError ||
+            err instanceof PayloadTooLargeError ||
+            err instanceof PolicyError ||
+            err instanceof TooManyRequestsError
+        ) {
             return {
                 data: null,
                 error: {
                     status: err.status,
                     name: err.name,
                     message: err.message,
-                    details: err.details,
+                    details: err.details || {},
                 },
             };
         }
