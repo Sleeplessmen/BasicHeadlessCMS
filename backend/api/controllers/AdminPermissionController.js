@@ -42,7 +42,7 @@ function groupPermissions(permissions) {
 
 module.exports = {
     // fixing
-    listAllPermissions: async function (req, res) {
+    getAdminPermissions: async function (req, res) {
         const permissions = await AdminPermission.find();
         const grouped = groupPermissions(permissions);
 

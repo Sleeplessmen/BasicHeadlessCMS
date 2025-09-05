@@ -5,37 +5,29 @@ module.exports = {
             required: true,
             unique: true,
         },
-
         email: {
             type: "string",
             required: true,
             unique: true,
             isEmail: true,
         },
-
         password: {
             type: "string",
             required: true,
             protect: true,
         },
 
-        confirmed: {
-            type: "boolean",
-            defaultsTo: false,
-        }, // user có xác nhận email chưa
+        confirmed: { type: "boolean", defaultsTo: false },
+        blocked: { type: "boolean", defaultsTo: false },
+        lastLoginAt: { type: "ref", columnType: "datetime" },
 
-        blocked: {
-            type: "boolean",
-            defaultsTo: false,
-        }, // user có bị khóa không
+        confirmationToken: { type: "string" },
+        resetPasswordToken: { type: "string" },
 
-        lastLoginAt: {
-            type: "ref",
-            columnType: "datetime",
+        roles: {
+            collection: "role",
+            via: "users",
+            dominant: true,
         },
-
-        role: {
-            model: "Role",
-        }, // Role thuộc end-user
     },
 };

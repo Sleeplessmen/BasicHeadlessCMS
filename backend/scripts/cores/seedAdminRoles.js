@@ -1,79 +1,72 @@
-// api/db/seeds/seedRoles.js
-module.exports = async function seedRoles() {
-    console.time("SeedRoles");
-    sails.log("🔧 Đang chạy seedRoles.js...");
+// api/db/seeds/SeedAdminRoles.js
+module.exports = async function SeedAdminRoles() {
+    console.time("SeedAdminRoles");
+    sails.log("🔧 Đang chạy SeedAdminRoles.js...");
 
     const roleDefinitions = [
         {
             name: "Super Admin",
             code: "strapi-super-admin",
-            description: "Quản trị toàn hệ thống",
+            description:
+                "Super Admins can access and manage all features and settings.",
             permissions: [
-                // User
+                // ADMIN USERS
                 ["read", "user"],
                 ["create", "user"],
                 ["update", "user"],
                 ["delete", "user"],
-                ["assign-role", "user"],
 
-                // Role
+                // ADMIN ROLES
                 ["read", "role"],
                 ["create", "role"],
                 ["update", "role"],
                 ["delete", "role"],
-                ["assign-permission", "role"],
 
-                // Permission
+                // ADMIN PERMISSIONS
                 ["read", "permission"],
-                ["create", "permission"],
-                ["update", "permission"],
-                ["delete", "permission"],
 
-                // Content Type
-                ["read", "content-type"],
-                ["create", "content-type"],
-                ["update", "content-type"],
-                ["delete", "content-type"],
+                // // Content Type
+                // ["read", "content-type"],
+                // ["create", "content-type"],
+                // ["update", "content-type"],
+                // ["delete", "content-type"],
 
-                // Content Entry
-                ["read", "content-entry"],
-                ["create", "content-entry"],
-                ["update", "content-entry"],
-                ["delete", "content-entry"],
-                ["export", "content-entry"],
+                // // Content Entry
+                // ["read", "content-entry"],
+                // ["create", "content-entry"],
+                // ["update", "content-entry"],
+                // ["delete", "content-entry"],
+                // ["export", "content-entry"],
 
-                // Asset
-                ["read", "asset"],
-                ["create", "asset"],
-                ["delete", "asset"],
+                // // Asset
+                // ["read", "asset"],
+                // ["create", "asset"],
+                // ["delete", "asset"],
             ],
         },
         {
             name: "Editor",
             code: "strapi-editor",
-            description: "Biên tập viên nội dung",
+            description:
+                "Editors can manage and publish contents including those of other users.",
             permissions: [
-                ["read", "user"],
-                ["read", "role"],
-                ["read", "content-type"],
-
-                ["read", "content-entry"],
-                ["create", "content-entry"],
-                ["update", "content-entry"],
-                ["delete", "content-entry"],
-                ["export", "content-entry"],
-
-                ["read", "asset"],
-                ["create", "asset"],
+                // ["read", "content-type"],
+                // ["read", "content-entry"],
+                // ["create", "content-entry"],
+                // ["update", "content-entry"],
+                // ["delete", "content-entry"],
+                // ["export", "content-entry"],
+                // ["read", "asset"],
+                // ["create", "asset"],
             ],
         },
         {
             name: "Author",
             code: "strapi-author",
-            description: "Người dùng thông thường",
+            description: "Authors can manage the content they have created.",
             permissions: [
-                ["read", "content-entry"],
-                ["read", "content-type"],
+                // ["read", "content-entry"],
+                // ["read", "content-type"],
             ],
         },
     ];
@@ -128,11 +121,14 @@ module.exports = async function seedRoles() {
             );
         }
 
-        sails.log("🎉 Hoàn tất seed roles.");
+        sails.log("🎉 Hoàn tất seed admin panel roles.");
     } catch (err) {
-        sails.log.error("❌ Lỗi khi seed roles:", err.message || err);
+        sails.log.error(
+            "❌ Lỗi khi seed admin panel roles:",
+            err.message || err,
+        );
         throw err;
     } finally {
-        console.timeEnd("SeedRoles");
+        console.timeEnd("SeedAdminRoles");
     }
 };

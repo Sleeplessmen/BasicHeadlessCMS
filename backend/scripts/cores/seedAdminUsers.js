@@ -5,7 +5,7 @@ module.exports = async function seedAdminUsers() {
     sails.log("🔧 Đang chạy seedAdminUsers.js...");
 
     try {
-        // B1. Lấy các role cần thiết dựa vào code
+        // Lấy các role cần thiết dựa vào code
         const roles = await AdminRole.find({
             where: {
                 code: ["strapi-super-admin", "strapi-editor", "strapi-author"],
@@ -18,7 +18,7 @@ module.exports = async function seedAdminUsers() {
             return map;
         }, {});
 
-        // B2. Đảm bảo các role tồn tại
+        // Đảm bảo các role tồn tại
         ["strapi-super-admin", "strapi-editor", "strapi-author"].forEach(
             (code) => {
                 if (!roleMap[code]) {
@@ -33,10 +33,10 @@ module.exports = async function seedAdminUsers() {
         const editorRoleId = roleMap["strapi-editor"];
         const authorRoleId = roleMap["strapi-author"];
 
-        // B3. Hash mật khẩu
+        // Hash mật khẩu
         const hashedPassword = await bcrypt.hash("123456", 10);
 
-        // B4. Danh sách người dùng cần tạo
+        // Danh sách người dùng cần tạo
         const usersToSeed = [
             {
                 firstname: "System",
@@ -65,7 +65,7 @@ module.exports = async function seedAdminUsers() {
             })),
         ];
 
-        // B5. Kiểm tra user đã tồn tại
+        // Kiểm tra user đã tồn tại
         const existingUsers = await AdminUser.find({
             where: { email: usersToSeed.map((u) => u.email) },
             select: ["email"],
@@ -73,26 +73,31 @@ module.exports = async function seedAdminUsers() {
 
         const existingEmails = new Set(existingUsers.map((u) => u.email));
 
-        // B6. Lọc các user chưa tồn tại
+        // Lọc các user chưa tồn tại
         const newUsers = usersToSeed
             .filter((u) => !existingEmails.has(u.email))
             .map((u) => ({
                 ...u,
                 password: hashedPassword,
                 blocked: false,
-                resetPasswordToken: null,
-                registrationToken: null,
+                // resetPasswordToken: null,
+                // registrationToken: null,
             }));
 
-        // B7. Tạo user mới
+        // Tạo user mới
         if (newUsers.length > 0) {
             const created = await AdminUser.createEach(newUsers).fetch();
-            sails.log(`✅ Đã tạo ${created.length} admin users mới.`);
+            sails.log(`✅ Đã tạo ${created.length} admin panel users mới.`);
         } else {
-            sails.log("ℹ️ Tất cả admin users đã tồn tại, không cần tạo thêm.");
+            sails.log(
+                "ℹ️ Tất cả admin panel users đã tồn tại, không cần tạo thêm.",
+            );
         }
     } catch (err) {
-        sails.log.error("❌ Lỗi khi seed admin users:", err.message || err);
+        sails.log.error(
+            "❌ Lỗi khi seed admin panel users:",
+            err.message || err,
+        );
         if (err.stack) sails.log.error(err.stack);
         throw err;
     } finally {

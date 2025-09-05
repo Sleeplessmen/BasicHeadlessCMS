@@ -17,6 +17,9 @@ module.exports.bootstrap = async function (done) {
             await require("../scripts/cores/seedAdminPermissions")();
             await require("../scripts/cores/seedAdminRoles")();
             await require("../scripts/cores/seedAdminUsers")();
+            await require("../scripts/users-permissions/seedPermissions")();
+            await require("../scripts/users-permissions/seedRoles")();
+            await require("../scripts/users-permissions/seedUsers")();
         }
 
         return done();
