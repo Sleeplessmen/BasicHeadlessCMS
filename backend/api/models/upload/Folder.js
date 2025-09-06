@@ -7,7 +7,8 @@ module.exports = {
 
         parent: {
             model: "Folder",
-        }, // hỗ trợ folder lồng nhau
+            allowNull: true,
+        },
 
         assets: {
             collection: "Asset",

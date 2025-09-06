@@ -1,0 +1,5 @@
+module.exports = {
+  async send(req, res) {
+    return res.ok({ message: "EmailController.send" });
+  },
+};

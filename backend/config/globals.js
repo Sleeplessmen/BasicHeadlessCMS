@@ -3,12 +3,4 @@ module.exports.globals = {
     async: false,
     models: true,
     sails: true,
-
-    /****************************************************************************
-     *                                                                           *
-     * Custom globals                                                            *
-     *                                                                           *
-     ****************************************************************************/
-
-    response: require("../utils/response"),
 };

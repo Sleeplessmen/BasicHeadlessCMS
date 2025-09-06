@@ -2,8 +2,9 @@ const {
     ForbiddenError,
     UnauthorizedError,
     ApplicationError,
-} = require("../../errors");
+} = require("../../../errors");
 
+// fixing
 module.exports = async function (req, res, proceed) {
     try {
         if (!req.user || !req.user.roles) {

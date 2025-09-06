@@ -1,4 +1,4 @@
-const { UnauthorizedError, ForbiddenError } = require("../../errors");
+const { UnauthorizedError, ForbiddenError } = require("../../../errors");
 
 module.exports = async function (req, res, proceed) {
     if (!req.user || !req.user.roles) {
@@ -13,6 +13,5 @@ module.exports = async function (req, res, proceed) {
         throw new ForbiddenError("Chỉ super-admin mới được phép truy cập");
     }
 
-    // Nếu hợp lệ, chuyển sang action tiếp theo
     return proceed();
 };

@@ -1,8 +1,3 @@
-/**
- * isOwner
- *
- * Policy to check if the authenticated user is the owner of the resource.
- */
 module.exports = async function (req, res, proceed) {
     try {
         const userId = req.param("id"); // lấy id từ URL params
