@@ -2,7 +2,7 @@
     "name": "backend",
     "private": true,
     "version": "1.0.0",
-    "description": "A Sails backend API",
+    "description": "A Sails backend server",
     "_moduleAliases": {
         "@errors": "errors"
     },
@@ -25,6 +25,7 @@
         "jsonwebtoken": "^9.0.2",
         "module-alias": "^2.2.3",
         "sails": "^1.5.14",
+        "sails-hook-orm": "^3.0.2",
         "sails-hook-grunt": "^5.0.0",
         "sails-hook-sockets": "^3.0.0",
         "sails-mongo": "^2.1.2",

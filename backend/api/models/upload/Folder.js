@@ -7,7 +7,6 @@ module.exports = {
 
         parent: {
             model: "Folder",
-            allowNull: true,
         },
 
         assets: {

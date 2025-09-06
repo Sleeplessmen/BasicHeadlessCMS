@@ -157,7 +157,7 @@ module.exports.routes = {
     "GET /api/v1/admin/users": {
         controller: "AdminUserController",
         action: "find",
-        policies: ["isAdminAuthenticated", "isSuperAdmin"],
+        // policies: ["isAdminAuthenticated", "isSuperAdmin"],
     },
     "GET /api/v1/admin/users/:id": {
         controller: "AdminUserController",

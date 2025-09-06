@@ -18,7 +18,7 @@ module.exports.policies = {
         "*": ["isAdminAuthenticated"],
     },
 
-    AuthController: {
+    "users-permissions/AuthController": {
         register: true,
         login: true,
         // logout: ["isAuthenticated"],
@@ -31,15 +31,15 @@ module.exports.policies = {
         // me: ["isAuthenticated"],
     },
 
-    PermissionController: {
+    "users-permissions/PermissionController": {
         getPermissions: ["isAdminAuthenticated"],
     },
 
-    RoleController: {
+    "users-permissions/RoleController": {
         "*": ["isAdminAuthenticated"],
     },
 
-    UserController: {
+    "users-permissions/UserController": {
         "*": true,
         // me: ["isAuthenticated"],
         // update: ["isAuthenticated", "isOwner"],

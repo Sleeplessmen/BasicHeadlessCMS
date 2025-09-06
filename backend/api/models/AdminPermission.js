@@ -9,8 +9,7 @@ module.exports = {
         // Subject của permission, ví dụ: "admin::user", "plugin::content-type-builder"
         subject: {
             type: "string",
-            allowNull: true,
-        },
+            required: true,},
 
         // // Metadata mô tả thêm
         // properties: {
