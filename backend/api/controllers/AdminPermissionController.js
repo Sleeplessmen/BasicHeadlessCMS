@@ -1,4 +1,3 @@
-// Helper nhỏ để group permission theo prefix
 function groupPermissions(permissions) {
     const result = {
         plugins: {},

@@ -79,15 +79,7 @@ module.exports = {
         if (!match) throw new BadRequestError("Email hoặc mật khẩu không đúng");
 
         const token = jwt.sign(
-            {
-                id: user.id,
-                email: user.email,
-                roles: (user.roles || []).map((r) => ({
-                    id: r.id,
-                    name: r.name,
-                    code: r.code,
-                })),
-            },
+            { id: user.id },
             process.env.JWT_SECRET || "default_secret",
             { expiresIn: "1d" },
         );
@@ -95,7 +87,7 @@ module.exports = {
         return res.ok(
             await sails.helpers.response.success.with({
                 data: {
-                    user: formatUser({ ...user, isActive: true }),
+                    user: formatUser(user),
                     token,
                 },
                 message: "Đăng nhập thành công",
@@ -118,24 +110,6 @@ module.exports = {
             await sails.helpers.response.success.with({
                 data: {},
                 message: "Đăng xuất thành công",
-            }),
-        );
-    },
-
-    // fixing
-    me: async function (req, res) {
-        if (!req.user || !req.user.id)
-            throw new UnauthorizedError("Không tìm thấy thông tin người dùng");
-
-        const user = await AdminUser.findOne({ id: req.user.id }).populate(
-            "roles",
-        );
-        if (!user) throw new NotFoundError("Người dùng không tồn tại");
-
-        return res.ok(
-            await sails.helpers.response.success.with({
-                data: formatUser(user),
-                message: "Lấy thông tin người dùng thành công",
             }),
         );
     },

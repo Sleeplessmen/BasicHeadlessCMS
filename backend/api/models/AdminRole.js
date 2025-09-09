@@ -1,3 +1,5 @@
+const { update } = require("../controllers/AdminUserController");
+
 module.exports = {
     attributes: {
         name: {
@@ -16,6 +18,21 @@ module.exports = {
         description: {
             type: "string",
             defaultsTo: "",
+        },
+
+        createdAt: {
+            type: "number",
+            autoCreatedAt: true,
+        },
+
+        updatedAt: {
+            type: "number",
+            autoUpdatedAt: true,
+        },
+
+        publishedAt: {
+            type: "number",
+            allowNull: true,
         },
 
         users: {

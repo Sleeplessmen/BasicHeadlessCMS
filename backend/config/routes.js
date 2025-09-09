@@ -42,10 +42,6 @@ module.exports.routes = {
         controller: "users-permissions/AuthController",
         action: "emailConfirmation",
     },
-    "GET /api/v1/auth/me": {
-        controller: "users-permissions/AuthController",
-        action: "me",
-    },
 
     // Permission routes
     "GET /api/v1/permissions": {
@@ -120,10 +116,6 @@ module.exports.routes = {
         controller: "AdminAuthController",
         action: "logout",
     },
-    "GET /api/v1/admin/auth/me": {
-        controller: "AdminAuthController",
-        action: "me",
-    },
 
     // Permission routes
     "GET /api/v1/admin/permissions": {
@@ -152,6 +144,10 @@ module.exports.routes = {
         controller: "AdminRoleController",
         action: "destroy",
     },
+    "GET /api/v1/admin/roles/:id/permissions": {
+        controller: "AdminRoleController",
+        action: "getPermissions",
+    },
 
     // User routes
     "GET /api/v1/admin/users": {
@@ -174,5 +170,13 @@ module.exports.routes = {
     "DELETE /api/v1/admin/users/:id": {
         controller: "AdminUserController",
         action: "destroy",
+    },
+    "GET /api/v1/admin/users/me": {
+        controller: "AdminUserController",
+        action: "me",
+    },
+    "GET /api/v1/admin/users/me/permissions": {
+        controller: "AdminUserController",
+        action: "getUserPermissions",
     },
 };

@@ -155,4 +155,65 @@ module.exports = {
             }),
         );
     },
+
+    me: async (req, res) => {
+        const user = req.user;
+        if (!user)
+            throw new BadRequestError("Thiếu thông tin user trong token");
+
+        return res.ok(
+            await sails.helpers.response.success.with({
+                data: {
+                    id: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    username: user.username,
+                    email: user.email,
+                    isActive: user.isActive,
+                    blocked: user.blocked,
+                    roles: (user.roles || []).map((r) => ({
+                        id: r.id,
+                        name: r.name,
+                        description: r.description,
+                        code: r.code,
+                    })),
+                },
+                message: "Lấy thông tin user thành công",
+            }),
+        );
+    },
+
+    getUserPermissions: async (req, res) => {
+        const user = req.user;
+        if (!user)
+            throw new BadRequestError("Thiếu thông tin user trong token");
+
+        // Lấy tất cả quyền từ roles của user
+        let permissions = [];
+        for (const role of user.roles || []) {
+            const roleWithPermissions = await AdminRole.findOne({
+                id: role.id,
+            }).populate("permissions");
+            if (roleWithPermissions?.permissions) {
+                permissions.push(...roleWithPermissions.permissions);
+            }
+        }
+
+        // Loại bỏ trùng lặp theo id
+        const uniquePermissions = _.uniqBy(permissions, "id");
+
+        return res.ok(
+            await sails.helpers.response.success.with({
+                data: uniquePermissions.map((p) => ({
+                    id: p.id,
+                    action: p.action,
+                    actionParameters: p.actionParameters || {},
+                    subject: p.subject,
+                    properties: p.properties || {},
+                    conditions: p.conditions || [],
+                })),
+                message: "Lấy danh sách quyền thành công",
+            }),
+        );
+    },
 };

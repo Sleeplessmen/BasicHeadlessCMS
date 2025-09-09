@@ -1,4 +1,3 @@
-// api/db/seeds/SeedAdminRoles.js
 module.exports = async function SeedAdminRoles() {
     console.time("SeedAdminRoles");
     sails.log("🔧 Đang chạy SeedAdminRoles.js...");
@@ -11,37 +10,19 @@ module.exports = async function SeedAdminRoles() {
                 "Super Admins can access and manage all features and settings.",
             permissions: [
                 // ADMIN USERS
-                ["read", "user"],
-                ["create", "user"],
-                ["update", "user"],
-                ["delete", "user"],
+                ["read", "users"],
+                ["create", "users"],
+                ["update", "users"],
+                ["delete", "users"],
 
                 // ADMIN ROLES
-                ["read", "role"],
-                ["create", "role"],
-                ["update", "role"],
-                ["delete", "role"],
+                ["read", "roles"],
+                ["create", "roles"],
+                ["update", "roles"],
+                ["delete", "roles"],
 
                 // ADMIN PERMISSIONS
-                ["read", "permission"],
-
-                // // Content Type
-                // ["read", "content-type"],
-                // ["create", "content-type"],
-                // ["update", "content-type"],
-                // ["delete", "content-type"],
-
-                // // Content Entry
-                // ["read", "content-entry"],
-                // ["create", "content-entry"],
-                // ["update", "content-entry"],
-                // ["delete", "content-entry"],
-                // ["export", "content-entry"],
-
-                // // Asset
-                // ["read", "asset"],
-                // ["create", "asset"],
-                // ["delete", "asset"],
+                // ["read", "permissions"],
             ],
         },
         {
@@ -49,25 +30,13 @@ module.exports = async function SeedAdminRoles() {
             code: "strapi-editor",
             description:
                 "Editors can manage and publish contents including those of other users.",
-            permissions: [
-                // ["read", "content-type"],
-                // ["read", "content-entry"],
-                // ["create", "content-entry"],
-                // ["update", "content-entry"],
-                // ["delete", "content-entry"],
-                // ["export", "content-entry"],
-                // ["read", "asset"],
-                // ["create", "asset"],
-            ],
+            permissions: [],
         },
         {
             name: "Author",
             code: "strapi-author",
             description: "Authors can manage the content they have created.",
-            permissions: [
-                // ["read", "content-entry"],
-                // ["read", "content-type"],
-            ],
+            permissions: [],
         },
     ];
 
@@ -82,11 +51,10 @@ module.exports = async function SeedAdminRoles() {
 
             for (const [action, resource] of roleDef.permissions) {
                 const actionKey = `admin::${resource}.${action}`;
-                const subjectKey = `admin::${resource}`;
 
                 const perm = await AdminPermission.findOne({
                     action: actionKey,
-                    subject: subjectKey,
+                    subject: null, // đồng bộ với seed AdminPermission
                 });
 
                 if (perm) {
@@ -107,6 +75,9 @@ module.exports = async function SeedAdminRoles() {
                 name: roleDef.name,
                 code: roleDef.code,
                 description: roleDef.description,
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+                publishedAt: null,
             }).fetch();
 
             if (permissionIds.length > 0) {

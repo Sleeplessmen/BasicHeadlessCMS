@@ -1,6 +1,5 @@
 module.exports = {
     attributes: {
-        // Slug duy nhất, dùng cho endpoint API: /api/content/{slug}
         slug: {
             type: "string",
             required: true,

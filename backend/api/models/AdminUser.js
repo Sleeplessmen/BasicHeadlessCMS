@@ -22,31 +22,21 @@ module.exports = {
             isEmail: true,
         },
 
-        password: {
-            type: "string",
-            required: true,
-            protect: true,
-        },
-
         isActive: {
             type: "boolean",
             defaultsTo: true,
         },
 
-        // resetPasswordToken: {
-        //     type: "string",
-        //     allowNull: true,
-        // },
+        blocked: {
+            type: "boolean",
+            defaultsTo: false,
+        },
 
-        // registrationToken: {
-        //     type: "string",
-        //     allowNull: true,
-        // },
-
-        // lastLogin: {
-        //     type: "ref",
-        //     columnType: "datetime",
-        // },
+        password: {
+            type: "string",
+            required: true,
+            protect: true,
+        },
 
         roles: {
             collection: "AdminRole",

@@ -1,33 +1,35 @@
+const { allow } = require("joi");
+
 module.exports = {
     attributes: {
-        // Ví dụ: "admin::user.create", "plugin::upload.read"
+        // Ví dụ: "admin::users.create", "plugin::upload.read", "plugin::content-manager.explorer.create"
         action: {
             type: "string",
             required: true,
         },
 
-        // Subject của permission, ví dụ: "admin::user", "plugin::content-type-builder"
+        actionParameters: {
+            type: "json",
+            defaultsTo: {},
+        },
+
+        // Subject của permission, ví dụ: "api::page.page", "api:blog-page.blog-page"
         subject: {
             type: "string",
-            required: true,},
+            allowNull: true,
+        },
 
-        // // Metadata mô tả thêm
-        // properties: {
-        //     type: "json",
-        //     defaultsTo: {},
-        // },
+        // Ví dụ các danh sách trường được phép thao tác
+        properties: {
+            type: "json",
+            defaultsTo: {},
+        },
 
-        // // Điều kiện (ví dụ: "is-creator", "has-role-x")
-        // conditions: {
-        //     type: "json",
-        //     defaultsTo: [],
-        // },
-
-        // // Tham số action (field-level)
-        // actionParameters: {
-        //     type: "json",
-        //     defaultsTo: {},
-        // },
+        // Ví dụ: "is-creator", "has-role-x"
+        conditions: {
+            type: "json",
+            defaultsTo: [],
+        },
 
         description: {
             type: "string",

@@ -34,8 +34,4 @@ module.exports = {
     async emailConfirmation(req, res) {
         return res.ok({ message: "AuthController.emailConfirmation" });
     },
-
-    async me(req, res) {
-        return res.ok({ message: "AuthController.me" });
-    },
 };

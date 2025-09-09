@@ -1,9 +1,9 @@
+// fixing
 module.exports.policies = {
     AdminAuthController: {
         register: true,
         login: true,
         logout: ["isAdminAuthenticated"],
-        me: ["isAdminAuthenticated"],
     },
 
     AdminUserController: {
@@ -19,8 +19,9 @@ module.exports.policies = {
     },
 
     "users-permissions/AuthController": {
-        register: true,
-        login: true,
+        "*": true,
+        // register: true,
+        // login: true,
         // logout: ["isAuthenticated"],
         // forgotPassword: true,
         // resetPassword: true,
@@ -32,7 +33,7 @@ module.exports.policies = {
     },
 
     "users-permissions/PermissionController": {
-        getPermissions: ["isAdminAuthenticated"],
+        "*": ["isAdminAuthenticated"],
     },
 
     "users-permissions/RoleController": {

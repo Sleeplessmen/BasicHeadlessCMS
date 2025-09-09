@@ -57,15 +57,23 @@ module.exports = {
 
     findOne: async (req, res) => {
         const { id } = req.params;
-        const role = await AdminRole.findOne({ id })
-            .populate("permissions")
-            .populate("users");
+
+        const role = await AdminRole.findOne({ id }).populate("users");
         if (!role) throw new NotFoundError("Không tìm thấy role");
+
+        const usersCount = role.users ? role.users.length : 0;
+
         return res.ok(
             await sails.helpers.response.success.with({
                 data: {
-                    ...formatRole(role),
-                    permissions: groupPermissions(role.permissions),
+                    id: role.id,
+                    name: role.name,
+                    code: role.code,
+                    description: role.description,
+                    createdAt: role.createdAt,
+                    updatedAt: role.updatedAt,
+                    publishedAt: role.publishedAt,
+                    usersCount,
                 },
                 message: "Lấy thông tin role thành công",
             }),
@@ -177,6 +185,27 @@ module.exports = {
             await sails.helpers.response.success.with({
                 data: formatRole(role),
                 message: "Xoá role thành công",
+            }),
+        );
+    },
+
+    getPermissions: async (req, res) => {
+        const { id } = req.params;
+
+        const role = await AdminRole.findOne({ id }).populate("permissions");
+        if (!role) throw new NotFoundError("Không tìm thấy role");
+
+        return res.ok(
+            await sails.helpers.response.success.with({
+                data: (role.permissions || []).map((p) => ({
+                    id: p.id,
+                    action: p.action,
+                    actionParameters: p.actionParameters || {},
+                    subject: p.subject,
+                    properties: p.properties || {},
+                    conditions: p.conditions || [],
+                })),
+                message: "Lấy danh sách quyền của role thành công",
             }),
         );
     },

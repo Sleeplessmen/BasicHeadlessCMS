@@ -46,6 +46,6 @@
 //         baseUrl: process.env.BASE_URL || "http://localhost:1338",
 //         internalEmailAddress:
 //             process.env.INTERNAL_EMAIL || "support@yourdomain.com",
-//         jwtSecret: process.env.JWT_SECRET || "dev_jwt_secret",
+//         jwtSecret: process.env.JWT_SECRET || "default_secret",
 //     },
 // };
