@@ -29,6 +29,11 @@ module.exports = {
             via: "contentType",
         },
 
+        components: {
+            collection: "Component",
+            via: "contentTypes",
+        },
+
         isPrivate: {
             type: "boolean",
             defaultsTo: true,
