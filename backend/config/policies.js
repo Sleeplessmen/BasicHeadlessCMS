@@ -45,4 +45,32 @@ module.exports.policies = {
         // me: ["isAuthenticated"],
         // update: ["isAuthenticated", "isOwner"],
     },
+
+    "content-type-builder/ContentTypeController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-type-builder/ContentFieldController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-type-builder/ComponentController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-type-builder/ComponentFieldController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-type-builder/SchemaController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    // "content-manager/EntryController": {
+    //     "*": ["isAdminAuthenticated"],
+    // },
+    // "content-manager/RelationController": {
+    //     "*": ["isAdminAuthenticated"],
+    // },
+    // "upload/FileController": {
+    //     "*": ["isAdminAuthenticated"],
+    // },
+    // "upload/UploadController": {
+    //     "*": ["isAdminAuthenticated"],
+    // },
 };

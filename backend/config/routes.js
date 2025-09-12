@@ -179,4 +179,84 @@ module.exports.routes = {
         controller: "AdminUserController",
         action: "getUserPermissions",
     },
+
+    // Content Type Builder routes
+    "GET /api/v1/admin/content-types": {
+        controller: "content-type-builder/ContentTypeController",
+        action: "getContentTypes",
+    },
+    "GET /api/v1/admin/content-types/:uid": {
+        controller: "content-type-builder/ContentTypeController",
+        action: "getContentType",
+    },
+    "GET /api/v1/admin/components": {
+        controller: "content-type-builder/ComponentController",
+        action: "getComponents",
+    },
+    "GET /api/v1/admin/components/:uid": {
+        controller: "content-type-builder/ComponentController",
+        action: "getComponent",
+    },
+    "GET /api/v1/admin/schemas": {
+        controller: "content-type-builder/SchemaController",
+        action: "getSchemas",
+    },
+
+    // Content Manager routes
+
+    // Upload routes
+
+    "GET /api/v1/admin/upload/folders": {
+        controller: "upload/FolderController",
+        action: "find",
+    },
+    "GET /api/v1/admin/upload/folders/:id": {
+        controller: "upload/FolderController",
+        action: "findOne",
+    },
+    "POST /api/v1/admin/upload/folders": {
+        controller: "upload/FolderController",
+        action: "create",
+    },
+    "PUT /api/v1/admin/upload/folders/:id": {
+        controller: "upload/FolderController",
+        action: "update",
+    },
+    "DELETE /api/v1/admin/upload/folders/:id": {
+        controller: "upload/FolderController",
+        action: "destroy",
+    },
+    "GET /api/v1/admin/upload/folder-structure": {
+        controller: "upload/FolderController",
+        action: "getFolderStructure",
+    },
+
+    "GET /api/v1/admin/upload/files": {
+        controller: "upload/AssetController",
+        action: "find",
+    },
+    "GET /api/v1/admin/upload/files/:id": {
+        controller: "upload/AssetController",
+        action: "findOne",
+    },
+    "POST /api/v1/admin/upload/": {
+        controller: "upload/AssetController",
+        action: "create",
+    },
+    "PUT /api/v1/admin/upload/:id": {
+        controller: "upload/AssetController",
+        action: "update",
+    },
+    "DELETE /api/v1/admin/upload/files/:id": {
+        controller: "upload/AssetController",
+        action: "destroy",
+    },
+    "GET /api/v1/admin/upload/configuration": {
+        controller: "upload/AssetController",
+        action: "getConfiguration",
+    },
+    "PUT /api/v1/admin/upload/configuration": {
+        controller: "upload/AssetController",
+        action: "updateConfiguration",
+    },
 };

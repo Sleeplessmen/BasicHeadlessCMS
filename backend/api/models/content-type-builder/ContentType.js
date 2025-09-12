@@ -1,66 +1,37 @@
 module.exports = {
     attributes: {
-        slug: {
-            type: "string",
-            required: true,
-            unique: true,
-            regex: /^[a-z0-9-]+$/,
-        },
-
-        displayName: {
-            type: "string",
-            required: true,
-        },
-
-        description: {
-            type: "string",
-            defaultsTo: "",
-        },
-
+        uid: { type: "string", required: true, unique: true }, // vd: api::article.article
+        modelName: { type: "string", required: true }, // vd: article
         kind: {
             type: "string",
-            isIn: ["single", "collection"],
-            defaultsTo: "collection",
+            isIn: ["collectionType", "singleType"],
+            defaultsTo: "collectionType",
+        },
+        globalId: { type: "string" }, // vd: Article
+        collectionName: { type: "string" }, // vd: articles
+
+        plugin: { type: "string", allowNull: true }, // vd: upload
+        modelType: {
+            type: "string",
+            isIn: ["contentType", "component"],
+            defaultsTo: "contentType",
         },
 
-        fields: {
+        options: { type: "json", defaultsTo: {} }, // { draftAndPublish: true/false }
+        pluginOptions: { type: "json", defaultsTo: {} }, // { i18n: { localized: true } }
+
+        info: { type: "json", defaultsTo: {} }, // { singularName, pluralName, displayName, description }
+
+        visible: { type: "boolean", defaultsTo: true },
+        restrictRelationsTo: { type: "json", defaultsTo: null }, // vd: ["api::article.article", "api::category.category"]
+
+        // Quan hệ: 1 contentType có nhiều field
+        attributes: {
             collection: "ContentField",
             via: "contentType",
         },
 
-        components: {
-            collection: "Component",
-            via: "contentTypes",
-        },
-
-        isPrivate: {
-            type: "boolean",
-            defaultsTo: true,
-        },
-
-        isSystem: {
-            type: "boolean",
-            defaultsTo: false, // true = User, Role, Permission..., false = do ContentType Builder tạo
-        },
-
-        apiConfig: {
-            type: "json",
-            description:
-                "API-level settings (pagination, defaultSort, searchable fields, etc.)",
-        },
-
-        createdBy: {
-            model: "User",
-        },
-    },
-
-    beforeCreate: async (contentType, proceed) => {
-        if (!contentType.slug) {
-            contentType.slug = contentType.displayName
-                .toLowerCase()
-                .replace(/\s+/g, "-")
-                .replace(/[^a-z0-9-]/g, "");
-        }
-        return proceed();
+        createdAt: { type: "number", autoCreatedAt: true },
+        updatedAt: { type: "number", autoUpdatedAt: true },
     },
 };

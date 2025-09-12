@@ -1,52 +1,39 @@
 module.exports = {
     attributes: {
-        name: { type: "string", required: true },
+        name: { type: "string", required: true }, // vd: title, description, categories
+        type: { type: "string", required: true }, // vd: string, text, relation, media, component, dynamiczone...
 
-        type: {
-            type: "string",
-            isIn: [
-                "text",
-                "richtext",
-                "number",
-                "date",
-                "media",
-                "relation",
-                "boolean",
-                "json",
-                "email",
-                "password",
-                "enumeration",
-                "uid",
-            ],
-        },
-
-        label: { type: "string" },
+        configurable: { type: "boolean", defaultsTo: true },
         required: { type: "boolean", defaultsTo: false },
+        unique: { type: "boolean", defaultsTo: false },
+        private: { type: "boolean", defaultsTo: false },
+        searchable: { type: "boolean", defaultsTo: true },
 
-        // Cấu hình bổ sung (enum values, default, min/max, v.v.)
-        options: { type: "json" },
+        minLength: { type: "number", allowNull: true },
+        maxLength: { type: "number", allowNull: true },
 
-        // Thuộc về ContentType nào
+        // Relation fields
+        relation: { type: "string", allowNull: true }, // manyToOne, oneToMany, manyToMany, morphToMany...
+        target: { type: "string", allowNull: true }, // uid của content type khác
+        inversedBy: { type: "string", allowNull: true },
+        mappedBy: { type: "string", allowNull: true },
+        targetAttribute: { type: "string", allowNull: true },
+
+        // Component fields
+        component: { type: "string", allowNull: true }, // uid component
+        components: { type: "json" }, // array uid component cho dynamiczone
+
+        // Media fields
+        multiple: { type: "boolean", allowNull: true },
+        allowedTypes: { type: "json" }, // ["images","files","videos"]
+
+        // Plugin options riêng cho field
+        pluginOptions: { type: "json", defaultsTo: {} },
+
+        // Thuộc về contentType nào
         contentType: { model: "ContentType", required: true },
 
-        // Nếu type = "relation" thì cần thêm metadata
-        relation: {
-            type: "json",
-            description: `Relation config:
-        {
-          "target": "Category",        // tên ContentType đích
-          "relationType": "manyToOne", // oneToOne, oneToMany, manyToMany, oneWay, manyWay
-          "inversedBy": "restaurants"  // (optional) field ở target trỏ ngược về
-        }`,
-        },
-
-        media: {
-            type: "json",
-            description: `Nếu type=media:
-        {
-            "multiple": true|false,  // cho phép nhiều file hay 1 file
-            "allowedTypes": ["image", "video"], // filter loại asset
-        }`,
-        },
+        createdAt: { type: "number", autoCreatedAt: true },
+        updatedAt: { type: "number", autoUpdatedAt: true },
     },
 };

@@ -1,0 +1,2783 @@
+
+// content manager
+https://api-j4831.strapidemo.com/content-manager/init
+
+    response json:
+    "data": {
+        "fieldSizes": {
+            "dynamiczone": {
+                "default": 12,
+                "isResizable": false
+            },
+            "component": {
+                "default": 12,
+                "isResizable": false
+            },
+            "json": {
+                "default": 12,
+                "isResizable": false
+            },
+            "richtext": {
+                "default": 12,
+                "isResizable": false
+            },
+            "blocks": {
+                "default": 12,
+                "isResizable": false
+            },
+            "checkbox": {
+                "default": 4,
+                "isResizable": true
+            },
+            "boolean": {
+                "default": 4,
+                "isResizable": true
+            },
+            "date": {
+                "default": 4,
+                "isResizable": true
+            },
+            "time": {
+                "default": 4,
+                "isResizable": true
+            },
+            "biginteger": {
+                "default": 4,
+                "isResizable": true
+            },
+            "decimal": {
+                "default": 4,
+                "isResizable": true
+            },
+            "float": {
+                "default": 4,
+                "isResizable": true
+            },
+            "integer": {
+                "default": 4,
+                "isResizable": true
+            },
+            "number": {
+                "default": 4,
+                "isResizable": true
+            },
+            "datetime": {
+                "default": 6,
+                "isResizable": true
+            },
+            "email": {
+                "default": 6,
+                "isResizable": true
+            },
+            "enumeration": {
+                "default": 6,
+                "isResizable": true
+            },
+            "media": {
+                "default": 6,
+                "isResizable": true
+            },
+            "password": {
+                "default": 6,
+                "isResizable": true
+            },
+            "relation": {
+                "default": 6,
+                "isResizable": true
+            },
+            "string": {
+                "default": 6,
+                "isResizable": true
+            },
+            "text": {
+                "default": 6,
+                "isResizable": true
+            },
+            "timestamp": {
+                "default": 6,
+                "isResizable": true
+            },
+            "uid": {
+                "default": 6,
+                "isResizable": true
+            },
+        },
+        "components": [
+            {
+                "uid": "shared.user",
+                "isDisplayed": true,
+                "apiID": "user",
+                "category": "shared",
+                "info": {
+                    "displayName": "User",
+                    "icon": "user",
+                    "description": ""
+                },
+                "options": {},
+                "attributes": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "job": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "media",
+                        "multiple": false,
+                        "required": false,
+                        "allowedTypes": [
+                            "images"
+                        ]
+                    },
+                    "documentId": {
+                        "type": "string"
+                    }
+                }},],
+        "contentTypes": [
+            {
+                "uid": "plugin::upload.file",
+                "isDisplayed": false,
+                "apiID": "file",
+                "kind": "collectionType",
+                "info": {
+                    "singularName": "file",
+                    "pluralName": "files",
+                    "displayName": "File",
+                    "description": ""
+                },
+                "options": {
+                    "draftAndPublish": false
+                },
+                "pluginOptions": {
+                    "content-manager": {
+                        "visible": false
+                    },
+                    "content-type-builder": {
+                        "visible": false
+                    }
+                },
+                "attributes": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string",
+                        "configurable": false,
+                        "required": true
+                    },
+                    "alternativeText": {
+                        "type": "string",
+                        "configurable": false
+                    },
+                    "caption": {
+                        "type": "string",
+                        "configurable": false
+                    },
+                    "width": {
+                        "type": "integer",
+                        "configurable": false
+                    },
+                    "height": {
+                        "type": "integer",
+                        "configurable": false
+                    },
+                    "formats": {
+                        "type": "json",
+                        "configurable": false
+                    },
+                    "hash": {
+                        "type": "string",
+                        "configurable": false,
+                        "required": true
+                    },
+                    "ext": {
+                        "type": "string",
+                        "configurable": false
+                    },
+                    "mime": {
+                        "type": "string",
+                        "configurable": false,
+                        "required": true
+                    },
+                    "size": {
+                        "type": "decimal",
+                        "configurable": false,
+                        "required": true
+                    },
+                    "url": {
+                        "type": "string",
+                        "configurable": false,
+                        "required": true
+                    },
+                    "previewUrl": {
+                        "type": "string",
+                        "configurable": false
+                    },
+                    "provider": {
+                        "type": "string",
+                        "configurable": false,
+                        "required": true
+                    },
+                    "provider_metadata": {
+                        "type": "json",
+                        "configurable": false
+                    },
+                    "folder": {
+                        "type": "relation",
+                        "relation": "manyToOne",
+                        "target": "plugin::upload.folder",
+                        "inversedBy": "files",
+                        "private": true,
+                        "targetModel": "plugin::upload.folder",
+                        "relationType": "manyToOne"
+                    },
+                    "folderPath": {
+                        "type": "string",
+                        "minLength": 1,
+                        "required": true,
+                        "private": true,
+                        "searchable": false
+                    },
+                    "createdAt": {
+                        "type": "datetime"
+                    },
+                    "updatedAt": {
+                        "type": "datetime"
+                    },
+                    "createdBy": {
+                        "type": "relation",
+                        "relation": "oneToOne",
+                        "target": "admin::user",
+                        "configurable": false,
+                        "writable": false,
+                        "visible": false,
+                        "useJoinTable": false,
+                        "private": true,
+                        "targetModel": "admin::user",
+                        "relationType": "oneToOne"
+                    },
+                    "updatedBy": {
+                        "type": "relation",
+                        "relation": "oneToOne",
+                        "target": "admin::user",
+                        "configurable": false,
+                        "writable": false,
+                        "visible": false,
+                        "useJoinTable": false,
+                        "private": true,
+                        "targetModel": "admin::user",
+                        "relationType": "oneToOne"
+                    },
+                    "documentId": {
+                        "type": "string"
+                    }
+                }
+            },]
+    }
+
+https://api-j4831.strapidemo.com/content-manager/content-types-settings
+    response json:
+    {
+        "data": [
+            {
+                "uid": "plugin::upload.file",
+                "settings": {
+                    "bulkable": true,
+                    "filterable": true,
+                    "searchable": true,
+                    "pageSize": 10,
+                    "mainField": "name",
+                    "defaultSortBy": "name",
+                    "defaultSortOrder": "ASC"
+                }
+            }, ... list of all content-types settings
+        ]
+    }
+
+
+https://api-j4831.strapidemo.com/content-manager/content-types/api::article.article/configuration
+
+    response json:
+    {
+        "data": {
+            "contentType": {
+                "uid": "api::article.article",
+                "settings": {
+                    "bulkable": true,
+                    "filterable": true,
+                    "searchable": true,
+                    "pageSize": 10,
+                    "mainField": "id",
+                    "defaultSortBy": "id",
+                    "defaultSortOrder": "ASC"
+                },
+                "metadatas": {
+                    "id": {
+                        "edit": {},
+                        "list": {
+                            "label": "id",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "seo": {
+                        "edit": {
+                            "label": "seo",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "seo",
+                            "searchable": false,
+                            "sortable": false
+                        }
+                    },
+                    "title": {
+                        "edit": {
+                            "label": "title",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "title",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "description": {
+                        "edit": {
+                            "label": "description",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "description",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "slug": {
+                        "edit": {
+                            "label": "slug",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "slug",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "content": {
+                        "edit": {
+                            "label": "content",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "content",
+                            "searchable": false,
+                            "sortable": false
+                        }
+                    },
+                    "categories": {
+                        "edit": {
+                            "label": "categories",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true,
+                            "mainField": "name"
+                        },
+                        "list": {
+                            "label": "categories",
+                            "searchable": false,
+                            "sortable": false,
+                            "mainField": "name"
+                        }
+                    },
+                    "dynamic_zone": {
+                        "edit": {
+                            "label": "dynamic_zone",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "dynamic_zone",
+                            "searchable": false,
+                            "sortable": false
+                        }
+                    },
+                    "image": {
+                        "edit": {
+                            "label": "image",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "image",
+                            "searchable": false,
+                            "sortable": false
+                        }
+                    },
+                    "createdAt": {
+                        "edit": {
+                            "label": "createdAt",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "createdAt",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "updatedAt": {
+                        "edit": {
+                            "label": "updatedAt",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "updatedAt",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "createdBy": {
+                        "edit": {
+                            "label": "createdBy",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true,
+                            "mainField": "firstname"
+                        },
+                        "list": {
+                            "label": "createdBy",
+                            "searchable": true,
+                            "sortable": true,
+                            "mainField": "firstname"
+                        }
+                    },
+                    "updatedBy": {
+                        "edit": {
+                            "label": "updatedBy",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true,
+                            "mainField": "firstname"
+                        },
+                        "list": {
+                            "label": "updatedBy",
+                            "searchable": true,
+                            "sortable": true,
+                            "mainField": "firstname"
+                        }
+                    },
+                    "documentId": {
+                        "edit": {},
+                        "list": {
+                            "label": "documentId",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    }
+                },},
+            "components": {
+                "shared.seo": {
+                    "uid": "shared.seo",
+                    "category": "shared",
+                    "settings": {
+                        "bulkable": true,
+                        "filterable": true,
+                        "searchable": true,
+                        "pageSize": 10,
+                        "mainField": "metaTitle",
+                        "defaultSortBy": "metaTitle",
+                        "defaultSortOrder": "ASC"
+                    },
+                    "metadatas": {
+                        "id": {
+                            "edit": {},
+                            "list": {
+                                "label": "id",
+                                "searchable": false,
+                                "sortable": false
+                            }
+                        },
+                        "metaTitle": {
+                            "edit": {
+                                "label": "metaTitle",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "metaTitle",
+                                "searchable": true,
+                                "sortable": true
+                            }
+                        },
+                        "metaDescription": {
+                            "edit": {
+                                "label": "metaDescription",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "metaDescription",
+                                "searchable": true,
+                                "sortable": true
+                            }
+                        },
+                        "metaImage": {
+                            "edit": {
+                                "label": "metaImage",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "metaImage",
+                                "searchable": false,
+                                "sortable": false
+                            }
+                        },
+                        "keywords": {
+                            "edit": {
+                                "label": "keywords",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "keywords",
+                                "searchable": true,
+                                "sortable": true
+                            }
+                        },
+                        "metaRobots": {
+                            "edit": {
+                                "label": "metaRobots",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "metaRobots",
+                                "searchable": true,
+                                "sortable": true
+                            }
+                        },
+                        "structuredData": {
+                            "edit": {
+                                "label": "structuredData",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "structuredData",
+                                "searchable": false,
+                                "sortable": false
+                            }
+                        },
+                        "metaViewport": {
+                            "edit": {
+                                "label": "metaViewport",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "metaViewport",
+                                "searchable": true,
+                                "sortable": true
+                            }
+                        },
+                        "canonicalURL": {
+                            "edit": {
+                                "label": "canonicalURL",
+                                "description": "",
+                                "placeholder": "",
+                                "visible": true,
+                                "editable": true
+                            },
+                            "list": {
+                                "label": "canonicalURL",
+                                "searchable": true,
+                                "sortable": true
+                            }
+                        },
+                        "documentId": {
+                            "edit": {},
+                            "list": {
+                                "label": "documentId",
+                                "searchable": true,
+                                "sortable": true
+                            }
+                        }
+                    },}},
+        }
+    }
+
+// single types
+
+https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page/actions/countDraftRelations?locale=en
+
+https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page?locale=en
+
+    response json:
+    {
+    "data": {
+        "id": 1,
+        "documentId": "euswzt2vzx97qi6zzgodthi7",
+        "heading": "Blog",
+        "sub_heading": "",
+        "createdAt": "2024-09-10T08:03:39.548Z",
+        "updatedAt": "2024-09-16T12:30:00.342Z",
+        "publishedAt": "2024-09-16T12:30:00.325Z",
+        "locale": "en",
+        "seo": {
+            "id": 1,
+            "metaTitle": "LaunchPad Blog - Tips and Insights on Content Delivery",
+            "metaDescription": "Stay updated with the latest tips, trends, and case studies on content management and delivery. Our blog is packed with valuable insights to help you make the most out of LaunchPad's powerful tools.",
+            "keywords": null,
+            "metaRobots": null,
+            "structuredData": null,
+            "metaViewport": null,
+            "canonicalURL": null,
+            "metaImage": {
+                "id": 40,
+                "documentId": "vuc9ddahfwfckq8y01sbu5dl",
+                "name": "Blog.jpg",
+                "alternativeText": null,
+                "caption": null,
+                "width": 1920,
+                "height": 966,
+                "formats": {
+                    "thumbnail": {
+                        "name": "thumbnail_Blog.jpg",
+                        "hash": "thumbnail_Blog_bd35597734",
+                        "ext": ".jpg",
+                        "mime": "image/jpeg",
+                        "path": null,
+                        "width": 245,
+                        "height": 123,
+                        "size": 1.38,
+                        "sizeInBytes": 1379,
+                        "url": "/uploads/thumbnail_Blog_bd35597734.jpg"
+                    },
+                    "large": {
+                        "name": "large_Blog.jpg",
+                        "hash": "large_Blog_bd35597734",
+                        "ext": ".jpg",
+                        "mime": "image/jpeg",
+                        "path": null,
+                        "width": 1000,
+                        "height": 503,
+                        "size": 14.93,
+                        "sizeInBytes": 14932,
+                        "url": "/uploads/large_Blog_bd35597734.jpg"
+                    },
+                    "small": {
+                        "name": "small_Blog.jpg",
+                        "hash": "small_Blog_bd35597734",
+                        "ext": ".jpg",
+                        "mime": "image/jpeg",
+                        "path": null,
+                        "width": 500,
+                        "height": 252,
+                        "size": 4.09,
+                        "sizeInBytes": 4093,
+                        "url": "/uploads/small_Blog_bd35597734.jpg"
+                    },
+                    "medium": {
+                        "name": "medium_Blog.jpg",
+                        "hash": "medium_Blog_bd35597734",
+                        "ext": ".jpg",
+                        "mime": "image/jpeg",
+                        "path": null,
+                        "width": 750,
+                        "height": 377,
+                        "size": 8.95,
+                        "sizeInBytes": 8953,
+                        "url": "/uploads/medium_Blog_bd35597734.jpg"
+                    }
+                },
+                "hash": "Blog_bd35597734",
+                "ext": ".jpg",
+                "mime": "image/jpeg",
+                "size": 39.6,
+                "url": "/uploads/Blog_bd35597734.jpg",
+                "previewUrl": null,
+                "provider": "local",
+                "provider_metadata": null,
+                "folderPath": "/3",
+                "createdAt": "2024-09-16T12:29:58.211Z",
+                "updatedAt": "2025-04-07T15:22:13.286Z",
+                "publishedAt": "2024-09-16T12:29:58.211Z",
+                "locale": null,
+                "folder": {
+                    "id": 3,
+                    "documentId": "r24nxb2pacl3wy5j8vspjh0u",
+                    "name": "meta-images",
+                    "pathId": 3,
+                    "path": "/3",
+                    "createdAt": "2024-09-16T12:39:59.159Z",
+                    "updatedAt": "2024-09-16T12:39:59.159Z",
+                    "publishedAt": "2024-09-16T12:39:59.159Z",
+                    "locale": null
+                }
+            }
+        },
+        "dynamic_zone": [],
+        "createdBy": null,
+        "updatedBy": null,
+        "localizations": [
+            {
+                "id": 2,
+                "documentId": "euswzt2vzx97qi6zzgodthi7",
+                "heading": "Blog",
+                "sub_heading": null,
+                "createdAt": "2024-09-10T13:38:40.793Z",
+                "updatedAt": "2024-09-16T12:33:17.099Z",
+                "publishedAt": "2024-09-16T12:33:17.079Z",
+                "locale": "fr",
+                "seo": {
+                    "id": 2,
+                    "metaTitle": "Blog LaunchPad – Informations sur la diffusion de contenu",
+                    "metaDescription": "Restez informé des dernières astuces, tendances et études de cas sur la gestion et la diffusion de contenu. Notre blog regorge d'informations précieuses pour vous aider à tirer le meilleur parti des puissants outils de LaunchPad."
+                },
+                "status": "published"
+            }
+        ],
+        "strapi_stage": null,
+        "strapi_assignee": null
+    },
+    "meta": {
+        "availableLocales": [
+            {
+                "id": 2,
+                "documentId": "euswzt2vzx97qi6zzgodthi7",
+                "locale": "fr",
+                "updatedAt": "2024-09-16T12:33:17.099Z",
+                "createdAt": "2024-09-10T13:38:40.793Z",
+                "publishedAt": "2024-09-16T12:33:17.079Z",
+                "seo": {
+                    "id": 2,
+                    "metaTitle": "Blog LaunchPad – Informations sur la diffusion de contenu",
+                    "metaDescription": "Restez informé des dernières astuces, tendances et études de cas sur la gestion et la diffusion de contenu. Notre blog regorge d'informations précieuses pour vous aider à tirer le meilleur parti des puissants outils de LaunchPad."
+                },
+                "createdBy": null,
+                "updatedBy": null
+            }
+        ],
+        "availableStatus": []
+    }
+    }
+
+
+// collection types
+https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/configuration
+    {
+    "data": {
+        "contentType": {
+            "uid": "api::faq.faq",
+            "settings": {
+                "bulkable": true,
+                "filterable": true,
+                "searchable": true,
+                "pageSize": 10,
+                "mainField": "question",
+                "defaultSortBy": "question",
+                "defaultSortOrder": "ASC"
+            },
+            "metadatas": {
+                "id": {
+                    "edit": {},
+                    "list": {
+                        "label": "id",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "question": {
+                    "edit": {
+                        "label": "question",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": true,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "question",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "answer": {
+                    "edit": {
+                        "label": "answer",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": true,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "answer",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "createdAt": {
+                    "edit": {
+                        "label": "createdAt",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "createdAt",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "updatedAt": {
+                    "edit": {
+                        "label": "updatedAt",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "updatedAt",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "createdBy": {
+                    "edit": {
+                        "label": "createdBy",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true,
+                        "mainField": "firstname"
+                    },
+                    "list": {
+                        "label": "createdBy",
+                        "searchable": true,
+                        "sortable": true,
+                        "mainField": "firstname"
+                    }
+                },
+                "updatedBy": {
+                    "edit": {
+                        "label": "updatedBy",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true,
+                        "mainField": "firstname"
+                    },
+                    "list": {
+                        "label": "updatedBy",
+                        "searchable": true,
+                        "sortable": true,
+                        "mainField": "firstname"
+                    }
+                },
+                "documentId": {
+                    "edit": {},
+                    "list": {
+                        "label": "documentId",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                }
+            },
+            "layouts": {
+                "list": [
+                    "id",
+                    "question",
+                    "answer",
+                    "createdAt"
+                ],
+                "edit": [
+                    [
+                        {
+                            "name": "question",
+                            "size": 6
+                        },
+                        {
+                            "name": "answer",
+                            "size": 6
+                        }
+                    ]
+                ]
+            }
+        },
+        "components": {}
+    }
+    }
+https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?page=1&pageSize=10&sort=question%3AASC&locale=en
+    {
+    "results": [
+        {
+            "id": 7,
+            "documentId": "n91o8tzvokmu3zfpqxfahec4",
+            "question": "Can I integrate LaunchPad with other tools and platforms?",
+            "answer": "Yes, LaunchPad supports integration with various third-party tools and platforms. Our Enterprise Integration Kit offers customizable integration options for complex needs.",
+            "createdAt": "2024-08-07T17:07:15.099Z",
+            "updatedAt": "2024-08-07T17:07:15.099Z",
+            "publishedAt": "2024-08-07T17:07:15.097Z",
+            "locale": "en",
+            "createdBy": null,
+            "updatedBy": null,
+            "localizations": [
+                {
+                    "id": 8,
+                    "documentId": "n91o8tzvokmu3zfpqxfahec4",
+                    "question": "Puis-je intégrer LaunchPad avec d’autres outils et plateformes ?",
+                    "answer": "Oui, LaunchPad prend en charge l'intégration avec divers outils et plateformes tiers. Notre kit d'intégration d'entreprise offre des options d'intégration personnalisables pour les besoins complexes.",
+                    "createdAt": "2024-09-10T16:26:14.423Z",
+                    "updatedAt": "2024-09-10T16:26:14.423Z",
+                    "publishedAt": "2024-09-10T16:26:14.415Z",
+                    "locale": "fr"
+                }
+            ],
+            "strapi_stage": null,
+            "strapi_assignee": null,
+            "status": "published"
+        },
+POST https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?locale=en
+    payload: {question: "hai", answer: "hai", createdAt: null, updatedAt: null, createdBy: null, updatedBy: null}
+    response: {
+    "data": {
+        "id": 16,
+        "documentId": "bht6yrs8a395wbbxnfxzdrve",
+        "question": "hai",
+        "answer": "hai",
+        "createdAt": "2025-09-12T13:00:12.680Z",
+        "updatedAt": "2025-09-12T13:00:12.680Z",
+        "publishedAt": "2025-09-12T13:00:12.676Z",
+        "locale": "en",
+        "createdBy": {
+            "id": 1,
+            "firstname": "Kai",
+            "lastname": "Doe",
+            "username": null,
+            "email": "admin@strapidemo.com",
+            "isActive": true
+        },
+        "updatedBy": {
+            "id": 1,
+            "firstname": "Kai",
+            "lastname": "Doe",
+            "username": null,
+            "email": "admin@strapidemo.com",
+            "isActive": true
+        },
+        "localizations": [],
+        "strapi_stage": null,
+        "strapi_assignee": null
+    },
+    "meta": {
+        "availableLocales": [],
+        "availableStatus": []
+    }
+    }
+
+PUT https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/configuration
+    payload: {layouts: {edit: [[{name: "question", size: 6}, {name: "answer", size: 6}]],…},…}
+    response: {
+    "data": {
+        "contentType": {
+            "uid": "api::faq.faq",
+            "settings": {
+                "bulkable": false,
+                "filterable": false,
+                "searchable": false,
+                "pageSize": 10,
+                "mainField": "question",
+                "defaultSortBy": "question",
+                "defaultSortOrder": "ASC"
+            },
+            "metadatas": {
+                "id": {
+                    "edit": {},
+                    "list": {
+                        "label": "id",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "question": {
+                    "edit": {
+                        "label": "question",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": true,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "question",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "answer": {
+                    "edit": {
+                        "label": "answer",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": true,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "answer",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "createdAt": {
+                    "edit": {
+                        "label": "createdAt",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "createdAt",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "updatedAt": {
+                    "edit": {
+                        "label": "updatedAt",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "updatedAt",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "createdBy": {
+                    "edit": {
+                        "label": "createdBy",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true,
+                        "mainField": "firstname"
+                    },
+                    "list": {
+                        "label": "createdBy",
+                        "searchable": true,
+                        "sortable": true,
+                        "mainField": "firstname"
+                    }
+                },
+                "updatedBy": {
+                    "edit": {
+                        "label": "updatedBy",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true,
+                        "mainField": "firstname"
+                    },
+                    "list": {
+                        "label": "updatedBy",
+                        "searchable": true,
+                        "sortable": true,
+                        "mainField": "firstname"
+                    }
+                },
+                "documentId": {
+                    "edit": {},
+                    "list": {
+                        "label": "documentId",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                }
+            },
+            "layouts": {
+                "edit": [
+                    [
+                        {
+                            "name": "question",
+                            "size": 6
+                        },
+                        {
+                            "name": "answer",
+                            "size": 6
+                        }
+                    ]
+                ],
+                "list": [
+                    "question",
+                    "id",
+                    "answer",
+                    "createdAt"
+                ]
+            }
+        },
+        "components": {}
+    } }
+
+
+https://api-xb1hw.strapidemo.com/content-manager/relations/api::article.article/categories?locale=en&id=bf2gmfab8a42izu4xxncw7ct&pageSize=10&_q=&page=1
+    {
+    "results": [
+        {
+            "id": 5,
+            "documentId": "q7b27x3sjh78ax8j0kpd165s",
+            "name": "analytics",
+            "publishedAt": "2024-08-07T14:36:31.539Z",
+            "updatedAt": "2024-08-07T14:36:31.542Z"
+        },
+        {
+            "id": 2,
+            "documentId": "vbjx3uaqr5u28n1tlcnl5a2w",
+            "name": "booster",
+            "publishedAt": "2024-08-07T14:32:03.646Z",
+            "updatedAt": "2024-08-07T14:32:03.643Z"
+        },
+        {
+            "id": 8,
+            "documentId": "f0hsc82gdj5yax2ukpvx394s",
+            "name": "content",
+            "publishedAt": "2024-09-11T14:20:17.654Z",
+            "updatedAt": "2024-09-11T14:20:17.657Z"
+        },
+        {
+            "id": 6,
+            "documentId": "i8kax3knvyci2myfc6u56rso",
+            "name": "control",
+            "publishedAt": "2024-08-07T14:37:37.867Z",
+            "updatedAt": "2024-08-07T14:37:37.873Z"
+        },
+        {
+            "id": 4,
+            "documentId": "uz0mtwi6x41374llbsdpf5x9",
+            "name": "dashboard",
+            "publishedAt": "2024-08-07T14:36:23.546Z",
+            "updatedAt": "2024-08-07T14:36:23.549Z"
+        },
+        {
+            "id": 7,
+            "documentId": "c2kr9hc89hd4rzfunvih66ct",
+            "name": "integration",
+            "publishedAt": "2024-09-11T15:56:38.333Z",
+            "updatedAt": "2024-09-11T15:56:38.344Z"
+        },
+        {
+            "id": 9,
+            "documentId": "z4u6wlz57c4oehmjenqmrl01",
+            "name": "marketing",
+            "publishedAt": "2024-09-11T15:56:28.520Z",
+            "updatedAt": "2024-09-11T15:56:28.525Z"
+        },
+        {
+            "id": 1,
+            "documentId": "qwsvenbtmt0l7qkzuyiw56uo",
+            "name": "rocket",
+            "publishedAt": "2024-08-07T14:31:54.604Z",
+            "updatedAt": "2024-08-07T14:31:54.599Z"
+        },
+        {
+            "id": 3,
+            "documentId": "fi5rtzu2jzqnmzvjg27w45pl",
+            "name": "software",
+            "publishedAt": "2024-08-07T14:34:57.644Z",
+            "updatedAt": "2024-08-07T14:34:57.647Z"
+        }
+    ],
+    "pagination": {
+        "page": 1,
+        "pageSize": 10,
+        "pageCount": 1,
+        "total": 9
+    }}
+
+https://api-xb1hw.strapidemo.com/content-manager/relations/api::article.article/bf2gmfab8a42izu4xxncw7ct/categories?locale=en&pageSize=5&page=1
+
+    {"pagination":{"page":1,"pageSize":5,"pageCount":0,"total":0},"results":[]}
+
+https://api-xb1hw.strapidemo.com/content-releases/getByDocumentAttached?contentType=api::article.article&entryDocumentId=bf2gmfab8a42izu4xxncw7ct&locale=en&hasEntryAttached=true
+
+    {data: []}
+
+https://api-xb1hw.strapidemo.com/content-manager/preview/url/api::article.article?documentId=bf2gmfab8a42izu4xxncw7ct&locale=en&status=draft
+    {
+    "data": {
+        "url": "https://client-xb1hw.strapidemo.com/api/preview?secret=ARNFCb9zrC9ZHm5hZzCigWivD40icS4s&slug=xx&locale=en&uid=api%3A%3Aarticle.article&status=draft"
+    }}
+
+https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::article.article/bf2gmfab8a42izu4xxncw7ct/actions/countDraftRelations?locale=en
+    {"data":0}
+
+POST https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::article.article/p6khbwj0s2g1y8xgtl8rpsys/actions/publish?locale=en
+    payload: {seo: null, title: "(Draft) 5 Reasons Why Your Content Needs to Go Orbital",…}
+    response là content entry được publish bao gồm data và meta object
+
+POST https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::article.article/p6khbwj0s2g1y8xgtl8rpsys/actions/unpublish?locale=en
+    payload: {discardDraft: false}
+        response là content entry được unpublish bao gồm data và meta object
+
+POST https://api-nk4fh.strapidemo.com/content-manager/collection-types/api::article.article/p6khbwj0s2g1y8xgtl8rpsys/actions/discard?status=draft&locale=en
+
+    response: {
+    "data": {
+        "id": 13,
+        "documentId": "p6khbwj0s2g1y8xgtl8rpsys",
+        "title": "5 Reasons Why Your Content Needs to Go Orbital",
+        "description": "Discover the top five benefits of launching your content into orbit with LaunchPad. From faster delivery speeds to unparalleled scalability, learn why your content deserves a space-age solution. Find out how LaunchPad can transform the way you manage and deliver your digital assets.",
+        "slug": "5-reasons-why-your-content-needs-to-go-orbital",
+        "content": [
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "In today’s fast-paced digital world, content delivery is everything. With the rise of global demand for real-time access to digital assets, traditional delivery methods can no longer keep up. Enter LaunchPad—a space-age solution designed to catapult your content into orbit. But why should you make the leap? Here are the top five reasons why your content needs to go orbital:"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "heading",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Faster Delivery Speeds"
+                    }
+                ],
+                "level": 3
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Time is money, and in the digital age, speed is critical. LaunchPad uses cutting-edge technology to ensure your content reaches your audience at lightning-fast speeds. Whether it's a video, app update, or large data set, LaunchPad ensures that latency is a thing of the past, providing your users with seamless access, wherever they are in the world."
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "image",
+                "image": {
+                    "name": "rocket-4.png",
+                    "alternativeText": "rocket-4.png",
+                    "url": "http://localhost:1337/uploads/rocket_4_55fae57ea4.png",
+                    "caption": null,
+                    "width": 1024,
+                    "height": 1024,
+                    "formats": {
+                        "thumbnail": {
+                            "name": "thumbnail_rocket-4.png",
+                            "hash": "thumbnail_rocket_4_55fae57ea4",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 156,
+                            "height": 156,
+                            "size": 61.79,
+                            "sizeInBytes": 61794,
+                            "url": "/uploads/thumbnail_rocket_4_55fae57ea4.png"
+                        },
+                        "small": {
+                            "name": "small_rocket-4.png",
+                            "hash": "small_rocket_4_55fae57ea4",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 500,
+                            "height": 500,
+                            "size": 576.79,
+                            "sizeInBytes": 576791,
+                            "url": "/uploads/small_rocket_4_55fae57ea4.png"
+                        },
+                        "medium": {
+                            "name": "medium_rocket-4.png",
+                            "hash": "medium_rocket_4_55fae57ea4",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 750,
+                            "height": 750,
+                            "size": 1262.19,
+                            "sizeInBytes": 1262185,
+                            "url": "/uploads/medium_rocket_4_55fae57ea4.png"
+                        },
+                        "large": {
+                            "name": "large_rocket-4.png",
+                            "hash": "large_rocket_4_55fae57ea4",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 1000,
+                            "height": 1000,
+                            "size": 2128.09,
+                            "sizeInBytes": 2128095,
+                            "url": "/uploads/large_rocket_4_55fae57ea4.png"
+                        }
+                    },
+                    "hash": "rocket_4_55fae57ea4",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "size": 558.98,
+                    "previewUrl": null,
+                    "provider": "local",
+                    "provider_metadata": null,
+                    "createdAt": "2024-08-07T14:30:25.318Z",
+                    "updatedAt": "2024-08-07T14:30:25.318Z"
+                },
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "heading",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Unmatched Scalability"
+                    }
+                ],
+                "level": 3
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "As your business grows, so does the need to manage more content and distribute it to larger audiences. LaunchPad offers unparalleled scalability, allowing your content delivery to scale effortlessly without compromising performance. Whether you’re reaching thousands or millions, you’ll never have to worry about bottlenecks or downtime."
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "heading",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Global Reach"
+                    }
+                ],
+                "level": 3
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "With LaunchPad, geographical barriers become irrelevant. Your content will be delivered globally with ease, reaching audiences in even the most remote corners of the planet. The platform’s innovative infrastructure allows your digital assets to orbit the globe, providing a consistent and reliable experience for all users, regardless of location."
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "image",
+                "image": {
+                    "name": "dashboard.png",
+                    "alternativeText": "dashboard.png",
+                    "url": "http://localhost:1337/uploads/dashboard_106c0d6b4b.png",
+                    "caption": null,
+                    "width": 1024,
+                    "height": 1024,
+                    "formats": {
+                        "thumbnail": {
+                            "name": "thumbnail_dashboard.png",
+                            "hash": "thumbnail_dashboard_106c0d6b4b",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 156,
+                            "height": 156,
+                            "size": 44.97,
+                            "sizeInBytes": 44969,
+                            "url": "/uploads/thumbnail_dashboard_106c0d6b4b.png"
+                        },
+                        "small": {
+                            "name": "small_dashboard.png",
+                            "hash": "small_dashboard_106c0d6b4b",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 500,
+                            "height": 500,
+                            "size": 357.2,
+                            "sizeInBytes": 357198,
+                            "url": "/uploads/small_dashboard_106c0d6b4b.png"
+                        },
+                        "medium": {
+                            "name": "medium_dashboard.png",
+                            "hash": "medium_dashboard_106c0d6b4b",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 750,
+                            "height": 750,
+                            "size": 756.1,
+                            "sizeInBytes": 756097,
+                            "url": "/uploads/medium_dashboard_106c0d6b4b.png"
+                        },
+                        "large": {
+                            "name": "large_dashboard.png",
+                            "hash": "large_dashboard_106c0d6b4b",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "path": null,
+                            "width": 1000,
+                            "height": 1000,
+                            "size": 1230.03,
+                            "sizeInBytes": 1230028,
+                            "url": "/uploads/large_dashboard_106c0d6b4b.png"
+                        }
+                    },
+                    "hash": "dashboard_106c0d6b4b",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "size": 364.41,
+                    "previewUrl": null,
+                    "provider": "local",
+                    "provider_metadata": null,
+                    "createdAt": "2024-08-07T14:30:24.247Z",
+                    "updatedAt": "2024-08-07T14:30:24.247Z"
+                },
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "heading",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Enhanced Security"
+                    }
+                ],
+                "level": 3
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Your content is valuable, and LaunchPad takes its protection seriously. With built-in, state-of-the-art security features, your digital assets are kept safe from unauthorized access or data breaches. From encryption to continuous monitoring, you can trust that your content is protected in orbit."
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "heading",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Future-Proof Technology"
+                    }
+                ],
+                "level": 3
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "As technology evolves, so must your content delivery. LaunchPad is designed with future-proof capabilities, meaning you can rest assured that your content strategy will remain relevant and competitive. With constant updates and a forward-thinking infrastructure, LaunchPad ensures you’re always ahead of the curve."
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "type": "heading",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Conclusion"
+                    }
+                ],
+                "level": 2
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "type": "text",
+                        "text": "Going orbital with your content isn’t just about adopting a futuristic approach—it’s about staying competitive in a rapidly evolving digital landscape. LaunchPad offers the speed, scalability, security, and global reach your content needs to thrive. It’s time to take your content strategy to new heights."
+                    }
+                ]
+            }
+        ],
+        "createdAt": "2024-08-07T17:08:24.165Z",
+        "updatedAt": "2024-09-11T15:21:08.347Z",
+        "publishedAt": null,
+        "locale": "en",
+        "seo": null,
+        "categories": {
+            "count": 1
+        },
+        "dynamic_zone": [
+            {
+                "__component": "dynamic-zone.related-articles",
+                "id": 13,
+                "heading": "Some other interesting read",
+                "sub_heading": null,
+                "articles": {
+                    "count": 2
+                }
+            }
+        ],
+        "image": {
+            "id": 35,
+            "documentId": "ku7lzggrzv2f3acfe0dm61wy",
+            "name": "A futuristic scene showing digital content being launched into space with high-tech satellites orbiting Earth, symbolizing fast global content deliver",
+            "alternativeText": "A futuristic scene showing digital content being launched into space with high-tech satellites orbiting Earth, symbolizing fast global content deliver",
+            "caption": null,
+            "width": 1024,
+            "height": 1024,
+            "formats": {
+                "thumbnail": {
+                    "name": "thumbnail_A futuristic scene showing digital content being launched into space with high-tech satellites orbiting Earth, symbolizing fast global content deliver",
+                    "hash": "thumbnail_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 156,
+                    "height": 156,
+                    "size": 7.63,
+                    "sizeInBytes": 7634,
+                    "url": "/uploads/thumbnail_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267.webp"
+                },
+                "small": {
+                    "name": "small_A futuristic scene showing digital content being launched into space with high-tech satellites orbiting Earth, symbolizing fast global content deliver",
+                    "hash": "small_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 500,
+                    "height": 500,
+                    "size": 56.52,
+                    "sizeInBytes": 56520,
+                    "url": "/uploads/small_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267.webp"
+                },
+                "medium": {
+                    "name": "medium_A futuristic scene showing digital content being launched into space with high-tech satellites orbiting Earth, symbolizing fast global content deliver",
+                    "hash": "medium_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 750,
+                    "height": 750,
+                    "size": 110.37,
+                    "sizeInBytes": 110374,
+                    "url": "/uploads/medium_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267.webp"
+                },
+                "large": {
+                    "name": "large_A futuristic scene showing digital content being launched into space with high-tech satellites orbiting Earth, symbolizing fast global content deliver",
+                    "hash": "large_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 1000,
+                    "height": 1000,
+                    "size": 169.54,
+                    "sizeInBytes": 169538,
+                    "url": "/uploads/large_A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267.webp"
+                }
+            },
+            "hash": "A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267",
+            "ext": ".webp",
+            "mime": "image/webp",
+            "size": 227.04,
+            "url": "/uploads/A_futuristic_scene_showing_digital_content_being_launched_into_space_with_high_tech_satellites_orbiting_Earth_symbolizing_fast_global_content_deliver_1e5ad34267.webp",
+            "previewUrl": null,
+            "provider": "local",
+            "provider_metadata": null,
+            "folderPath": "/",
+            "createdAt": "2024-09-11T14:16:57.570Z",
+            "updatedAt": "2025-04-07T15:22:12.524Z",
+            "publishedAt": "2024-09-11T14:16:57.571Z",
+            "locale": null,
+            "folder": null
+        },
+        "createdBy": null,
+        "updatedBy": null,
+        "localizations": [
+            {
+                "id": 4,
+                "documentId": "p6khbwj0s2g1y8xgtl8rpsys",
+                "title": "5 Raisons pour les Quelles Votre Contenu Doit Aller en Orbite",
+                "description": "Découvrez les cinq principaux avantages de la mise en orbite de votre contenu avec LaunchPad. Des vitesses de livraison plus rapides à une évolutivité inégalée, découvrez pourquoi votre contenu mérite une solution de pointe. Découvrez comment LaunchPad peut transformer la façon dont vous gérez et diffusez vos ressources numériques.",
+                "slug": "5-raisons-pour-les-quelles-votre-contenu-doit-aller-en-orbite",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Dans le monde numérique d'aujourd'hui, la rapidité de diffusion du contenu est primordiale. Avec l'augmentation de la demande mondiale d'accès en temps réel aux actifs numériques, les méthodes de diffusion traditionnelles ne suffisent plus. Voici LaunchPad, une solution spatiale conçue pour propulser votre contenu en orbite. Mais pourquoi faire le saut ? Voici les cinq principales raisons pour lesquelles votre contenu doit aller en orbite :"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "heading",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Des Vitesses de Diffusion Plus Rapides"
+                            }
+                        ],
+                        "level": 3
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Le temps, c'est de l'argent, et à l'ère numérique, la vitesse est cruciale. LaunchPad utilise une technologie de pointe pour garantir que votre contenu parvienne à votre public à des vitesses fulgurantes. Que ce soit une vidéo, une mise à jour d'application ou un ensemble de données volumineux, LaunchPad élimine la latence, offrant à vos utilisateurs un accès fluide, où qu'ils se trouvent dans le monde."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "image",
+                        "image": {
+                            "name": "rocket-4.png",
+                            "alternativeText": "rocket-4.png",
+                            "url": "http://localhost:1337/uploads/rocket_4_55fae57ea4.png",
+                            "caption": null,
+                            "width": 1024,
+                            "height": 1024,
+                            "formats": {
+                                "thumbnail": {
+                                    "name": "thumbnail_rocket-4.png",
+                                    "hash": "thumbnail_rocket_4_55fae57ea4",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 156,
+                                    "height": 156,
+                                    "size": 61.79,
+                                    "sizeInBytes": 61794,
+                                    "url": "/uploads/thumbnail_rocket_4_55fae57ea4.png"
+                                },
+                                "small": {
+                                    "name": "small_rocket-4.png",
+                                    "hash": "small_rocket_4_55fae57ea4",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 500,
+                                    "height": 500,
+                                    "size": 576.79,
+                                    "sizeInBytes": 576791,
+                                    "url": "/uploads/small_rocket_4_55fae57ea4.png"
+                                },
+                                "medium": {
+                                    "name": "medium_rocket-4.png",
+                                    "hash": "medium_rocket_4_55fae57ea4",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 750,
+                                    "height": 750,
+                                    "size": 1262.19,
+                                    "sizeInBytes": 1262185,
+                                    "url": "/uploads/medium_rocket_4_55fae57ea4.png"
+                                },
+                                "large": {
+                                    "name": "large_rocket-4.png",
+                                    "hash": "large_rocket_4_55fae57ea4",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 1000,
+                                    "height": 1000,
+                                    "size": 2128.09,
+                                    "sizeInBytes": 2128095,
+                                    "url": "/uploads/large_rocket_4_55fae57ea4.png"
+                                }
+                            },
+                            "hash": "rocket_4_55fae57ea4",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "size": 558.98,
+                            "previewUrl": null,
+                            "provider": "local",
+                            "provider_metadata": null,
+                            "createdAt": "2024-08-07T14:30:25.318Z",
+                            "updatedAt": "2024-08-07T14:30:25.318Z"
+                        },
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "heading",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Évolutivité Inégalée"
+                            }
+                        ],
+                        "level": 3
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "À mesure que votre entreprise se développe, la gestion de plus de contenu et sa diffusion à de plus grandes audiences deviennent cruciales. LaunchPad offre une évolutivité sans pareille, permettant à la diffusion de votre contenu de croître sans effort, sans compromettre les performances. Que vous touchiez des milliers ou des millions de personnes, vous n'aurez jamais à vous soucier des goulets d'étranglement ou des interruptions."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "heading",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Portée Mondiale"
+                            }
+                        ],
+                        "level": 3
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Avec LaunchPad, les barrières géographiques deviennent obsolètes. Votre contenu est diffusé mondialement avec facilité, atteignant des audiences même dans les coins les plus reculés de la planète. L'infrastructure innovante de la plateforme permet à vos actifs numériques d'orbiter autour du globe, offrant une expérience cohérente et fiable à tous les utilisateurs, où qu'ils se trouvent."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "image",
+                        "image": {
+                            "name": "dashboard.png",
+                            "alternativeText": "dashboard.png",
+                            "url": "http://localhost:1337/uploads/dashboard_106c0d6b4b.png",
+                            "caption": null,
+                            "width": 1024,
+                            "height": 1024,
+                            "formats": {
+                                "thumbnail": {
+                                    "name": "thumbnail_dashboard.png",
+                                    "hash": "thumbnail_dashboard_106c0d6b4b",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 156,
+                                    "height": 156,
+                                    "size": 44.97,
+                                    "sizeInBytes": 44969,
+                                    "url": "/uploads/thumbnail_dashboard_106c0d6b4b.png"
+                                },
+                                "small": {
+                                    "name": "small_dashboard.png",
+                                    "hash": "small_dashboard_106c0d6b4b",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 500,
+                                    "height": 500,
+                                    "size": 357.2,
+                                    "sizeInBytes": 357198,
+                                    "url": "/uploads/small_dashboard_106c0d6b4b.png"
+                                },
+                                "medium": {
+                                    "name": "medium_dashboard.png",
+                                    "hash": "medium_dashboard_106c0d6b4b",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 750,
+                                    "height": 750,
+                                    "size": 756.1,
+                                    "sizeInBytes": 756097,
+                                    "url": "/uploads/medium_dashboard_106c0d6b4b.png"
+                                },
+                                "large": {
+                                    "name": "large_dashboard.png",
+                                    "hash": "large_dashboard_106c0d6b4b",
+                                    "ext": ".png",
+                                    "mime": "image/png",
+                                    "path": null,
+                                    "width": 1000,
+                                    "height": 1000,
+                                    "size": 1230.03,
+                                    "sizeInBytes": 1230028,
+                                    "url": "/uploads/large_dashboard_106c0d6b4b.png"
+                                }
+                            },
+                            "hash": "dashboard_106c0d6b4b",
+                            "ext": ".png",
+                            "mime": "image/png",
+                            "size": 364.41,
+                            "previewUrl": null,
+                            "provider": "local",
+                            "provider_metadata": null,
+                            "createdAt": "2024-08-07T14:30:24.247Z",
+                            "updatedAt": "2024-08-07T14:30:24.247Z"
+                        },
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "heading",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Sécurité Renforcée"
+                            }
+                        ],
+                        "level": 3
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Votre contenu est précieux, et LaunchPad prend sa protection très au sérieux. Avec des fonctionnalités de sécurité intégrées et à la pointe de la technologie, vos actifs numériques sont protégés contre tout accès non autorisé ou violation de données. De l'encryption à la surveillance continue, vous pouvez être sûr que votre contenu est en sécurité dans l'espace."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "heading",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Technologie Pérenne"
+                            }
+                        ],
+                        "level": 3
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "À mesure que la technologie évolue, la diffusion de votre contenu doit suivre. LaunchPad est conçu avec des capacités pérennes, vous garantissant que votre stratégie de contenu reste pertinente et compétitive. Avec des mises à jour constantes et une infrastructure tournée vers l'avenir, LaunchPad s'assure que vous êtes toujours à la pointe."
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "heading",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Conclusion"
+                            }
+                        ],
+                        "level": 2
+                    },
+                    {
+                        "type": "paragraph",
+                        "children": [
+                            {
+                                "type": "text",
+                                "text": "Propulser votre contenu en orbite ne se limite pas à adopter une approche futuriste—c'est une nécessité pour rester compétitif dans un paysage numérique en rapide évolution. LaunchPad offre la vitesse, l'évolutivité, la sécurité et la portée mondiale dont votre contenu a besoin pour prospérer. Il est temps d’emmener votre stratégie de contenu vers de nouveaux sommets."
+                            }
+                        ]
+                    }
+                ],
+                "createdAt": "2024-09-11T14:24:22.935Z",
+                "updatedAt": "2024-09-11T15:51:47.357Z",
+                "publishedAt": null,
+                "locale": "fr",
+                "seo": null,
+                "status": "published"
+            }
+        ],
+        "strapi_stage": null,
+        "strapi_assignee": null,
+        "status": "published"
+    },
+    "meta": {
+        "availableLocales": [
+            {
+                "id": 4,
+                "documentId": "p6khbwj0s2g1y8xgtl8rpsys",
+                "locale": "fr",
+                "updatedAt": "2024-09-11T15:51:47.357Z",
+                "createdAt": "2024-09-11T14:24:22.935Z",
+                "publishedAt": null,
+                "seo": null,
+                "createdBy": null,
+                "updatedBy": null,
+                "status": "published"
+            }
+        ],
+        "availableStatus": [
+            {
+                "id": 7,
+                "documentId": "p6khbwj0s2g1y8xgtl8rpsys",
+                "locale": "en",
+                "updatedAt": "2024-09-11T15:21:08.347Z",
+                "createdAt": "2024-08-07T17:08:24.165Z",
+                "publishedAt": "2024-09-11T15:21:08.369Z",
+                "createdBy": null,
+                "updatedBy": null
+            }
+        ]
+    }}
+
+// localizations
+https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page
+https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page?locale=en
+
+
+
+// upload
+
+https://api-xb1hw.strapidemo.com/upload/configuration
+
+    response json:
+    GET    {"data":{"pageSize":10,"sort":"createdAt:DESC"}}
+    PUT    {"data":{"pageSize":20,"sort":"createdAt:DESC"}} + payload: {pageSize: 20, sort: "createdAt:DESC"}
+
+https://api-xb1hw.strapidemo.com/upload/files?sort=createdAt:DESC&page=1&pageSize=10&filters[$and][0][folderPath][$eq]=/
+
+    response json:
+    {
+    "results": [
+        {
+            "id": 37,
+            "documentId": "p8u9g4y2na0dmbs23mlbq0sw",
+            "name": "A natural setting where a team of professionals is launching a marketing campaign. The scene shows a modern office with large windows overlooking a ci.webp",
+            "alternativeText": null,
+            "caption": null,
+            "width": 1024,
+            "height": 1024,
+            "formats": {
+                "thumbnail": {
+                    "name": "thumbnail_A natural setting where a team of professionals is launching a marketing campaign. The scene shows a modern office with large windows overlooking a ci.webp",
+                    "hash": "thumbnail_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 156,
+                    "height": 156,
+                    "size": 8.2,
+                    "sizeInBytes": 8202,
+                    "url": "/uploads/thumbnail_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd.webp"
+                },
+                "small": {
+                    "name": "small_A natural setting where a team of professionals is launching a marketing campaign. The scene shows a modern office with large windows overlooking a ci.webp",
+                    "hash": "small_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 500,
+                    "height": 500,
+                    "size": 56.65,
+                    "sizeInBytes": 56646,
+                    "url": "/uploads/small_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd.webp"
+                },
+                "medium": {
+                    "name": "medium_A natural setting where a team of professionals is launching a marketing campaign. The scene shows a modern office with large windows overlooking a ci.webp",
+                    "hash": "medium_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 750,
+                    "height": 750,
+                    "size": 103.94,
+                    "sizeInBytes": 103942,
+                    "url": "/uploads/medium_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd.webp"
+                },
+                "large": {
+                    "name": "large_A natural setting where a team of professionals is launching a marketing campaign. The scene shows a modern office with large windows overlooking a ci.webp",
+                    "hash": "large_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd",
+                    "ext": ".webp",
+                    "mime": "image/webp",
+                    "path": null,
+                    "width": 1000,
+                    "height": 1000,
+                    "size": 154.77,
+                    "sizeInBytes": 154770,
+                    "url": "/uploads/large_A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd.webp"
+                }
+            },
+            "hash": "A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd",
+            "ext": ".webp",
+            "mime": "image/webp",
+            "size": 195.06,
+            "url": "/uploads/A_natural_setting_where_a_team_of_professionals_is_launching_a_marketing_campaign_The_scene_shows_a_modern_office_with_large_windows_overlooking_a_ci_165bacb7dd.webp",
+            "previewUrl": null,
+            "provider": "local",
+            "provider_metadata": null,
+            "folderPath": "/",
+            "createdAt": "2024-09-11T15:12:13.451Z",
+            "updatedAt": "2025-04-07T15:22:12.826Z",
+            "publishedAt": "2024-09-11T15:12:13.451Z",
+            "locale": null,
+            "folder": null,
+            "isUrlSigned": false
+        },...
+    ],
+    "pagination": {
+        "page": 1,
+        "pageSize": 10,
+        "pageCount": 1,
+        "total": 8
+    }
+    }
+
+https://api-xb1hw.strapidemo.com/upload/folders?sort=createdAt:DESC&page=1&pageSize=10&pagination[pageSize]=-1&filters[$and][0][parent][id][$null]=true
+
+    {
+        "data": [
+            {
+                "createdAt": "2024-09-16T12:39:59.159Z",
+                "id": 3,
+                "documentId": "r24nxb2pacl3wy5j8vspjh0u",
+                "name": "meta-images",
+                "pathId": 3,
+                "path": "/3",
+                "updatedAt": "2024-09-16T12:39:59.159Z",
+                "publishedAt": "2024-09-16T12:39:59.159Z",
+                "locale": null,
+                "children": {
+                    "count": 0
+                },
+                "files": {
+                    "count": 6
+                }
+            },
+        ]
+    }
+
+POST https://api-xb1hw.strapidemo.com/upload
+    payload: form-data - fileInfo {"name":"Screenshot 2025-04-10 184152.png","folder":2}
+    response: [
+        {
+            "id": 44,
+            "documentId": "wmotshgu46stje5c563hujf2",
+            "name": "Screenshot 2025-04-10 184152.png",
+            "alternativeText": null,
+            "caption": null,
+            "width": 1915,
+            "height": 804,
+            "formats": {
+                "thumbnail": {
+                    "name": "thumbnail_Screenshot 2025-04-10 184152.png",
+                    "hash": "thumbnail_Screenshot_2025_04_10_184152_190d582ff6",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "path": null,
+                    "width": 245,
+                    "height": 103,
+                    "size": 63.59,
+                    "sizeInBytes": 63591,
+                    "url": "/uploads/thumbnail_Screenshot_2025_04_10_184152_190d582ff6.png"
+                },
+                "small": {
+                    "name": "small_Screenshot 2025-04-10 184152.png",
+                    "hash": "small_Screenshot_2025_04_10_184152_190d582ff6",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "path": null,
+                    "width": 500,
+                    "height": 210,
+                    "size": 222.58,
+                    "sizeInBytes": 222582,
+                    "url": "/uploads/small_Screenshot_2025_04_10_184152_190d582ff6.png"
+                },
+                "medium": {
+                    "name": "medium_Screenshot 2025-04-10 184152.png",
+                    "hash": "medium_Screenshot_2025_04_10_184152_190d582ff6",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "path": null,
+                    "width": 750,
+                    "height": 315,
+                    "size": 460.72,
+                    "sizeInBytes": 460717,
+                    "url": "/uploads/medium_Screenshot_2025_04_10_184152_190d582ff6.png"
+                },
+                "large": {
+                    "name": "large_Screenshot 2025-04-10 184152.png",
+                    "hash": "large_Screenshot_2025_04_10_184152_190d582ff6",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "path": null,
+                    "width": 1000,
+                    "height": 420,
+                    "size": 791.58,
+                    "sizeInBytes": 791578,
+                    "url": "/uploads/large_Screenshot_2025_04_10_184152_190d582ff6.png"
+                }
+            },
+            "hash": "Screenshot_2025_04_10_184152_190d582ff6",
+            "ext": ".png",
+            "mime": "image/png",
+            "size": 514.46,
+            "url": "/uploads/Screenshot_2025_04_10_184152_190d582ff6.png",
+            "previewUrl": null,
+            "provider": "local",
+            "provider_metadata": null,
+            "folderPath": "/2",
+            "createdAt": "2025-09-12T12:02:26.203Z",
+            "updatedAt": "2025-09-12T12:02:26.203Z",
+            "publishedAt": "2025-09-12T12:02:26.203Z",
+            "locale": null,
+            "isUrlSigned": false
+        }
+    ]
+
+POST https://api-xb1hw.strapidemo.com/upload/folders/
+    payload: {name: "xxx", parent: null}
+    respone: {
+        "data": {
+            "id": 4,
+            "documentId": "mz1zgrqgf0h0v7546lb2s789",
+            "name": "xxx",
+            "pathId": 4,
+            "path": "/4",
+            "createdAt": "2025-09-12T12:13:42.075Z",
+            "updatedAt": "2025-09-12T12:13:42.075Z",
+            "publishedAt": "2025-09-12T12:13:42.075Z",
+            "locale": null
+        }
+    }
+
+https://api-xb1hw.strapidemo.com/upload/folder-structure
+    {
+        "data": [
+            {
+                "id": 1,
+                "name": "logos",
+                "children": []
+            },
+            {
+                "id": 3,
+                "name": "meta-images",
+                "children": []
+            },
+            {
+                "id": 2,
+                "name": "users",
+                "children": []
+            }
+        ]
+    }
+
+POST https://api-xb1hw.strapidemo.com/upload/actions/bulk-delete
+    payload: {fileIds: [25]}
+    response: {
+        "data": {
+            "files": [
+                {
+                    "id": 25,
+                    "documentId": "zhkaop3sog59o73h80ldyu3q",
+                    "name": "robert-johnson.jpg",
+                    "alternativeText": null,
+                    "caption": null,
+                    "width": 128,
+                    "height": 128,
+                    "formats": null,
+                    "hash": "robert_johnson_93b45a1112",
+                    "ext": ".jpg",
+                    "mime": "image/jpeg",
+                    "size": 4.49,
+                    "url": "/uploads/robert_johnson_93b45a1112.jpg",
+                    "previewUrl": null,
+                    "provider": "local",
+                    "provider_metadata": null,
+                    "folderPath": "/2",
+                    "createdAt": "2024-09-05T13:06:32.028Z",
+                    "updatedAt": "2025-04-07T15:22:11.764Z",
+                    "publishedAt": "2024-09-05T13:06:32.030Z",
+                    "locale": null
+                }
+            ],
+            "folders": []
+        }
+    }
+
+POST https://api-xb1hw.strapidemo.com/upload/actions/bulk-move
+    payload: {fileIds: [26], destinationFolderId: 2}
+    respones: {
+        "data": {
+            "files": [
+                {
+                    "id": 26,
+                    "documentId": "okelb88b6eppwzj3jplv2k5n",
+                    "name": "tyler-durden.jpg",
+                    "alternativeText": null,
+                    "caption": null,
+                    "width": 128,
+                    "height": 128,
+                    "formats": null,
+                    "hash": "tyler_durden_77d84b929a",
+                    "ext": ".jpg",
+                    "mime": "image/jpeg",
+                    "size": 2.72,
+                    "url": "/uploads/tyler_durden_77d84b929a.jpg",
+                    "previewUrl": null,
+                    "provider": "local",
+                    "provider_metadata": null,
+                    "folderPath": "/2",
+                    "createdAt": "2024-09-05T13:06:32.055Z",
+                    "updatedAt": "2025-04-07T15:22:11.793Z",
+                    "publishedAt": "2024-09-05T13:06:32.055Z",
+                    "locale": null
+                }
+            ],
+            "folders": []
+        }
+    }
+
+https://api-xb1hw.strapidemo.com/upload/folders/2?populate[parent][populate][parent]=*
+    {
+        "data": {
+            "id": 2,
+            "documentId": "ngo3iqty47bbidgcyl17rusy",
+            "name": "users",
+            "pathId": 2,
+            "path": "/2",
+            "createdAt": "2024-08-07T17:12:41.472Z",
+            "updatedAt": "2024-08-07T17:12:41.472Z",
+            "publishedAt": "2024-08-07T17:12:41.472Z",
+            "locale": null,
+            "parent": null,
+            "children": {
+                "count": 0
+            },
+            "files": {
+                "count": 13
+            }
+        }
+    }
+
+https://api-xb1hw.strapidemo.com/upload/folder-structure
+    response: {
+    "data": [
+        {
+            "id": 5,
+            "name": "Khai",
+            "children": []
+        },
+        {
+            "id": 1,
+            "name": "logos",
+            "children": []
+        },
+        {
+            "id": 2,
+            "name": "users",
+            "children": []
+        },
+        {
+            "id": 4,
+            "name": "xxx",
+            "children": []
+        }
+    ]
+    }
+https://api-xb1hw.strapidemo.com/upload/folders?sort=name:ASC&page=1&pageSize=20&pagination[pageSize]=-1&filters[$and][0][parent][id][$null]=true
+    payload - query string parameters: sort=name:ASC&page=1&pageSize=20&pagination[pageSize]=-1&filters[$and][0][parent][id][$null]=true
+    response  {
+    "data": [
+        {
+            "name": "Khai",
+            "id": 5,
+            "documentId": "fd27w4pypdmrppycoko0bxlm",
+            "pathId": 5,
+            "path": "/5",
+            "createdAt": "2025-09-12T12:22:12.154Z",
+            "updatedAt": "2025-09-12T12:22:12.154Z",
+            "publishedAt": "2025-09-12T12:22:12.154Z",
+            "locale": null,
+            "children": {
+                "count": 0
+            },
+            "files": {
+                "count": 0
+            }
+        },
+        {
+            "name": "logos",
+            "id": 1,
+            "documentId": "xbd0ec1lkgfcx3z3vcuaebd7",
+            "pathId": 1,
+            "path": "/1",
+            "createdAt": "2024-08-07T17:11:43.945Z",
+            "updatedAt": "2024-08-07T17:11:43.945Z",
+            "publishedAt": "2024-08-07T17:11:43.945Z",
+            "locale": null,
+            "children": {
+                "count": 0
+            },
+            "files": {
+                "count": 15
+            }
+        },
+        {
+            "name": "users",
+            "id": 2,
+            "documentId": "ngo3iqty47bbidgcyl17rusy",
+            "pathId": 2,
+            "path": "/2",
+            "createdAt": "2024-08-07T17:12:41.472Z",
+            "updatedAt": "2024-08-07T17:12:41.472Z",
+            "publishedAt": "2024-08-07T17:12:41.472Z",
+            "locale": null,
+            "children": {
+                "count": 0
+            },
+            "files": {
+                "count": 13
+            }
+        },
+        {
+            "name": "xxx",
+            "id": 4,
+            "documentId": "mz1zgrqgf0h0v7546lb2s789",
+            "pathId": 4,
+            "path": "/4",
+            "createdAt": "2025-09-12T12:13:42.075Z",
+            "updatedAt": "2025-09-12T12:13:42.075Z",
+            "publishedAt": "2025-09-12T12:13:42.075Z",
+            "locale": null,
+            "children": {
+                "count": 0
+            },
+            "files": {
+                "count": 0
+            }
+        }
+    ]
+    }
+
+
+
+
+
+// settings
+
+https://api-xb1hw.strapidemo.com/upload/setting
+
+    {
+        "data": {
+            "sizeOptimization": true,
+            "responsiveDimensions": true,
+            "autoOrientation": false
+        }
+    }
+
+// administration panel
+
+https://api-xb1hw.strapidemo.com/admin/roles/?
+
+https://api-xb1hw.strapidemo.com/admin/users/?pageSize=10&page=1&sort=firstname
+
+// user and permissions plugin
+
+https://api-xb1hw.strapidemo.com/users-permissions/roles
+
+https://api-xb1hw.strapidemo.com/users-permissions/advanced
+
+    {
+        "settings": {
+            "unique_email": true,
+            "allow_register": true,
+            "email_confirmation": false,
+            "email_reset_password": null,
+            "email_confirmation_redirection": null,
+            "default_role": "authenticated"
+        },
+        "roles": [
+            {
+                "id": 3,
+                "documentId": "h11n1tr7g7y1hftedvqarkk6",
+                "name": "Authenticated",
+                "description": "Default role given to authenticated user.",
+                "type": "authenticated",
+                "createdAt": "2024-08-01T13:39:26.915Z",
+                "updatedAt": "2024-08-01T13:39:26.915Z",
+                "publishedAt": "2024-08-01T13:39:26.916Z",
+                "locale": null,
+                "nb_users": 0
+            },
+            {
+                "id": 4,
+                "documentId": "ejq42di6zxqd9xpa2cm05r62",
+                "name": "Public",
+                "description": "Default role given to unauthenticated user.",
+                "type": "public",
+                "createdAt": "2024-08-01T13:39:26.918Z",
+                "updatedAt": "2025-03-19T16:28:53.436Z",
+                "publishedAt": "2024-08-01T13:39:26.918Z",
+                "locale": null,
+                "nb_users": 0
+            }
+        ]
+    }
+
+https://api-xb1hw.strapidemo.com/users-permissions/email-templates
+
+// email plugin
+
+https://api-xb1hw.strapidemo.com/email/settings
+
+// content type builder
+
+https://api-xb1hw.strapidemo.com/content-type-builder/reserved-names
+
+    {
+        "models": [
+            "boolean",
+            "date",
+            "date_time",
+            "time",
+            "upload",
+            "document",
+            "then",
+            "strapi*",
+            "_strapi*",
+            "__strapi*"
+        ],
+        "attributes": [
+            "id",
+            "document_id",
+            "created_at",
+            "updated_at",
+            "published_at",
+            "created_by_id",
+            "updated_by_id",
+            "created_by",
+            "updated_by",
+            "entry_id",
+            "status",
+            "localizations",
+            "meta",
+            "locale",
+            "__component",
+            "__contentType",
+            "strapi*",
+            "_strapi*",
+            "__strapi*"
+        ]
+    }
+
+home page
+
+https://api-xb1hw.strapidemo.com/content-manager/homepage/recent-documents?action=update
+
+    {
+
+        "data": [
+            {
+                "documentId": "jj3fjkefr39096p7whli2o1x",
+                "locale": "en",
+                "updatedAt": "2025-04-14T05:18:42.838Z",
+                "title": 1,
+                "publishedAt": null,
+                "contentTypeUid": "api::page.page",
+                "contentTypeDisplayName": "Pages",
+                "kind": "collectionType",
+                "status": "published"
+            },
+            {
+                "documentId": "p6khbwj0s2g1y8xgtl8rpsys",
+                "locale": "en",
+                "updatedAt": "2025-01-16T09:26:57.766Z",
+                "title": 1,
+                "publishedAt": null,
+                "contentTypeUid": "api::article.article",
+                "contentTypeDisplayName": "Articles",
+                "kind": "collectionType",
+                "status": "modified"
+            },
+            {
+                "documentId": "en793kiwci00j3coe6fxod3r",
+                "locale": "en",
+                "updatedAt": "2024-09-25T09:02:37.707Z",
+                "title": 1,
+                "publishedAt": null,
+                "contentTypeUid": "api::global.global",
+                "contentTypeDisplayName": "Global",
+                "kind": "singleType",
+                "status": "published"
+            },
+            {
+                "documentId": "iy8ejugocfok30wlksglr8sc",
+                "locale": null,
+                "updatedAt": "2024-09-16T12:54:25.338Z",
+                "title": "/producs",
+                "publishedAt": null,
+                "contentTypeUid": "api::redirection.redirection",
+                "contentTypeDisplayName": "Redirection",
+                "kind": "collectionType",
+                "status": "published"
+            }
+        ]
+    }
+
+https://api-xb1hw.strapidemo.com/content-manager/homepage/recent-documents?action=publish
+
+    {
+        "data": [
+            {
+                "documentId": "jj3fjkefr39096p7whli2o1x",
+                "locale": "en",
+                "updatedAt": "2025-04-14T05:18:42.838Z",
+                "title": 15,
+                "publishedAt": "2025-04-14T05:18:42.856Z",
+                "contentTypeUid": "api::page.page",
+                "contentTypeDisplayName": "Pages",
+                "kind": "collectionType",
+                "status": "published"
+            },
+            {
+                "documentId": "en793kiwci00j3coe6fxod3r",
+                "locale": "en",
+                "updatedAt": "2024-09-25T09:02:37.707Z",
+                "title": 3,
+                "publishedAt": "2024-09-25T09:02:37.755Z",
+                "contentTypeUid": "api::global.global",
+                "contentTypeDisplayName": "Global",
+                "kind": "singleType",
+                "status": "published"
+            },
+            {
+                "documentId": "iy8ejugocfok30wlksglr8sc",
+                "locale": null,
+                "updatedAt": "2024-09-16T12:54:25.338Z",
+                "title": "/producs",
+                "publishedAt": "2024-09-16T12:54:25.343Z",
+                "contentTypeUid": "api::redirection.redirection",
+                "contentTypeDisplayName": "Redirection",
+                "kind": "collectionType",
+                "status": "published"
+            },
+            {
+                "documentId": "s82rqoz3rwl48arhkilidr19",
+                "locale": null,
+                "updatedAt": "2024-09-16T12:54:10.775Z",
+                "title": "/i-have-a-question",
+                "publishedAt": "2024-09-16T12:54:10.787Z",
+                "contentTypeUid": "api::redirection.redirection",
+                "contentTypeDisplayName": "Redirection",
+                "kind": "collectionType",
+                "status": "published"
+            }
+        ]
+    }
+
+https://api-xb1hw.strapidemo.com/content-manager/homepage/count-documents
+
+    {"data":{"draft":0,"published":60,"modified":4}}
+
+https://api-xb1hw.strapidemo.com/admin/homepage/key-statistics
+
+{
+    "data": {
+        "assets": 43,
+        "contentTypes": 13,
+        "components": 5,
+        "locales": 2,
+        "admins": 1,
+        "webhooks": 0,
+        "apiTokens": 2
+    }
+}

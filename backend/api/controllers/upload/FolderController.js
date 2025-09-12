@@ -1,13 +1,42 @@
 module.exports = {
+    // GET upload/folders
     async find(req, res) {
-        try {
-            const folders = await Folder.find().populate("parent");
-            return res.json(folders);
-        } catch (err) {
-            return res.serverError(err);
-        }
+        // const {
+        //     sort = "createdAt:DESC",
+        //     page = 1,
+        //     pageSize = 10,
+        //     filters,
+        // } = req.query;
+        // const [sortField, sortOrder] = sort.split(":");
+        // const where = {};
+        // if (filters?.["$and"]) {
+        //     const andFilters = filters["$and"];
+        //     for (const f of andFilters) {
+        //         if (f.parent?.id?.["$null"] === "true") {
+        //             where.parent = null;
+        //         }
+        //     }
+        // }
+        // const skip = (page - 1) * pageSize;
+        // const folders = await Folder.find({
+        //     where,
+        //     sort: `${sortField} ${sortOrder}`,
+        //     skip,
+        //     limit: pageSize,
+        // })
+        //     .populate("children")
+        //     .populate("assets");
+        // const result = folders.map((f) => ({
+        //     ...f,
+        //     children: { count: f.children?.length || 0 },
+        //     files: { count: f.assets?.length || 0 },
+        // }));
+        // return res.json({
+        //     data: result,
+        // });
     },
 
+    // GET upload/folders/:id
     async findOne(req, res) {
         try {
             const folder = await Folder.findOne({ id: req.params.id })
@@ -21,6 +50,7 @@ module.exports = {
         }
     },
 
+    // POST upload/folders
     async create(req, res) {
         try {
             const { name, parent } = req.body;
@@ -31,6 +61,7 @@ module.exports = {
         }
     },
 
+    // PUT upload/folders/:id
     async update(req, res) {
         try {
             const { name, parent } = req.body;
@@ -45,11 +76,23 @@ module.exports = {
         }
     },
 
+    // DELETE upload/folders/:id
     async destroy(req, res) {
         try {
             const deleted = await Folder.destroyOne({ id: req.params.id });
             if (!deleted) return res.notFound();
             return res.json(deleted);
+        } catch (err) {
+            return res.serverError(err);
+        }
+    },
+
+    // GET upload/folder-structures
+    async getFolderStructure(req, res) {
+        try {
+            // Lấy tất cả các thư mục
+            const allFolders = await Folder.find().populate("children");
+            return res.json(allFolders);
         } catch (err) {
             return res.serverError(err);
         }

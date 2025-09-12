@@ -3,38 +3,75 @@ module.exports = {
         name: {
             type: "string",
             required: true,
-        }, // display name
-
-        type: {
-            type: "string",
-            isIn: ["image", "video", "audio", "file"], // loại chính
-            required: true,
         },
 
-        extension: {
+        alternativeText: {
             type: "string",
-        }, // ví dụ: .jpg, .mp4
+            allowNull: true,
+        },
 
-        mimeType: {
+        caption: {
+            type: "string",
+            allowNull: true,
+        },
+
+        width: {
+            type: "number",
+            allowNull: true,
+        },
+
+        height: {
+            type: "number",
+            allowNull: true,
+        },
+
+        formats: {
+            type: "json",
+        },
+
+        hash: {
+            type: "string",
+        },
+
+        ext: {
+            type: "string",
+        },
+
+        mime: {
             type: "string",
         },
 
         size: {
             type: "number",
-        }, // tính bằng KB hoặc MB
+        }, // KB
 
         url: {
             type: "string",
-        }, // link public
+        },
+
+        previewUrl: {
+            type: "string",
+            allowNull: true,
+        },
 
         provider: {
             type: "string",
             defaultsTo: "local",
-        }, // local, s3, cloudinary, ...
+        },
 
-        metadata: {
+        provider_metadata: {
             type: "json",
-        }, // width/height cho image, duration cho video/audio
+        },
+
+        folderPath: {
+            type: "string",
+            defaultsTo: "/",
+        },
+
+        isUrlSigned: {
+            type: "boolean",
+            defaultsTo: false,
+        },
 
         folder: {
             model: "Folder",
@@ -44,9 +81,26 @@ module.exports = {
             model: "User",
         },
 
-        // entries: {
-        //     collection: "ContentEntry",
-        //     via: "data", // giả sử có custom resolver
-        // },
+        createdAt: {
+            type: "ref",
+            columnType: "datetime",
+            autoCreatedAt: true,
+        },
+
+        updatedAt: {
+            type: "ref",
+            columnType: "datetime",
+            autoUpdatedAt: true,
+        },
+
+        publishedAt: {
+            type: "ref",
+            columnType: "datetime",
+        },
+
+        locale: {
+            type: "string",
+            allowNull: true,
+        },
     },
 };
