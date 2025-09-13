@@ -9,16 +9,19 @@ module.exports.http = {
         rateLimiter,
         errorHandler,
 
-        // Order of execution
+        // Thứ tự chạy middleware
         order: [
             "cookieParser",
             "session",
-            "logRequest", // log trước
+            "logRequest", // log request trước
             "rateLimiter", // hạn chế request
             "bodyParser",
             "compress",
-            "router", // router Sails
+            "router", // router của Sails
             "errorHandler", // gom lỗi cuối cùng
         ],
     },
+
+    trustProxy: false, // sẽ bị override = true trong production.js
+    cache: 0, // sẽ bị override = 1 năm trong production.js
 };

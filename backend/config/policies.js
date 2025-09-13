@@ -89,7 +89,7 @@ module.exports.policies = {
     "upload/AssetController": {
         "*": ["isAdminAuthenticated"],
     },
-    "upload/UploadController": {
+    "upload/FolderController": {
         "*": ["isAdminAuthenticated"],
     },
 };

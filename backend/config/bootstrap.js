@@ -2,29 +2,24 @@ require("dotenv").config({
     path: require("path").resolve(__dirname, "../.env"),
 });
 
-module.exports.bootstrap = async function (done) {
-    // Mỗi 1 giờ dọn dẹp token hết hạn
-    setInterval(
-        async () => {
-            const now = new Date();
-            await BlacklistToken.destroy({ expiredAt: { "<": now } });
-        },
-        1000 * 60 * 60,
-    );
+module.exports.bootstrap = async function () {
+    sails.log("🔧 Bootstrap bắt đầu...");
 
-    try {
-        if (process.env.NODE_ENV === "development") {
-            await require("../scripts/cores/seedAdminPermissions")();
-            await require("../scripts/cores/seedAdminRoles")();
-            await require("../scripts/cores/seedAdminUsers")();
-            await require("../scripts/users-permissions/seedPermissions")();
-            await require("../scripts/users-permissions/seedRoles")();
-            await require("../scripts/users-permissions/seedUsers")();
-        }
+    if (!sails._cleanupInterval) {
+        sails._cleanupInterval = setInterval(
+            async () => {
+                const now = new Date();
+                await sails.models.blacklisttoken.destroy({
+                    expiredAt: { "<": now },
+                });
+            },
+            1000 * 60 * 60,
+        );
+    }
 
-        return done();
-    } catch (err) {
-        sails.log.error("Bootstrap error:", err.stack || err.message);
-        return done(err);
+    if (process.env.NODE_ENV === "development") {
+        sails.log("🌱 Đang chạy seed dữ liệu...");
+        await sails.helpers.seed.run();
+        sails.log("✅ Seed hoàn tất!");
     }
 };

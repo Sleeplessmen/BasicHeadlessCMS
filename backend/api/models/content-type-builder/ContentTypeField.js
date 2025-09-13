@@ -1,38 +1,42 @@
 module.exports = {
     attributes: {
-        name: { type: "string", required: true }, // vd: title, description, categories
-        type: { type: "string", required: true }, // vd: string, text, relation, media, component, dynamiczone...
+        // 1. Cơ bản
+        name: { type: "string", required: true }, // vd: title, description
+        type: { type: "string", required: true }, // vd: string, text, relation, media, component...
 
-        configurable: { type: "boolean", defaultsTo: true },
+        // 2. Validation đơn giản
         required: { type: "boolean", defaultsTo: false },
         unique: { type: "boolean", defaultsTo: false },
-        private: { type: "boolean", defaultsTo: false },
         searchable: { type: "boolean", defaultsTo: true },
-
         minLength: { type: "number", allowNull: true },
         maxLength: { type: "number", allowNull: true },
 
-        // Relation fields
-        relation: { type: "string", allowNull: true }, // manyToOne, oneToMany, manyToMany, morphToMany...
-        target: { type: "string", allowNull: true }, // uid của content type khác
+        // 3. Tùy chọn hiển thị
+        configurable: { type: "boolean", defaultsTo: true },
+        private: { type: "boolean", defaultsTo: false },
+
+        // 4. Field quan hệ
+        relation: { type: "string", allowNull: true }, // manyToOne, oneToMany...
+        target: { type: "string", allowNull: true }, // uid content type đích
         inversedBy: { type: "string", allowNull: true },
         mappedBy: { type: "string", allowNull: true },
         targetAttribute: { type: "string", allowNull: true },
 
-        // Component fields
+        // 5. Field component/dynamiczone
         component: { type: "string", allowNull: true }, // uid component
-        components: { type: "json" }, // array uid component cho dynamiczone
+        components: { type: "json" }, // danh sách uid component cho dynamiczone
 
-        // Media fields
+        // 6. Field media
         multiple: { type: "boolean", allowNull: true },
         allowedTypes: { type: "json" }, // ["images","files","videos"]
 
-        // Plugin options riêng cho field
+        // 7. Plugin options riêng cho field
         pluginOptions: { type: "json", defaultsTo: {} },
 
-        // Thuộc về contentType nào
+        // 8. Quan hệ với ContentType
         contentType: { model: "ContentType", required: true },
 
+        // 9. Metadata
         createdAt: { type: "number", autoCreatedAt: true },
         updatedAt: { type: "number", autoUpdatedAt: true },
     },

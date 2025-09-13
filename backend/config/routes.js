@@ -183,6 +183,18 @@ module.exports.routes = {
         controller: "content-type-builder/ContentTypeController",
         action: "getContentType",
     },
+    "POST /api/v1/admin/content-type-builder/content-types": {
+        controller: "content-type-builder/ContentTypeController",
+        action: "create",
+    },
+    "PUT /api/v1/admin/content-type-builder/content-types/:uid": {
+        controller: "content-type-builder/ContentTypeController",
+        action: "update",
+    },
+    "DELETE /api/v1/admin/content-type-builder/content-types/:uid": {
+        controller: "content-type-builder/ContentTypeController",
+        action: "destroy",
+    },
 
     // component routes
     "GET /api/v1/admin/content-type-builder/components": {
@@ -193,6 +205,18 @@ module.exports.routes = {
         controller: "content-type-builder/ComponentController",
         action: "getComponent",
     },
+    "POST /api/v1/admin/content-type-builder/components": {
+        controller: "content-type-builder/ComponentController",
+        action: "create",
+    },
+    "PUT /api/v1/admin/content-type-builder/components/:uid": {
+        controller: "content-type-builder/ComponentController",
+        action: "update",
+    },
+    "DELETE /api/v1/admin/content-type-builder/components/:uid": {
+        controller: "content-type-builder/ComponentController",
+        action: "destroy",
+    },
 
     // content type builder routes
     "GET /api/v1/admin/content-type-builder/schema": {
@@ -201,7 +225,7 @@ module.exports.routes = {
     },
     "GET /api/v1/admin/content-type-builder/reversed-name": {
         controller: "content-type-builder/ContentTypeBuilderController",
-        action: "getReversedName",
+        action: "getReversedNames",
     },
 
     // content type field routes

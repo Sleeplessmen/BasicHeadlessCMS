@@ -15,6 +15,15 @@ require("module-alias/register");
     }
 })();
 
+process.on("unhandledRejection", (err) => {
+    console.error("Unhandled Rejection:", err);
+});
+
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception:", err);
+    process.exit(1);
+});
+
 process.on("SIGINT", async () => {
     console.log("Đang tắt ứng dụng...");
     await sails.lower();

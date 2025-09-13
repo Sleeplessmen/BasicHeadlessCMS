@@ -1,7 +1,3 @@
-################################################
-# Sails.js & Node.js
-################################################
-
 # Node modules & dependency lock
 node_modules/
 package-lock.json

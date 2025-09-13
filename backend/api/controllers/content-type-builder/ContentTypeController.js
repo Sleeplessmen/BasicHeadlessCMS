@@ -1,75 +1,27 @@
 const { NotFoundError } = require("../../../errors");
 
-// fixing
 module.exports = {
-    // GET api/v1/admin/content-types
     async getContentTypes(req, res) {
-        const contentTypes = await ContentType.find().populate("attributes");
-
-        if (!contentTypes || contentTypes.length === 0) {
-            throw new NotFoundError("Không tìm thấy content types");
-        }
-
-        const result = contentTypes.map((ct) => ({
-            uid: ct.uid,
-            plugin: ct.plugin || null,
-            modelName: ct.modelName,
-            kind: ct.kind,
-            collectionName: ct.collectionName,
-            globalId: ct.globalId,
-            modelType: ct.modelType || "contentType",
-            info: ct.info || {},
-            options: ct.options || {},
-            pluginOptions: ct.pluginOptions || {},
-            visible: ct.visible,
-            restrictRelationsTo: ct.restrictRelationsTo,
-            attributes: buildAttributes(ct.attributes),
-        }));
-
-        return res.ok(
-            await sails.helpers.response.success.with({
-                data: result,
-                message: "Lấy danh sách content types thành công",
-            }),
-        );
+        return res.ok({ message: "ContentTypeController.getContentTypes" });
     },
 
-    // GET api/v1/admin/content-types/:uid
     async getContentType(req, res) {
-        const { uid } = req.params;
+        return res.ok({ message: "ContentTypeController.getContentType" });
+    },
 
-        const contentType = await ContentType.findOne({ uid }).populate(
-            "attributes",
-        );
-        if (!contentType)
-            throw new NotFoundError("Không tìm thấy content type");
+    async create(req, res) {
+        return res.ok({ message: "ContentTypeController.create" });
+    },
 
-        const result = {
-            uid: contentType.uid,
-            plugin: contentType.plugin || null,
-            modelName: contentType.modelName,
-            kind: contentType.kind,
-            collectionName: contentType.collectionName,
-            globalId: contentType.globalId,
-            modelType: contentType.modelType || "contentType",
-            info: contentType.info || {},
-            options: contentType.options || {},
-            pluginOptions: contentType.pluginOptions || {},
-            visible: contentType.visible,
-            restrictRelationsTo: contentType.restrictRelationsTo,
-            attributes: buildAttributes(contentType.attributes),
-        };
+    async update(req, res) {
+        return res.ok({ message: "ContentTypeController.update" });
+    },
 
-        return res.ok(
-            await sails.helpers.response.success.with({
-                data: result,
-                message: "Lấy chi tiết content type thành công",
-            }),
-        );
+    async destroy(req, res) {
+        return res.ok({ message: "ContentTypeController.destroy" });
     },
 };
 
-// Helper: Convert ContentTypeField[] -> attributes object
 function buildAttributes(fields = []) {
     const attrs = {};
     for (const f of fields) {
@@ -83,7 +35,6 @@ function buildAttributes(fields = []) {
             pluginOptions: f.pluginOptions || {},
         };
 
-        // relation
         if (f.type === "relation") {
             Object.assign(base, {
                 relation: f.relation,
@@ -93,25 +44,17 @@ function buildAttributes(fields = []) {
                 targetAttribute: f.targetAttribute,
             });
         }
-
-        // component
         if (f.type === "component") {
             base.component = f.component;
             base.repeatable = f.multiple || false;
         }
-
-        // dynamic zone
         if (f.type === "dynamiczone") {
             base.components = f.components || [];
         }
-
-        // media
         if (f.type === "media") {
             base.multiple = f.multiple;
             base.allowedTypes = f.allowedTypes || ["files", "images", "videos"];
         }
-
-        // min/max cho text/number
         if (f.minLength) base.minLength = f.minLength;
         if (f.maxLength) base.maxLength = f.maxLength;
 
