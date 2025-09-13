@@ -28,7 +28,7 @@ function buildAttributes(attrs = []) {
 }
 
 module.exports = {
-    // GET api/v1/admin/schemas
+    // GET api/v1/admin/content-type-builder/schema
     async getSchemas(req, res) {
         const contentTypes = await ContentType.find().populate("attributes");
         const components = await Component.find().populate("attributes");
@@ -87,6 +87,30 @@ module.exports = {
                 },
                 message:
                     "Lấy danh sách schemas (content types + components) thành công",
+            }),
+        );
+    },
+
+    // GET api/v1/admin/content-type-builder/reversed-names?name=...
+    async getReversedNames(req, res) {
+        const { name } = req.query; // Lấy tên từ query parameters
+        if (!name) {
+            return res.badRequest(
+                await sails.helpers.response.error.with({
+                    message: "Thiếu tham số 'name' trong query",
+                }),
+            );
+        }
+
+        // Tìm kiếm các tên ngược lại dựa trên tên đã cho
+        const reversedNames = await sails.helpers.schema.getReversedNames(name);
+
+        return res.ok(
+            await sails.helpers.response.success.with({
+                data: {
+                    reversedNames,
+                },
+                message: "Lấy danh sách tên ngược lại thành công",
             }),
         );
     },

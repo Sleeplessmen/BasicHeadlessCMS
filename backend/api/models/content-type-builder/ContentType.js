@@ -27,7 +27,7 @@ module.exports = {
 
         // Quan hệ: 1 contentType có nhiều field
         attributes: {
-            collection: "ContentField",
+            collection: "ContentTypeField",
             via: "contentType",
         },
 

@@ -300,7 +300,6 @@ https://api-j4831.strapidemo.com/content-manager/content-types-settings
         ]
     }
 
-
 https://api-j4831.strapidemo.com/content-manager/content-types/api::article.article/configuration
 
     response json:
@@ -658,7 +657,6 @@ https://api-j4831.strapidemo.com/content-manager/content-types/api::article.arti
 // single types
 
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page/actions/countDraftRelations?locale=en
-
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page?locale=en
 
     response json:
@@ -811,220 +809,20 @@ https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blo
     }
     }
 
+POST https://api-nk4fh.strapidemo.com/content-manager/uid/check-availability?locale=en
+    payload: {
+  "contentTypeUID": "api::article.article",
+  "field": "slug",
+  "value": "5-raisons-pour-les-quelles-votre-contenu-doit-aller-en-orbite"
+    }
+    response: {
+        "isAvailable": true,
+        "suggestion": null
+            }
 
 // collection types
-https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/configuration
-    {
-    "data": {
-        "contentType": {
-            "uid": "api::faq.faq",
-            "settings": {
-                "bulkable": true,
-                "filterable": true,
-                "searchable": true,
-                "pageSize": 10,
-                "mainField": "question",
-                "defaultSortBy": "question",
-                "defaultSortOrder": "ASC"
-            },
-            "metadatas": {
-                "id": {
-                    "edit": {},
-                    "list": {
-                        "label": "id",
-                        "searchable": true,
-                        "sortable": true
-                    }
-                },
-                "question": {
-                    "edit": {
-                        "label": "question",
-                        "description": "",
-                        "placeholder": "",
-                        "visible": true,
-                        "editable": true
-                    },
-                    "list": {
-                        "label": "question",
-                        "searchable": true,
-                        "sortable": true
-                    }
-                },
-                "answer": {
-                    "edit": {
-                        "label": "answer",
-                        "description": "",
-                        "placeholder": "",
-                        "visible": true,
-                        "editable": true
-                    },
-                    "list": {
-                        "label": "answer",
-                        "searchable": true,
-                        "sortable": true
-                    }
-                },
-                "createdAt": {
-                    "edit": {
-                        "label": "createdAt",
-                        "description": "",
-                        "placeholder": "",
-                        "visible": false,
-                        "editable": true
-                    },
-                    "list": {
-                        "label": "createdAt",
-                        "searchable": true,
-                        "sortable": true
-                    }
-                },
-                "updatedAt": {
-                    "edit": {
-                        "label": "updatedAt",
-                        "description": "",
-                        "placeholder": "",
-                        "visible": false,
-                        "editable": true
-                    },
-                    "list": {
-                        "label": "updatedAt",
-                        "searchable": true,
-                        "sortable": true
-                    }
-                },
-                "createdBy": {
-                    "edit": {
-                        "label": "createdBy",
-                        "description": "",
-                        "placeholder": "",
-                        "visible": false,
-                        "editable": true,
-                        "mainField": "firstname"
-                    },
-                    "list": {
-                        "label": "createdBy",
-                        "searchable": true,
-                        "sortable": true,
-                        "mainField": "firstname"
-                    }
-                },
-                "updatedBy": {
-                    "edit": {
-                        "label": "updatedBy",
-                        "description": "",
-                        "placeholder": "",
-                        "visible": false,
-                        "editable": true,
-                        "mainField": "firstname"
-                    },
-                    "list": {
-                        "label": "updatedBy",
-                        "searchable": true,
-                        "sortable": true,
-                        "mainField": "firstname"
-                    }
-                },
-                "documentId": {
-                    "edit": {},
-                    "list": {
-                        "label": "documentId",
-                        "searchable": true,
-                        "sortable": true
-                    }
-                }
-            },
-            "layouts": {
-                "list": [
-                    "id",
-                    "question",
-                    "answer",
-                    "createdAt"
-                ],
-                "edit": [
-                    [
-                        {
-                            "name": "question",
-                            "size": 6
-                        },
-                        {
-                            "name": "answer",
-                            "size": 6
-                        }
-                    ]
-                ]
-            }
-        },
-        "components": {}
-    }
-    }
-https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?page=1&pageSize=10&sort=question%3AASC&locale=en
-    {
-    "results": [
-        {
-            "id": 7,
-            "documentId": "n91o8tzvokmu3zfpqxfahec4",
-            "question": "Can I integrate LaunchPad with other tools and platforms?",
-            "answer": "Yes, LaunchPad supports integration with various third-party tools and platforms. Our Enterprise Integration Kit offers customizable integration options for complex needs.",
-            "createdAt": "2024-08-07T17:07:15.099Z",
-            "updatedAt": "2024-08-07T17:07:15.099Z",
-            "publishedAt": "2024-08-07T17:07:15.097Z",
-            "locale": "en",
-            "createdBy": null,
-            "updatedBy": null,
-            "localizations": [
-                {
-                    "id": 8,
-                    "documentId": "n91o8tzvokmu3zfpqxfahec4",
-                    "question": "Puis-je intégrer LaunchPad avec d’autres outils et plateformes ?",
-                    "answer": "Oui, LaunchPad prend en charge l'intégration avec divers outils et plateformes tiers. Notre kit d'intégration d'entreprise offre des options d'intégration personnalisables pour les besoins complexes.",
-                    "createdAt": "2024-09-10T16:26:14.423Z",
-                    "updatedAt": "2024-09-10T16:26:14.423Z",
-                    "publishedAt": "2024-09-10T16:26:14.415Z",
-                    "locale": "fr"
-                }
-            ],
-            "strapi_stage": null,
-            "strapi_assignee": null,
-            "status": "published"
-        },
-POST https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?locale=en
-    payload: {question: "hai", answer: "hai", createdAt: null, updatedAt: null, createdBy: null, updatedBy: null}
-    response: {
-    "data": {
-        "id": 16,
-        "documentId": "bht6yrs8a395wbbxnfxzdrve",
-        "question": "hai",
-        "answer": "hai",
-        "createdAt": "2025-09-12T13:00:12.680Z",
-        "updatedAt": "2025-09-12T13:00:12.680Z",
-        "publishedAt": "2025-09-12T13:00:12.676Z",
-        "locale": "en",
-        "createdBy": {
-            "id": 1,
-            "firstname": "Kai",
-            "lastname": "Doe",
-            "username": null,
-            "email": "admin@strapidemo.com",
-            "isActive": true
-        },
-        "updatedBy": {
-            "id": 1,
-            "firstname": "Kai",
-            "lastname": "Doe",
-            "username": null,
-            "email": "admin@strapidemo.com",
-            "isActive": true
-        },
-        "localizations": [],
-        "strapi_stage": null,
-        "strapi_assignee": null
-    },
-    "meta": {
-        "availableLocales": [],
-        "availableStatus": []
-    }
-    }
 
+// content-type-builder
 PUT https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/configuration
     payload: {layouts: {edit: [[{name: "question", size: 6}, {name: "answer", size: 6}]],…},…}
     response: {
@@ -1169,8 +967,221 @@ PUT https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/
         },
         "components": {}
     } }
+https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/configuration
+    {
+    "data": {
+        "contentType": {
+            "uid": "api::faq.faq",
+            "settings": {
+                "bulkable": true,
+                "filterable": true,
+                "searchable": true,
+                "pageSize": 10,
+                "mainField": "question",
+                "defaultSortBy": "question",
+                "defaultSortOrder": "ASC"
+            },
+            "metadatas": {
+                "id": {
+                    "edit": {},
+                    "list": {
+                        "label": "id",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "question": {
+                    "edit": {
+                        "label": "question",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": true,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "question",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "answer": {
+                    "edit": {
+                        "label": "answer",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": true,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "answer",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "createdAt": {
+                    "edit": {
+                        "label": "createdAt",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "createdAt",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "updatedAt": {
+                    "edit": {
+                        "label": "updatedAt",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true
+                    },
+                    "list": {
+                        "label": "updatedAt",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                },
+                "createdBy": {
+                    "edit": {
+                        "label": "createdBy",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true,
+                        "mainField": "firstname"
+                    },
+                    "list": {
+                        "label": "createdBy",
+                        "searchable": true,
+                        "sortable": true,
+                        "mainField": "firstname"
+                    }
+                },
+                "updatedBy": {
+                    "edit": {
+                        "label": "updatedBy",
+                        "description": "",
+                        "placeholder": "",
+                        "visible": false,
+                        "editable": true,
+                        "mainField": "firstname"
+                    },
+                    "list": {
+                        "label": "updatedBy",
+                        "searchable": true,
+                        "sortable": true,
+                        "mainField": "firstname"
+                    }
+                },
+                "documentId": {
+                    "edit": {},
+                    "list": {
+                        "label": "documentId",
+                        "searchable": true,
+                        "sortable": true
+                    }
+                }
+            },
+            "layouts": {
+                "list": [
+                    "id",
+                    "question",
+                    "answer",
+                    "createdAt"
+                ],
+                "edit": [
+                    [
+                        {
+                            "name": "question",
+                            "size": 6
+                        },
+                        {
+                            "name": "answer",
+                            "size": 6
+                        }
+                    ]
+                ]
+            }
+        },
+        "components": {}
+    }
+    }
 
+// C&R in CRUD
+https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?page=1&pageSize=10&sort=question%3AASC&locale=en
+    {
+    "results": [
+        {
+            "id": 7,
+            "documentId": "n91o8tzvokmu3zfpqxfahec4",
+            "question": "Can I integrate LaunchPad with other tools and platforms?",
+            "answer": "Yes, LaunchPad supports integration with various third-party tools and platforms. Our Enterprise Integration Kit offers customizable integration options for complex needs.",
+            "createdAt": "2024-08-07T17:07:15.099Z",
+            "updatedAt": "2024-08-07T17:07:15.099Z",
+            "publishedAt": "2024-08-07T17:07:15.097Z",
+            "locale": "en",
+            "createdBy": null,
+            "updatedBy": null,
+            "localizations": [
+                {
+                    "id": 8,
+                    "documentId": "n91o8tzvokmu3zfpqxfahec4",
+                    "question": "Puis-je intégrer LaunchPad avec d’autres outils et plateformes ?",
+                    "answer": "Oui, LaunchPad prend en charge l'intégration avec divers outils et plateformes tiers. Notre kit d'intégration d'entreprise offre des options d'intégration personnalisables pour les besoins complexes.",
+                    "createdAt": "2024-09-10T16:26:14.423Z",
+                    "updatedAt": "2024-09-10T16:26:14.423Z",
+                    "publishedAt": "2024-09-10T16:26:14.415Z",
+                    "locale": "fr"
+                }
+            ],
+            "strapi_stage": null,
+            "strapi_assignee": null,
+            "status": "published"
+        },
+POST https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?locale=en
+    payload: {question: "hai", answer: "hai", createdAt: null, updatedAt: null, createdBy: null, updatedBy: null}
+    response: {
+    "data": {
+        "id": 16,
+        "documentId": "bht6yrs8a395wbbxnfxzdrve",
+        "question": "hai",
+        "answer": "hai",
+        "createdAt": "2025-09-12T13:00:12.680Z",
+        "updatedAt": "2025-09-12T13:00:12.680Z",
+        "publishedAt": "2025-09-12T13:00:12.676Z",
+        "locale": "en",
+        "createdBy": {
+            "id": 1,
+            "firstname": "Kai",
+            "lastname": "Doe",
+            "username": null,
+            "email": "admin@strapidemo.com",
+            "isActive": true
+        },
+        "updatedBy": {
+            "id": 1,
+            "firstname": "Kai",
+            "lastname": "Doe",
+            "username": null,
+            "email": "admin@strapidemo.com",
+            "isActive": true
+        },
+        "localizations": [],
+        "strapi_stage": null,
+        "strapi_assignee": null
+    },
+    "meta": {
+        "availableLocales": [],
+        "availableStatus": []
+    }
+    }
 
+// relations
 https://api-xb1hw.strapidemo.com/content-manager/relations/api::article.article/categories?locale=en&id=bf2gmfab8a42izu4xxncw7ct&pageSize=10&_q=&page=1
     {
     "results": [
@@ -1249,6 +1260,7 @@ https://api-xb1hw.strapidemo.com/content-manager/relations/api::article.article/
 
     {"pagination":{"page":1,"pageSize":5,"pageCount":0,"total":0},"results":[]}
 
+// preview
 https://api-xb1hw.strapidemo.com/content-releases/getByDocumentAttached?contentType=api::article.article&entryDocumentId=bf2gmfab8a42izu4xxncw7ct&locale=en&hasEntryAttached=true
 
     {data: []}
@@ -1259,6 +1271,7 @@ https://api-xb1hw.strapidemo.com/content-manager/preview/url/api::article.articl
         "url": "https://client-xb1hw.strapidemo.com/api/preview?secret=ARNFCb9zrC9ZHm5hZzCigWivD40icS4s&slug=xx&locale=en&uid=api%3A%3Aarticle.article&status=draft"
     }}
 
+// action entry
 https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::article.article/bf2gmfab8a42izu4xxncw7ct/actions/countDraftRelations?locale=en
     {"data":0}
 
@@ -2120,10 +2133,10 @@ POST https://api-nk4fh.strapidemo.com/content-manager/collection-types/api::arti
     }}
 
 // localizations
+
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page
+
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page?locale=en
-
-
 
 // upload
 
@@ -2659,7 +2672,7 @@ https://api-xb1hw.strapidemo.com/content-type-builder/reserved-names
         ]
     }
 
-home page
+// home page
 
 https://api-xb1hw.strapidemo.com/content-manager/homepage/recent-documents?action=update
 

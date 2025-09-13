@@ -69,7 +69,7 @@ module.exports = {
     },
 };
 
-// Helper: Convert ContentField[] -> attributes object
+// Helper: Convert ContentTypeField[] -> attributes object
 function buildAttributes(fields = []) {
     const attrs = {};
     for (const f of fields) {

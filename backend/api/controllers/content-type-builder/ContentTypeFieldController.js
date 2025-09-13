@@ -2,17 +2,14 @@ const { NotFoundError } = require("../../../errors");
 
 // fixing
 module.exports = {
-    // GET /api/v1/admin/content-fields/:contentTypeUid
-    async getFields(req, res) {
-        const { contentTypeUid } = req.params;
+    // GET /api/v1/admin/content-fields/:id
+    async findOne(req, res) {
+        const { id } = req.params;
 
-        const ct = await ContentType.findOne({ uid: contentTypeUid }).populate(
+        const ct = await ContentType.findOne({ uid: id }).populate(
             "attributes",
         );
-        if (!ct)
-            throw new NotFoundError(
-                `Không tìm thấy ContentType: ${contentTypeUid}`,
-            );
+        if (!ct) throw new NotFoundError(`Không tìm thấy ContentType: ${id}`);
 
         const result = ct.attributes.map((f) => ({
             id: f.id,
@@ -40,23 +37,20 @@ module.exports = {
         return res.ok(
             await sails.helpers.response.success.with({
                 data: result,
-                message: `Lấy danh sách fields của ContentType ${contentTypeUid} thành công`,
+                message: `Lấy danh sách fields của ContentType ${id} thành công`,
             }),
         );
     },
 
-    // POST /api/v1/admin/content-fields/:contentTypeUid
-    async createField(req, res) {
-        const { contentTypeUid } = req.params;
+    // POST /api/v1/admin/content-fields/:id
+    async create(req, res) {
+        const { id } = req.params;
         const data = req.body;
 
-        const ct = await ContentType.findOne({ uid: contentTypeUid });
-        if (!ct)
-            throw new NotFoundError(
-                `Không tìm thấy ContentType: ${contentTypeUid}`,
-            );
+        const ct = await ContentType.findOne({ uid: id });
+        if (!ct) throw new NotFoundError(`Không tìm thấy ContentType: ${id}`);
 
-        const field = await ContentField.create({
+        const field = await ContentTypeField.create({
             ...data,
             contentType: ct.id,
         }).fetch();
@@ -64,17 +58,17 @@ module.exports = {
         return res.ok(
             await sails.helpers.response.success.with({
                 data: field,
-                message: `Tạo field mới cho ContentType ${contentTypeUid} thành công`,
+                message: `Tạo field mới cho ContentType ${id} thành công`,
             }),
         );
     },
 
     // PUT /api/v1/admin/content-fields/:id
-    async updateField(req, res) {
+    async update(req, res) {
         const { id } = req.params;
         const data = req.body;
 
-        const field = await ContentField.updateOne({ id }).set(data);
+        const field = await ContentTypeField.updateOne({ id }).set(data);
         if (!field) throw new NotFoundError(`Không tìm thấy field id=${id}`);
 
         return res.ok(
@@ -86,10 +80,10 @@ module.exports = {
     },
 
     // DELETE /api/v1/admin/content-fields/:id
-    async deleteField(req, res) {
+    async destroy(req, res) {
         const { id } = req.params;
 
-        const field = await ContentField.destroyOne({ id });
+        const field = await ContentTypeField.destroyOne({ id });
         if (!field) throw new NotFoundError(`Không tìm thấy field id=${id}`);
 
         return res.ok(

@@ -1,5 +1,6 @@
 // fixing
 module.exports.policies = {
+    // cores
     AdminAuthController: {
         register: true,
         login: true,
@@ -18,6 +19,7 @@ module.exports.policies = {
         "*": ["isAdminAuthenticated"],
     },
 
+    // users-permissions
     "users-permissions/AuthController": {
         "*": true,
         // register: true,
@@ -46,10 +48,11 @@ module.exports.policies = {
         // update: ["isAuthenticated", "isOwner"],
     },
 
+    // content-type-builder
     "content-type-builder/ContentTypeController": {
         "*": ["isAdminAuthenticated"],
     },
-    "content-type-builder/ContentFieldController": {
+    "content-type-builder/ContentTypeFieldController": {
         "*": ["isAdminAuthenticated"],
     },
     "content-type-builder/ComponentController": {
@@ -58,19 +61,35 @@ module.exports.policies = {
     "content-type-builder/ComponentFieldController": {
         "*": ["isAdminAuthenticated"],
     },
-    "content-type-builder/SchemaController": {
+    "content-type-builder/ContentTypeBuilderController": {
         "*": ["isAdminAuthenticated"],
     },
-    // "content-manager/EntryController": {
-    //     "*": ["isAdminAuthenticated"],
-    // },
-    // "content-manager/RelationController": {
-    //     "*": ["isAdminAuthenticated"],
-    // },
-    // "upload/FileController": {
-    //     "*": ["isAdminAuthenticated"],
-    // },
-    // "upload/UploadController": {
-    //     "*": ["isAdminAuthenticated"],
-    // },
+
+    // content-manager
+    "content-manager/ContentManagerController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-manager/SingleTypeEntryController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-manager/CollectionTypeEntryController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-manager/RelationController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-manager/EntryActionController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "content-manager/PreviewController": {
+        "*": ["isAdminAuthenticated"],
+    },
+
+    // upload
+    "upload/AssetController": {
+        "*": ["isAdminAuthenticated"],
+    },
+    "upload/UploadController": {
+        "*": ["isAdminAuthenticated"],
+    },
 };

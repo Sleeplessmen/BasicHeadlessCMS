@@ -2,17 +2,14 @@ const { NotFoundError } = require("../../../errors");
 
 // fixing
 module.exports = {
-    // GET /api/v1/admin/component-fields/:componentUid
-    async getFields(req, res) {
-        const { componentUid } = req.params;
+    // GET /api/v1/admin/component-fields/:id
+    async findOne(req, res) {
+        const { id } = req.params;
 
-        const comp = await Component.findOne({ uid: componentUid }).populate(
+        const comp = await Component.findOne({ uid: id }).populate(
             "attributes",
         );
-        if (!comp)
-            throw new NotFoundError(
-                `Không tìm thấy Component: ${componentUid}`,
-            );
+        if (!comp) throw new NotFoundError(`Không tìm thấy Component: ${id}`);
 
         const result = comp.attributes.map((f) => ({
             id: f.id,
@@ -40,21 +37,18 @@ module.exports = {
         return res.ok(
             await sails.helpers.response.success.with({
                 data: result,
-                message: `Lấy danh sách fields của Component ${componentUid} thành công`,
+                message: `Lấy danh sách fields của Component ${id} thành công`,
             }),
         );
     },
 
-    // POST /api/v1/admin/component-fields/:componentUid
-    async createField(req, res) {
-        const { componentUid } = req.params;
+    // POST /api/v1/admin/component-fields/:id
+    async create(req, res) {
+        const { id } = req.params;
         const data = req.body;
 
-        const comp = await Component.findOne({ uid: componentUid });
-        if (!comp)
-            throw new NotFoundError(
-                `Không tìm thấy Component: ${componentUid}`,
-            );
+        const comp = await Component.findOne({ uid: id });
+        if (!comp) throw new NotFoundError(`Không tìm thấy Component: ${id}`);
 
         const field = await ComponentField.create({
             ...data,
@@ -64,13 +58,13 @@ module.exports = {
         return res.ok(
             await sails.helpers.response.success.with({
                 data: field,
-                message: `Tạo field mới cho Component ${componentUid} thành công`,
+                message: `Tạo field mới cho Component ${id} thành công`,
             }),
         );
     },
 
     // PUT /api/v1/admin/component-fields/:id
-    async updateField(req, res) {
+    async update(req, res) {
         const { id } = req.params;
         const data = req.body;
 
@@ -86,7 +80,7 @@ module.exports = {
     },
 
     // DELETE /api/v1/admin/component-fields/:id
-    async deleteField(req, res) {
+    async destroy(req, res) {
         const { id } = req.params;
 
         const field = await ComponentField.destroyOne({ id });
