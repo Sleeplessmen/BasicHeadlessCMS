@@ -1,6 +1,6 @@
 {
     "name": "backend",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "A Sails backend server",
     "private": true,
     "type": "commonjs",
@@ -10,6 +10,8 @@
         "@services": "api/services",
         "@policies": "api/policies",
         "@helpers": "api/helpers",
+        "@models": "api/models",
+        "@responses": "api/responses",
         "@config": "config",
         "@errors": "errors",
         "@scripts": "scripts"
@@ -27,7 +29,6 @@
         "connect-redis": "^9.0.0",
         "dotenv": "^17.1.0",
         "express-rate-limit": "^8.0.1",
-        "ioredis": "^5.7.0",
         "joi": "^17.13.3",
         "jsonwebtoken": "^9.0.2",
         "module-alias": "^2.2.3",

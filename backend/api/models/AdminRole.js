@@ -1,5 +1,3 @@
-const { update } = require("../controllers/AdminUserController");
-
 module.exports = {
     attributes: {
         name: {
@@ -12,7 +10,6 @@ module.exports = {
             type: "string",
             required: true,
             unique: true,
-            // ví dụ: "strapi-super-admin", "strapi-editor"
         },
 
         description: {

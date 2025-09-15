@@ -5,7 +5,7 @@ module.exports = async function seedAdminUsers() {
     sails.log("🔧 Đang chạy seedAdminUsers.js...");
 
     try {
-        // Lấy các role cần thiết dựa vào code
+        // Lấy các role cần thiết dựa vào code attribute
         const roles = await AdminRole.find({
             where: {
                 code: ["strapi-super-admin", "strapi-editor", "strapi-author"],
@@ -75,26 +75,39 @@ module.exports = async function seedAdminUsers() {
         );
 
         // Tạo user mới
-        for (const u of newUsers) {
-            const created = await AdminUser.create({
-                firstname: u.firstname,
-                lastname: u.lastname,
-                username: u.username,
-                email: u.email,
-                password: hashedPassword,
-                isActive: true,
-                blocked: false,
-            }).fetch();
+        for (const u of usersToSeed) {
+            let user = await AdminUser.findOne({ email: u.email }).populate(
+                "roles",
+            );
 
-            if (u.roleIds?.length) {
-                await AdminUser.addToCollection(created.id, "roles").members(
-                    u.roleIds,
-                );
+            if (!user) {
+                user = await AdminUser.create({
+                    firstname: u.firstname,
+                    lastname: u.lastname,
+                    username: u.username,
+                    email: u.email,
+                    password: hashedPassword,
+                    isActive: true,
+                    blocked: false,
+                }).fetch();
             }
 
-            sails.log(
-                `✅ Đã tạo user '${u.email}' với role(s): ${u.roleIds.join(",")}`,
+            // Kiểm tra nếu user chưa có roles thì mới add
+            const existingRoleIds = (user.roles || []).map((r) => r.id);
+            const missingRoles = u.roleIds.filter(
+                (rid) => !existingRoleIds.includes(rid),
             );
+
+            if (missingRoles.length > 0) {
+                await AdminUser.addToCollection(user.id, "roles").members(
+                    missingRoles,
+                );
+                sails.log(
+                    `✅ Gắn thêm role(s) ${missingRoles.join(",")} cho user '${user.email}'`,
+                );
+            } else {
+                sails.log(`ℹ️ User '${user.email}' đã có đủ roles.`);
+            }
         }
 
         if (newUsers.length === 0) {
@@ -102,6 +115,15 @@ module.exports = async function seedAdminUsers() {
                 "ℹ️ Tất cả admin panel users đã tồn tại, không cần tạo thêm.",
             );
         }
+
+        const allUsers = await AdminUser.find().populate("roles");
+        sails.log(
+            "📋 Users hiện có:",
+            allUsers.map((u) => ({
+                email: u.email,
+                roles: u.roles.map((r) => r.code),
+            })),
+        );
     } catch (err) {
         sails.log.error(
             "❌ Lỗi khi seed admin panel users:",

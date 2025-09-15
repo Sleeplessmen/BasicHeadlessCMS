@@ -27,9 +27,7 @@ module.exports = async function errorHandler(err, req, res, unusedNext) {
             err instanceof PolicyError ||
             err instanceof TooManyRequestsError
         ) {
-            return res
-                .status(err.status)
-                .json(await sails.helpers.response.errorResponse.with({ err }));
+            return res.error(err);
         }
 
         // Wrap nếu không phải error "chuẩn"
@@ -39,15 +37,11 @@ module.exports = async function errorHandler(err, req, res, unusedNext) {
             method: req.method,
         });
 
-        return res.status(wrapped.status).json(
-            await sails.helpers.response.errorResponse.with({
-                err: wrapped,
-            }),
-        );
+        return res.error(wrapped);
     } catch (formatErr) {
         sails.log.error("Error Handler - lỗi khi format:", formatErr);
-
         return res.status(500).json({
+            data: null,
             error: {
                 name: "ApplicationError",
                 message: "Lỗi hệ thống",

@@ -156,6 +156,7 @@ module.exports = {
         );
     },
 
+    // fixing
     me: async (req, res) => {
         const user = req.user;
         if (!user)
@@ -183,6 +184,7 @@ module.exports = {
         );
     },
 
+    // fixing
     getUserPermissions: async (req, res) => {
         const user = req.user;
         if (!user)

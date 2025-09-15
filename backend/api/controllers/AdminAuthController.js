@@ -3,7 +3,6 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const {
     BadRequestError,
-    NotFoundError,
     UnauthorizedError,
     ConflictError,
     ValidationError,
@@ -84,14 +83,9 @@ module.exports = {
             { expiresIn: "1d" },
         );
 
-        return res.ok(
-            await sails.helpers.response.success.with({
-                data: {
-                    user: formatUser(user),
-                    token,
-                },
-                message: "Đăng nhập thành công",
-            }),
+        return res.success(
+            { user: formatUser(user), token },
+            "Đăng nhập thành công",
         );
     },
 

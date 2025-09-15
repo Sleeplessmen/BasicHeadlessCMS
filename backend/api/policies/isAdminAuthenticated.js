@@ -34,7 +34,7 @@ module.exports = async function (req, res, proceed) {
         throw new UnauthorizedError("Người dùng không tồn tại hoặc đã bị xoá");
     }
 
-    req.user = user; // đồng bộ luôn từ DB
+    req.user = user;
     req.token = token;
 
     return proceed();

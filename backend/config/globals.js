@@ -1,6 +1,6 @@
 module.exports.globals = {
-    _: false, // không inject lodash toàn cục
+    _: require("lodash"),
     async: false, // không inject async toàn cục
-    models: true, // cho phép gọi Model toàn cục (User.find,...)
+    models: true,
     sails: true, // cho phép dùng sails.* toàn cục
 };

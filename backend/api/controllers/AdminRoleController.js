@@ -55,6 +55,7 @@ module.exports = {
         );
     },
 
+    // fixing
     findOne: async (req, res) => {
         const { id } = req.params;
 
@@ -161,6 +162,7 @@ module.exports = {
         );
     },
 
+    // fixing
     destroy: async (req, res) => {
         const { id } = req.params;
         if (!id) throw new ValidationError("Thiếu id role để xoá");
@@ -189,6 +191,7 @@ module.exports = {
         );
     },
 
+    // fixing
     getPermissions: async (req, res) => {
         const { id } = req.params;
 

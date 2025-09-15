@@ -657,6 +657,7 @@ https://api-j4831.strapidemo.com/content-manager/content-types/api::article.arti
 // single types
 
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page/actions/countDraftRelations?locale=en
+
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page?locale=en
 
     response json:
@@ -967,6 +968,7 @@ PUT https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/
         },
         "components": {}
     } }
+
 https://api-xb1hw.strapidemo.com/content-manager/content-types/api::faq.faq/configuration
     {
     "data": {
@@ -1143,6 +1145,7 @@ https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?p
             "strapi_assignee": null,
             "status": "published"
         },
+
 POST https://api-xb1hw.strapidemo.com/content-manager/collection-types/api::faq.faq?locale=en
     payload: {question: "hai", answer: "hai", createdAt: null, updatedAt: null, createdBy: null, updatedBy: null}
     response: {
@@ -2133,13 +2136,11 @@ POST https://api-nk4fh.strapidemo.com/content-manager/collection-types/api::arti
     }}
 
 // localizations
-
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page
 
 https://api-xb1hw.strapidemo.com/content-manager/single-types/api::blog-page.blog-page?locale=en
 
 // upload
-
 https://api-xb1hw.strapidemo.com/upload/configuration
 
     response json:
@@ -2486,6 +2487,7 @@ https://api-xb1hw.strapidemo.com/upload/folder-structure
         }
     ]
     }
+
 https://api-xb1hw.strapidemo.com/upload/folders?sort=name:ASC&page=1&pageSize=20&pagination[pageSize]=-1&filters[$and][0][parent][id][$null]=true
     payload - query string parameters: sort=name:ASC&page=1&pageSize=20&pagination[pageSize]=-1&filters[$and][0][parent][id][$null]=true
     response  {
@@ -2561,12 +2563,7 @@ https://api-xb1hw.strapidemo.com/upload/folders?sort=name:ASC&page=1&pageSize=20
     ]
     }
 
-
-
-
-
 // settings
-
 https://api-xb1hw.strapidemo.com/upload/setting
 
     {
@@ -2578,13 +2575,11 @@ https://api-xb1hw.strapidemo.com/upload/setting
     }
 
 // administration panel
-
 https://api-xb1hw.strapidemo.com/admin/roles/?
 
 https://api-xb1hw.strapidemo.com/admin/users/?pageSize=10&page=1&sort=firstname
 
 // user and permissions plugin
-
 https://api-xb1hw.strapidemo.com/users-permissions/roles
 
 https://api-xb1hw.strapidemo.com/users-permissions/advanced
@@ -2629,11 +2624,9 @@ https://api-xb1hw.strapidemo.com/users-permissions/advanced
 https://api-xb1hw.strapidemo.com/users-permissions/email-templates
 
 // email plugin
-
 https://api-xb1hw.strapidemo.com/email/settings
 
 // content type builder
-
 https://api-xb1hw.strapidemo.com/content-type-builder/reserved-names
 
     {
@@ -2672,8 +2665,271 @@ https://api-xb1hw.strapidemo.com/content-type-builder/reserved-names
         ]
     }
 
-// home page
+https://api-jnots.strapidemo.com/content-type-builder/update-schema-status
+    response: {data: {isUpdating: true}}
 
+POST: https://api-jnots.strapidemo.com/content-type-builder/update-schema
+    payload:
+    {"data":{"components":[{"action":"update","uid":"shared.user","category":"shared","modelName":"user","globalId":"ComponentSharedUser","modelType":"component","collectionName":"components_shared_users","attributes":[{"action":"update","name":"firstnam","properties":{"type":"string"}},{"action":"update","name":"lastname","properties":{"type":"string"}},{"action":"update","name":"job","properties":{"type":"string"}},{"action":"update","name":"image","properties":{"type":"media","multiple":false,"required":false,"allowedTypes":["images"]}}],"status":"CHANGED","displayName":"User","icon":"user","description":""}],"contentTypes":[]}}
+
+POST: https://api-jnots.strapidemo.com/content-type-builder/update-schema
+    payload: {"data":{"components":[{"action":"create","uid":"dynamic-zone.fadqq1","category":"dynamic-zone","status":"NEW","modelName":"fadqq1","globalId":"fadqq1","attributes":[{"action":"create","name":"xx","properties":{"type":"component","repeatable":false,"component":"shared.steps"}}],"modelType":"component","displayName":"fadqq1"}],"contentTypes":[{"action":"create","uid":"api::dadd.dadd","status":"NEW","modelType":"contentType","attributes":[{"action":"create","name":"daddd","properties":{"type":"json"}}],"kind":"collectionType","modelName":"dadd","globalId":"dadd","draftAndPublish":true,"displayName":"dadd","singularName":"dadd","pluralName":"dadds"},{"action":"create","uid":"api::dsf.dsf","status":"NEW","modelType":"contentType","attributes":[{"action":"create","name":"fdasf","properties":{"type":"blocks"}}],"kind":"singleType","modelName":"dsf","globalId":"dsf","draftAndPublish":true,"displayName":"dsf","singularName":"dsf","pluralName":"dsfs"}]}}
+    response: {}
+
+POST https://api-jnots.strapidemo.com/content-type-builder/update-schema
+    payload: {"data":{"components":[],"contentTypes":[{"action":"delete","uid":"api::dammm.dammm"}]}}
+    response: {}
+
+GET https://api-jnots.strapidemo.com/content-manager/content-types/api::dadd.dadd/configuration
+    response: {
+        "data": {
+            "contentType": {
+                "uid": "api::dadd.dadd",
+                "settings": {
+                    "bulkable": true,
+                    "filterable": true,
+                    "searchable": true,
+                    "pageSize": 10,
+                    "mainField": "documentId",
+                    "defaultSortBy": "documentId",
+                    "defaultSortOrder": "ASC"
+                },
+                "metadatas": {
+                    "id": {
+                        "edit": {},
+                        "list": {
+                            "label": "id",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "daddd": {
+                        "edit": {
+                            "label": "daddd",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "daddd",
+                            "searchable": false,
+                            "sortable": false
+                        }
+                    },
+                    "createdAt": {
+                        "edit": {
+                            "label": "createdAt",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "createdAt",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "updatedAt": {
+                        "edit": {
+                            "label": "updatedAt",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "updatedAt",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "createdBy": {
+                        "edit": {
+                            "label": "createdBy",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true,
+                            "mainField": "firstname"
+                        },
+                        "list": {
+                            "label": "createdBy",
+                            "searchable": true,
+                            "sortable": true,
+                            "mainField": "firstname"
+                        }
+                    },
+                    "updatedBy": {
+                        "edit": {
+                            "label": "updatedBy",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true,
+                            "mainField": "firstname"
+                        },
+                        "list": {
+                            "label": "updatedBy",
+                            "searchable": true,
+                            "sortable": true,
+                            "mainField": "firstname"
+                        }
+                    },
+                    "documentId": {
+                        "edit": {},
+                        "list": {
+                            "label": "documentId",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    }
+                },
+                "layouts": {
+                    "list": [
+                        "id",
+                        "createdAt",
+                        "updatedAt",
+                        "createdBy"
+                    ],
+                    "edit": [
+                        [
+                            {
+                                "name": "daddd",
+                                "size": 12
+                            }
+                        ]
+                    ]
+                }
+            },
+            "components": {}
+        }
+    }
+
+PUT https://api-jnots.strapidemo.com/content-manager/content-types/api::dadd.dadd/configuration
+    payload: {"layouts":{"edit":[],"list":["id","createdAt","updatedAt","createdBy"]},"settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"id","defaultSortBy":"documentId","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"id","searchable":true,"sortable":true}},"daddd":{"edit":{"label":"daddd","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"daddd","searchable":false,"sortable":false}},"createdAt":{"edit":{"label":"createdAt","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"createdAt","searchable":true,"sortable":true}},"updatedAt":{"edit":{"label":"updatedAt","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"updatedAt","searchable":true,"sortable":true}},"createdBy":{"edit":{"label":"createdBy","description":"","placeholder":"","visible":false,"editable":true,"mainField":"firstname"},"list":{"label":"createdBy","searchable":true,"sortable":true}},"updatedBy":{"edit":{"label":"updatedBy","description":"","placeholder":"","visible":false,"editable":true,"mainField":"firstname"},"list":{"label":"updatedBy","searchable":true,"sortable":true}},"documentId":{"edit":{},"list":{"label":"documentId","searchable":true,"sortable":true}}}}
+    response:
+    {
+        "data": {
+            "contentType": {
+                "uid": "api::dadd.dadd",
+                "settings": {
+                    "bulkable": true,
+                    "filterable": true,
+                    "searchable": true,
+                    "pageSize": 10,
+                    "mainField": "id",
+                    "defaultSortBy": "documentId",
+                    "defaultSortOrder": "ASC"
+                },
+                "metadatas": {
+                    "id": {
+                        "edit": {},
+                        "list": {
+                            "label": "id",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "daddd": {
+                        "edit": {
+                            "label": "daddd",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": true,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "daddd",
+                            "searchable": false,
+                            "sortable": false
+                        }
+                    },
+                    "createdAt": {
+                        "edit": {
+                            "label": "createdAt",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "createdAt",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "updatedAt": {
+                        "edit": {
+                            "label": "updatedAt",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true
+                        },
+                        "list": {
+                            "label": "updatedAt",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    },
+                    "createdBy": {
+                        "edit": {
+                            "label": "createdBy",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true,
+                            "mainField": "firstname"
+                        },
+                        "list": {
+                            "label": "createdBy",
+                            "searchable": true,
+                            "sortable": true,
+                            "mainField": "firstname"
+                        }
+                    },
+                    "updatedBy": {
+                        "edit": {
+                            "label": "updatedBy",
+                            "description": "",
+                            "placeholder": "",
+                            "visible": false,
+                            "editable": true,
+                            "mainField": "firstname"
+                        },
+                        "list": {
+                            "label": "updatedBy",
+                            "searchable": true,
+                            "sortable": true,
+                            "mainField": "firstname"
+                        }
+                    },
+                    "documentId": {
+                        "edit": {},
+                        "list": {
+                            "label": "documentId",
+                            "searchable": true,
+                            "sortable": true
+                        }
+                    }
+                },
+                "layouts": {
+                    "edit": [],
+                    "list": [
+                        "id",
+                        "createdAt",
+                        "updatedAt",
+                        "createdBy"
+                    ]
+                }
+            },
+            "components": {}
+        }
+    }
+
+// home page
 https://api-xb1hw.strapidemo.com/content-manager/homepage/recent-documents?action=update
 
     {
@@ -2783,14 +3039,15 @@ https://api-xb1hw.strapidemo.com/content-manager/homepage/count-documents
 
 https://api-xb1hw.strapidemo.com/admin/homepage/key-statistics
 
-{
-    "data": {
-        "assets": 43,
-        "contentTypes": 13,
-        "components": 5,
-        "locales": 2,
-        "admins": 1,
-        "webhooks": 0,
-        "apiTokens": 2
+    {
+        "data": {
+            "assets": 43,
+            "contentTypes": 13,
+            "components": 5,
+            "locales": 2,
+            "admins": 1,
+            "webhooks": 0,
+            "apiTokens": 2
+        }
     }
-}
+
