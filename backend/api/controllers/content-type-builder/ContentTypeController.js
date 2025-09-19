@@ -1,5 +1,3 @@
-const { NotFoundError } = require("../../../errors");
-
 module.exports = {
     async getContentTypes(req, res) {
         return res.ok({ message: "ContentTypeController.getContentTypes" });
@@ -7,18 +5,6 @@ module.exports = {
 
     async getContentType(req, res) {
         return res.ok({ message: "ContentTypeController.getContentType" });
-    },
-
-    async create(req, res) {
-        return res.ok({ message: "ContentTypeController.create" });
-    },
-
-    async update(req, res) {
-        return res.ok({ message: "ContentTypeController.update" });
-    },
-
-    async destroy(req, res) {
-        return res.ok({ message: "ContentTypeController.destroy" });
     },
 };
 

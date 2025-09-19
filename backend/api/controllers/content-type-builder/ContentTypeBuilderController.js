@@ -1,7 +1,5 @@
 const { NotFoundError } = require("../../../errors");
 
-// fixing
-
 // Helper tái sử dụng cho attributes
 function buildAttributes(attrs = []) {
     return attrs.map((f) => ({
@@ -91,7 +89,7 @@ module.exports = {
         );
     },
 
-    // GET api/v1/admin/content-type-builder/reversed-names?name=...
+    // GET api/v1/admin/content-type-builder/reversed-names
     async getReversedNames(req, res) {
         const { name } = req.query; // Lấy tên từ query parameters
         if (!name) {
@@ -113,5 +111,37 @@ module.exports = {
                 message: "Lấy danh sách tên ngược lại thành công",
             }),
         );
+    },
+
+    async updateSchema(req, res) {
+        const { components = [], contentTypes = [] } = req.body.data || {};
+
+        try {
+            for (const comp of components) {
+                if (comp.action === "create")
+                    await ComponentService.create(comp);
+                else if (comp.action === "update")
+                    await ComponentService.update(comp);
+                else if (comp.action === "delete")
+                    await ComponentService.delete(comp);
+            }
+
+            for (const ct of contentTypes) {
+                if (ct.action === "create") await ContentTypeService.create(ct);
+                else if (ct.action === "update")
+                    await ContentTypeService.update(ct);
+                else if (ct.action === "delete")
+                    await ContentTypeService.delete(ct);
+            }
+
+            return res.ok({ success: true, message: "Schema updated" });
+        } catch (err) {
+            sails.log.error("❌ updateSchema error:", err);
+            return res.serverError({ message: err.message, stack: err.stack });
+        }
+    },
+
+    async updateSchemaStatus(req, res) {
+        return res.ok({ message: "ContentTypeController.updateSchemaStatus" });
     },
 };

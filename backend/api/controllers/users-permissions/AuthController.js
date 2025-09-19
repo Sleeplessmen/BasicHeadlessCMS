@@ -1,16 +1,4 @@
 module.exports = {
-    async register(req, res) {
-        return res.ok({ message: "AuthController.register" });
-    },
-
-    async login(req, res) {
-        return res.ok({ message: "AuthController.login" });
-    },
-
-    async logout(req, res) {
-        return res.ok({ message: "AuthController.logout" });
-    },
-
     async forgotPassword(req, res) {
         return res.ok({ message: "AuthController.forgotPassword" });
     },

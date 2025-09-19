@@ -1,4 +1,5 @@
 module.exports = {
+    // onfixall
     async register(data) {
         // TODO: logic tạo user mới
         return { message: "AuthService.register", data };

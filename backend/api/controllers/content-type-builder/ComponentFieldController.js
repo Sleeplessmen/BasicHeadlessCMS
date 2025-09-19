@@ -1,8 +1,6 @@
 const { NotFoundError } = require("../../../errors");
 
-// fixing
 module.exports = {
-    // GET /api/v1/admin/component-fields/:id
     async findOne(req, res) {
         const { id } = req.params;
 
@@ -42,7 +40,6 @@ module.exports = {
         );
     },
 
-    // POST /api/v1/admin/component-fields/:id
     async create(req, res) {
         const { id } = req.params;
         const data = req.body;
@@ -63,7 +60,6 @@ module.exports = {
         );
     },
 
-    // PUT /api/v1/admin/component-fields/:id
     async update(req, res) {
         const { id } = req.params;
         const data = req.body;
@@ -79,7 +75,6 @@ module.exports = {
         );
     },
 
-    // DELETE /api/v1/admin/component-fields/:id
     async destroy(req, res) {
         const { id } = req.params;
 

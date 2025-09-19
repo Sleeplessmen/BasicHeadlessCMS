@@ -1,7 +1,6 @@
 const { NotFoundError } = require("../../../errors");
 
 module.exports = {
-    // GET api/v1/admin/content-type-builder/components
     async getComponents(req, res) {
         const components = await Component.find().populate("attributes");
 
@@ -49,7 +48,6 @@ module.exports = {
         );
     },
 
-    // GET api/v1/admin/content-type-builder/components/:uid
     async getComponent(req, res) {
         const { uid } = req.params;
         const comp = await Component.findOne({ uid }).populate("attributes");
@@ -95,20 +93,5 @@ module.exports = {
                 message: `Lấy thông tin component: ${uid} thành công`,
             }),
         );
-    },
-
-    // POST api/v1/admin/content-type-builder/components
-    async create(req, res) {
-        return res.ok({ message: "ComponentController.create" });
-    },
-
-    // PUT api/v1/admin/content-type-builder/components/:uid
-    async update(req, res) {
-        return res.ok({ message: "ComponentController.update" });
-    },
-
-    // DELETE api/v1/admin/content-type-builder/components/:uid
-    async destroy(req, res) {
-        return res.ok({ message: "ComponentController.destroy" });
     },
 };

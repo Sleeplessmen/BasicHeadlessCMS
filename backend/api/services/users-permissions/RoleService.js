@@ -1,4 +1,5 @@
 module.exports = {
+    // onfixall
     async find(query = {}) {
         // TODO: lấy danh sách roles
         return { message: "RoleService.find", query };

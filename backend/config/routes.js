@@ -3,17 +3,15 @@ module.exports.routes = {
 
     // Auth routes
     "POST /api/v1/auth/register": {
-        controller: "users-permissions/AuthController",
-        action: "register",
+        action: "users-permissions/auth/register",
     },
     "POST /api/v1/auth/login": {
-        controller: "users-permissions/AuthController",
-        action: "login",
+        action: "users-permissions/auth/login",
     },
     "POST /api/v1/auth/logout": {
-        controller: "users-permissions/AuthController",
-        action: "logout",
+        action: "users-permissions/auth/logout",
     },
+
     "POST /api/v1/auth/forgot-password": {
         controller: "users-permissions/AuthController",
         action: "forgotPassword",
@@ -174,29 +172,39 @@ module.exports.routes = {
 
     // Content Type Builder routes
 
-    // content type routes
-    "GET /api/v1/admin/content-type-builder/content-types": {
-        controller: "content-type-builder/ContentTypeController",
-        action: "getContentTypes",
+    // Dynamic CRUD routes
+    "GET /api/v1/admin/:collection": {
+        controller: "content-type-builder/DynamicCrudController",
+        action: "find",
     },
-    "GET /api/v1/admin/content-type-builder/content-types/:uid": {
-        controller: "content-type-builder/ContentTypeController",
-        action: "getContentType",
+    "GET /api/v1/admin/:collection/:id": {
+        controller: "content-type-builder/DynamicCrudController",
+        action: "findOne",
     },
-    "POST /api/v1/admin/content-type-builder/content-types": {
-        controller: "content-type-builder/ContentTypeController",
+    "POST /api/v1/admin/:collection": {
+        controller: "content-type-builder/DynamicCrudController",
         action: "create",
     },
-    "PUT /api/v1/admin/content-type-builder/content-types/:uid": {
-        controller: "content-type-builder/ContentTypeController",
+    "PUT /api/v1/admin/:collection/:id": {
+        controller: "content-type-builder/DynamicCrudController",
         action: "update",
     },
-    "DELETE /api/v1/admin/content-type-builder/content-types/:uid": {
-        controller: "content-type-builder/ContentTypeController",
+    "DELETE /api/v1/admin/:collection/:id": {
+        controller: "content-type-builder/DynamicCrudController",
         action: "destroy",
     },
 
-    // component routes
+    // Content Type routes
+    "GET /api/v1/admin/content-type-builder/schema":
+        "content-type-builder/schema",
+    "GET /api/v1/admin/content-type-builder/reversed-names":
+        "content-type-builder/reversed-names",
+    "POST /api/v1/admin/content-type-builder/update-schema":
+        "content-type-builder/update-schema",
+    "GET /api/v1/admin/content-type-builder/update-schema-status":
+        "content-type-builder/update-schema-status",
+
+    // Component routes
     "GET /api/v1/admin/content-type-builder/components": {
         controller: "content-type-builder/ComponentController",
         action: "getComponents",
@@ -204,18 +212,6 @@ module.exports.routes = {
     "GET /api/v1/admin/content-type-builder/components/:uid": {
         controller: "content-type-builder/ComponentController",
         action: "getComponent",
-    },
-    "POST /api/v1/admin/content-type-builder/components": {
-        controller: "content-type-builder/ComponentController",
-        action: "create",
-    },
-    "PUT /api/v1/admin/content-type-builder/components/:uid": {
-        controller: "content-type-builder/ComponentController",
-        action: "update",
-    },
-    "DELETE /api/v1/admin/content-type-builder/components/:uid": {
-        controller: "content-type-builder/ComponentController",
-        action: "destroy",
     },
 
     // content type builder routes
