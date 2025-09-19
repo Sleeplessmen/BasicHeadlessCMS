@@ -18,78 +18,36 @@ module.exports.policies = {
     AdminRoleController: {
         "*": ["isAdminAuthenticated"],
     },
+    // Content Type Builder
+    "content-type-builder/schema": ["isAdminAuthenticated"],
+    "content-type-builder/reversed-names": ["isAdminAuthenticated"],
+    "content-type-builder/update-schema": ["isAdminAuthenticated"],
+    "content-type-builder/update-schema-status": ["isAdminAuthenticated"],
+    "content-type-builder/component/get-components": ["isAdminAuthenticated"],
+    "content-type-builder/component/get-component": ["isAdminAuthenticated"],
+    "content-type-builder/content-type/get-content-types": [
+        "isAdminAuthenticated",
+    ],
+    "content-type-builder/content-type/get-content-type": [
+        "isAdminAuthenticated",
+    ],
 
-    // users-permissions
-    "users-permissions/AuthController": {
-        "*": true,
-        // register: true,
-        // login: true,
-        // logout: ["isAuthenticated"],
-        // forgotPassword: true,
-        // resetPassword: true,
-        // changePassword: ["isAuthenticated"],
-        // connect: true,
-        // sendEmailConfirmation: true,
-        // emailConfirmation: true,
-        // me: ["isAuthenticated"],
-    },
+    // Content Manager
+    "content-manager/init": ["isAdminAuthenticated"],
+    "content-manager/find-content-types-settings": ["isAdminAuthenticated"],
 
-    "users-permissions/PermissionController": {
-        "*": ["isAdminAuthenticated"],
-    },
+    "content-manager/collection-type-entry/*": ["isAdminAuthenticated"],
+    "content-manager/single-type-entry/*": ["isAdminAuthenticated"],
+    "content-manager/entry-action/*": ["isAdminAuthenticated"],
 
-    "users-permissions/RoleController": {
-        "*": ["isAdminAuthenticated"],
-    },
+    // Relation
+    "content-manager/relation/find-available-relations": [
+        "isAdminAuthenticated",
+    ],
+    "content-manager/relation/find-existing-relations": [
+        "isAdminAuthenticated",
+    ],
 
-    "users-permissions/UserController": {
-        "*": true,
-        // me: ["isAuthenticated"],
-        // update: ["isAuthenticated", "isOwner"],
-    },
-
-    // content-type-builder
-    "content-type-builder/ContentTypeController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-type-builder/ContentTypeFieldController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-type-builder/ComponentController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-type-builder/ComponentFieldController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-type-builder/ContentTypeBuilderController": {
-        "*": ["isAdminAuthenticated"],
-    },
-
-    // content-manager
-    "content-manager/ContentManagerController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-manager/SingleTypeEntryController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-manager/CollectionTypeEntryController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-manager/RelationController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-manager/EntryActionController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "content-manager/PreviewController": {
-        "*": ["isAdminAuthenticated"],
-    },
-
-    // upload
-    "upload/AssetController": {
-        "*": ["isAdminAuthenticated"],
-    },
-    "upload/FolderController": {
-        "*": ["isAdminAuthenticated"],
-    },
+    // Preview
+    "content-manager/preview/preview": ["isAdminAuthenticated"],
 };

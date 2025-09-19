@@ -24,7 +24,6 @@ module.exports = {
 
         return exits.success({
             data: { reversedNames },
-            message: "Lấy danh sách tên ngược lại thành công",
         });
     },
 };

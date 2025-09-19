@@ -170,181 +170,104 @@ module.exports.routes = {
         action: "getUserPermissions",
     },
 
-    // Content Type Builder routes
-
-    // Dynamic CRUD routes
-    "GET /api/v1/admin/:collection": {
-        controller: "content-type-builder/DynamicCrudController",
-        action: "find",
+    // Content Type Builder
+    "GET /api/v1/admin/content-type-builder/schema": {
+        action: "content-type-builder/schema",
     },
-    "GET /api/v1/admin/:collection/:id": {
-        controller: "content-type-builder/DynamicCrudController",
-        action: "findOne",
+    "GET /api/v1/admin/content-type-builder/reversed-names": {
+        action: "content-type-builder/reversed-names",
     },
-    "POST /api/v1/admin/:collection": {
-        controller: "content-type-builder/DynamicCrudController",
-        action: "create",
+    "POST /api/v1/admin/content-type-builder/update-schema": {
+        action: "content-type-builder/update-schema",
     },
-    "PUT /api/v1/admin/:collection/:id": {
-        controller: "content-type-builder/DynamicCrudController",
-        action: "update",
+    "GET /api/v1/admin/content-type-builder/update-schema-status": {
+        action: "content-type-builder/update-schema-status",
     },
-    "DELETE /api/v1/admin/:collection/:id": {
-        controller: "content-type-builder/DynamicCrudController",
-        action: "destroy",
-    },
-
-    // Content Type routes
-    "GET /api/v1/admin/content-type-builder/schema":
-        "content-type-builder/schema",
-    "GET /api/v1/admin/content-type-builder/reversed-names":
-        "content-type-builder/reversed-names",
-    "POST /api/v1/admin/content-type-builder/update-schema":
-        "content-type-builder/update-schema",
-    "GET /api/v1/admin/content-type-builder/update-schema-status":
-        "content-type-builder/update-schema-status",
 
     // Component routes
     "GET /api/v1/admin/content-type-builder/components": {
-        controller: "content-type-builder/ComponentController",
-        action: "getComponents",
+        action: "content-type-builder/component/get-components",
     },
     "GET /api/v1/admin/content-type-builder/components/:uid": {
-        controller: "content-type-builder/ComponentController",
-        action: "getComponent",
+        action: "content-type-builder/component/get-component",
     },
 
-    // content type builder routes
-    "GET /api/v1/admin/content-type-builder/schema": {
-        controller: "content-type-builder/ContentTypeBuilderController",
-        action: "getSchemas",
+    // Content Type routes
+    "GET /api/v1/admin/content-type-builder/content-types": {
+        action: "content-type-builder/content-type/get-content-types",
     },
-    "GET /api/v1/admin/content-type-builder/reversed-name": {
-        controller: "content-type-builder/ContentTypeBuilderController",
-        action: "getReversedNames",
+    "GET /api/v1/admin/content-type-builder/content-types/:uid": {
+        action: "content-type-builder/content-type/get-content-type",
     },
 
-    // content type field routes
-    "GET /api/v1/admin/content-type-builder/content-fields/:id": {
-        controller: "content-type-builder/ContentTypeFieldController",
-        action: "findOne",
-    },
-    "POST /api/v1/admin/content-type-builder/content-fields/:id": {
-        controller: "content-type-builder/ContentTypeFieldController",
-        action: "create",
-    },
-    "PUT /api/v1/admin/content-type-builder/content-fields/:id": {
-        controller: "content-type-builder/ContentTypeFieldController",
-        action: "update",
-    },
-    "DELETE /api/v1/admin/content-type-builder/content-fields/:id": {
-        controller: "content-type-builder/ContentTypeFieldController",
-        action: "destroy",
-    },
-
-    // component field routes
-    "GET /api/v1/admin/content-type-builder/component-fields/:id": {
-        controller: "content-type-builder/ComponentFieldController",
-        action: "findOne",
-    },
-    "POST /api/v1/admin/content-type-builder/component-fields/:id": {
-        controller: "content-type-builder/ComponentFieldController",
-        action: "create",
-    },
-    "PUT /api/v1/admin/content-type-builder/component-fields/:id": {
-        controller: "content-type-builder/ComponentFieldController",
-        action: "update",
-    },
-    "DELETE /api/v1/admin/content-type-builder/component-fields/:id": {
-        controller: "content-type-builder/ComponentFieldController",
-        action: "destroy",
-    },
-
-    // Content Manager routes
+    // Content Manager
     "GET /api/v1/admin/content-manager/init": {
-        controller: "content-manager/ContentManagerController",
-        action: "init",
+        action: "content-manager/init",
     },
     "GET /api/v1/admin/content-manager/content-types-settings": {
-        controller: "content-manager/ContentManagerController",
-        action: "findContentTypesSettings",
+        action: "content-manager/find-content-types-settings",
     },
 
-    // Single Type Entry routes
+    // Single Type Entry
     "GET /api/v1/admin/content-manager/single-types/:uid": {
-        controller: "content-manager/SingleTypeEntryController",
-        action: "find",
+        action: "content-manager/single-type-entry/find",
     },
-    "GET /api/v1/admin/content-manager/single-types/:uid": {
-        controller: "content-manager/SingleTypeEntryController",
-        action: "findOne",
+    "GET /api/v1/admin/content-manager/single-types/:uid/one": {
+        action: "content-manager/single-type-entry/find-one",
     },
     "POST /api/v1/admin/content-manager/single-types/:uid": {
-        controller: "content-manager/SingleTypeEntryController",
-        action: "create",
+        action: "content-manager/single-type-entry/create",
     },
     "PUT /api/v1/admin/content-manager/single-types/:uid": {
-        controller: "content-manager/SingleTypeEntryController",
-        action: "update",
+        action: "content-manager/single-type-entry/update",
     },
     "DELETE /api/v1/admin/content-manager/single-types/:uid": {
-        controller: "content-manager/SingleTypeEntryController",
-        action: "destroy",
+        action: "content-manager/single-type-entry/destroy",
     },
 
-    // Collection Type Entry routes
+    // Collection Type Entry
     "GET /api/v1/admin/content-manager/collection-types/:uid": {
-        controller: "content-manager/CollectionTypeEntryController",
-        action: "find",
+        action: "content-manager/collection-type-entry/find",
     },
     "GET /api/v1/admin/content-manager/collection-types/:uid/:id": {
-        controller: "content-manager/CollectionTypeEntryController",
-        action: "findOne",
+        action: "content-manager/collection-type-entry/find-one",
     },
     "POST /api/v1/admin/content-manager/collection-types/:uid": {
-        controller: "content-manager/CollectionTypeEntryController",
-        action: "create",
+        action: "content-manager/collection-type-entry/create",
     },
     "PUT /api/v1/admin/content-manager/collection-types/:uid/:id": {
-        controller: "content-manager/CollectionTypeEntryController",
-        action: "update",
+        action: "content-manager/collection-type-entry/update",
     },
     "DELETE /api/v1/admin/content-manager/collection-types/:uid/:id": {
-        controller: "content-manager/CollectionTypeEntryController",
-        action: "destroy",
+        action: "content-manager/collection-type-entry/destroy",
     },
 
-    // Relation routes
+    // Relation
     "GET /api/v1/admin/content-manager/relations/:uid/categories": {
-        controller: "content-manager/RelationController",
-        action: "findAvailableRelations",
+        action: "content-manager/relation/find-available-relations",
     },
     "GET /api/v1/admin/content-manager/relations/:uid/:id/categories": {
-        controller: "content-manager/RelationController",
-        action: "findExistingRelations",
+        action: "content-manager/relation/find-existing-relations",
     },
 
-    // Preview routes
+    // Preview
     "GET /api/v1/admin/content-manager/preview/url/:uid": {
-        controller: "content-manager/PreviewController",
-        action: "preview",
+        action: "content-manager/preview/preview",
     },
 
-    // Entry Action routes
+    // Entry Actions
     "POST /api/v1/admin/content-manager/:uid/:id/actions/publish": {
-        controller: "content-manager/EntryActionController",
-        action: "publish",
+        action: "content-manager/entry-action/publish",
     },
     "POST /api/v1/admin/content-manager/:uid/:id/actions/unpublish": {
-        controller: "content-manager/EntryActionController",
-        action: "unpublish",
+        action: "content-manager/entry-action/unpublish",
     },
     "POST /api/v1/admin/content-manager/:uid/:id/actions/discard": {
-        controller: "content-manager/EntryActionController",
-        action: "discardDraftChanges",
+        action: "content-manager/entry-action/discard-draft-changes",
     },
 
     // Upload routes
+
     // Folder routes
     "GET /api/v1/admin/upload/folders": {
         controller: "upload/FolderController",
