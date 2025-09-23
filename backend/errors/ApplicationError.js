@@ -1,7 +1,7 @@
 const BaseError = require("./BaseError");
 
 class ApplicationError extends BaseError {
-    constructor(message = "An application error occurred", details = {}) {
+    constructor(message = "Application error", details = {}) {
         super(message, 500, "ApplicationError", details);
     }
 }

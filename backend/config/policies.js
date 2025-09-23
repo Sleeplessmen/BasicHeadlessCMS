@@ -1,6 +1,5 @@
-// fixing
 module.exports.policies = {
-    // cores
+    // Cores
     AdminAuthController: {
         register: true,
         login: true,
@@ -22,7 +21,6 @@ module.exports.policies = {
     "content-type-builder/schema": ["isAdminAuthenticated"],
     "content-type-builder/reversed-names": ["isAdminAuthenticated"],
     "content-type-builder/update-schema": ["isAdminAuthenticated"],
-    "content-type-builder/update-schema-status": ["isAdminAuthenticated"],
     "content-type-builder/component/get-components": ["isAdminAuthenticated"],
     "content-type-builder/component/get-component": ["isAdminAuthenticated"],
     "content-type-builder/content-type/get-content-types": [
@@ -40,14 +38,7 @@ module.exports.policies = {
     "content-manager/single-type-entry/*": ["isAdminAuthenticated"],
     "content-manager/entry-action/*": ["isAdminAuthenticated"],
 
-    // Relation
-    "content-manager/relation/find-available-relations": [
-        "isAdminAuthenticated",
-    ],
-    "content-manager/relation/find-existing-relations": [
-        "isAdminAuthenticated",
-    ],
+    "content-manager/relation/*": ["isAdminAuthenticated"],
 
-    // Preview
-    "content-manager/preview/preview": ["isAdminAuthenticated"],
+    "content-manager/preview/*": ["isAdminAuthenticated"],
 };

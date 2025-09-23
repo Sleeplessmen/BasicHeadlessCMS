@@ -10,4 +10,6 @@ module.exports = {
     PolicyError: require("./PolicyError"),
     TooManyRequestsError: require("./TooManyRequestsError"),
     BaseError: require("./BaseError"),
+    DatabaseError: require("./DatabaseError"),
+    ExternalServiceError: require("./ExternalServiceError"),
 };

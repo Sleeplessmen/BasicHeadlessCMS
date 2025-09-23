@@ -51,7 +51,7 @@ module.exports = async function seedUsers() {
                 username: `public_user_${i}`,
                 email,
                 password: await bcrypt.hash("Password123!", 10),
-                confirmed: false, // public mặc định chưa confirm
+                confirmed: false,
                 blocked: false,
                 role: publicRole.id,
             });

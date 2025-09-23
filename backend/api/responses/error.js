@@ -1,6 +1,4 @@
 module.exports = function error(err) {
-    const res = this.res;
-
     let status = 500;
     let name = "ApplicationError";
     let message = "Lỗi không xác định";
@@ -13,13 +11,13 @@ module.exports = function error(err) {
         details = err.details || details;
     }
 
-    return res.status(status).json({
-        data: null,
-        error: {
-            status,
-            name,
-            message,
-            details,
-        },
+    return this.res.status(status).json({
+        errors: [
+            {
+                name,
+                message,
+                details,
+            },
+        ],
     });
 };

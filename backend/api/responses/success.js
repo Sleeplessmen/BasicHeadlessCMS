@@ -1,12 +1,7 @@
-module.exports = function success(
-    data = {},
-    message = "Thành công",
-    meta = {},
-) {
-    const res = this.res;
-    return res.status(200).json({
-        message,
-        data,
-        meta,
+module.exports = function success(inputs) {
+    return this.res.status(200).json({
+        message: inputs.message || "Thành công",
+        data: inputs.data || {},
+        meta: inputs.meta || {},
     });
 };

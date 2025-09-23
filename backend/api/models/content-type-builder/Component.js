@@ -8,7 +8,7 @@ module.exports = {
         category: { type: "string", defaultsTo: "default" }, // vd: shared, product
         modelType: {
             type: "string",
-            isIn: ["component"],
+            // isIn: ["component"],
             defaultsTo: "component",
         },
 

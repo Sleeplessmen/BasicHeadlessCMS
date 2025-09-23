@@ -1,10 +1,3 @@
-/**
- * <mô tả-ngắn> (action file)
- *
- * Path: api/controllers/<namespace>/<tên-action>.js
- * Dùng trong routes.js: { action: "<namespace>/<tên-action>" }
- */
-
 module.exports = async function (req, res) {
     try {
         // ✅ TODO: Viết logic xử lý chính ở đây

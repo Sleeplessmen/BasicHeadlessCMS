@@ -1,36 +1,8 @@
 module.exports = {
     attributes: {
-        name: {
-            type: "string",
-            required: true,
-            unique: true,
-        },
-
-        code: {
-            type: "string",
-            required: true,
-            unique: true,
-        },
-
-        description: {
-            type: "string",
-            defaultsTo: "",
-        },
-
-        createdAt: {
-            type: "number",
-            autoCreatedAt: true,
-        },
-
-        updatedAt: {
-            type: "number",
-            autoUpdatedAt: true,
-        },
-
-        publishedAt: {
-            type: "number",
-            allowNull: true,
-        },
+        name: { type: "string", required: true, unique: true },
+        code: { type: "string", required: true, unique: true },
+        description: { type: "string", defaultsTo: "" },
 
         users: {
             collection: "AdminUser",
@@ -40,7 +12,6 @@ module.exports = {
         permissions: {
             collection: "AdminPermission",
             via: "roles",
-            dominant: true,
         },
     },
 };

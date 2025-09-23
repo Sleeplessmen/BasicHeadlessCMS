@@ -180,9 +180,6 @@ module.exports.routes = {
     "POST /api/v1/admin/content-type-builder/update-schema": {
         action: "content-type-builder/update-schema",
     },
-    "GET /api/v1/admin/content-type-builder/update-schema-status": {
-        action: "content-type-builder/update-schema-status",
-    },
 
     // Component routes
     "GET /api/v1/admin/content-type-builder/components": {
