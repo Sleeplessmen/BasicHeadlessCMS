@@ -1,5 +1,5 @@
 module.exports = {
-    friendlyName: "Get Reversed Names",
+    friendlyName: "Get reserved Names",
     description: "Lấy danh sách tên đảo ngược từ một tên cho trước",
 
     inputs: {
@@ -18,12 +18,12 @@ module.exports = {
     },
 
     fn: async function (inputs, exits) {
-        const reversedNames = await sails.helpers.schema.getReversedNames(
+        const reservedNames = await sails.helpers.schema.getreservedNames(
             inputs.name,
         );
 
         return exits.success({
-            data: { reversedNames },
+            data: { reservedNames },
         });
     },
 };

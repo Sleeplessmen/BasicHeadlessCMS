@@ -1,17 +1,5 @@
-/**
- * <mô tả-ngắn> (action file)
- *
- * Path: api/controllers/<namespace>/<tên-action>.js
- * Dùng trong routes.js: { action: "<namespace>/<tên-action>" }
- */
-
 module.exports = async function (req, res) {
     try {
-        // ✅ TODO: Viết logic xử lý chính ở đây
-        // const params = req.allParams();
-        // const { id } = req.params;
-        // const body = req.body;
-
         return res.ok({
             success: true,
             message: "Action chạy thành công (placeholder)",

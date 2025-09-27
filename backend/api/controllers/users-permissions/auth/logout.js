@@ -1,15 +1,30 @@
+const jwt = require("jsonwebtoken");
+
 module.exports = {
     friendlyName: "Logout",
-    description: "Đăng xuất tài khoản",
+    description: "Logout user (revoke JWT by blacklisting)",
+
+    inputs: {},
 
     exits: {
         success: {
-            description: "Đăng xuất thành công",
+            description: "Logout successfully",
+            responseType: "success",
         },
     },
 
-    fn: async function (inputs, exits) {
-        delete this.req.session.userId;
-        return exits.success({ message: "Đã đăng xuất" });
+    fn: async function (_, exits) {
+        const decoded = jwt.decode(this.req.token);
+
+        await BlacklistToken.create({
+            token: this.req.token,
+            expiredAt: decoded?.exp
+                ? new Date(decoded.exp * 1000)
+                : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+
+        return exits.success({
+            message: "Logout successfully",
+        });
     },
 };

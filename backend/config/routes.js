@@ -174,8 +174,8 @@ module.exports.routes = {
     "GET /api/v1/admin/content-type-builder/schema": {
         action: "content-type-builder/schema",
     },
-    "GET /api/v1/admin/content-type-builder/reversed-names": {
-        action: "content-type-builder/reversed-names",
+    "GET /api/v1/admin/content-type-builder/reserved-names": {
+        action: "content-type-builder/reserved-names",
     },
     "POST /api/v1/admin/content-type-builder/update-schema": {
         action: "content-type-builder/update-schema",
@@ -263,61 +263,61 @@ module.exports.routes = {
         action: "content-manager/entry-action/discard-draft-changes",
     },
 
-    // Upload routes
+    // // Upload routes
 
-    // Folder routes
-    "GET /api/v1/admin/upload/folders": {
-        controller: "upload/FolderController",
-        action: "find",
-    },
-    "GET /api/v1/admin/upload/folders/:id": {
-        controller: "upload/FolderController",
-        action: "findOne",
-    },
-    "POST /api/v1/admin/upload/folders": {
-        controller: "upload/FolderController",
-        action: "create",
-    },
-    "PUT /api/v1/admin/upload/folders/:id": {
-        controller: "upload/FolderController",
-        action: "update",
-    },
-    "DELETE /api/v1/admin/upload/folders/:id": {
-        controller: "upload/FolderController",
-        action: "destroy",
-    },
-    "GET /api/v1/admin/upload/folder-structure": {
-        controller: "upload/FolderController",
-        action: "getFolderStructure",
-    },
+    // // Folder routes
+    // "GET /api/v1/admin/upload/folders": {
+    //     controller: "upload/FolderController",
+    //     action: "find",
+    // },
+    // "GET /api/v1/admin/upload/folders/:id": {
+    //     controller: "upload/FolderController",
+    //     action: "findOne",
+    // },
+    // "POST /api/v1/admin/upload/folders": {
+    //     controller: "upload/FolderController",
+    //     action: "create",
+    // },
+    // "PUT /api/v1/admin/upload/folders/:id": {
+    //     controller: "upload/FolderController",
+    //     action: "update",
+    // },
+    // "DELETE /api/v1/admin/upload/folders/:id": {
+    //     controller: "upload/FolderController",
+    //     action: "destroy",
+    // },
+    // "GET /api/v1/admin/upload/folder-structure": {
+    //     controller: "upload/FolderController",
+    //     action: "getFolderStructure",
+    // },
 
-    // File routes
-    "GET /api/v1/admin/upload/files": {
-        controller: "upload/AssetController",
-        action: "find",
-    },
-    "GET /api/v1/admin/upload/files/:id": {
-        controller: "upload/AssetController",
-        action: "findOne",
-    },
-    "POST /api/v1/admin/upload/": {
-        controller: "upload/AssetController",
-        action: "create",
-    },
-    "PUT /api/v1/admin/upload/:id": {
-        controller: "upload/AssetController",
-        action: "update",
-    },
-    "DELETE /api/v1/admin/upload/files/:id": {
-        controller: "upload/AssetController",
-        action: "destroy",
-    },
-    "GET /api/v1/admin/upload/configuration": {
-        controller: "upload/AssetController",
-        action: "getConfiguration",
-    },
-    "PUT /api/v1/admin/upload/configuration": {
-        controller: "upload/AssetController",
-        action: "updateConfiguration",
-    },
+    // // File routes
+    // "GET /api/v1/admin/upload/files": {
+    //     controller: "upload/AssetController",
+    //     action: "find",
+    // },
+    // "GET /api/v1/admin/upload/files/:id": {
+    //     controller: "upload/AssetController",
+    //     action: "findOne",
+    // },
+    // "POST /api/v1/admin/upload/": {
+    //     controller: "upload/AssetController",
+    //     action: "create",
+    // },
+    // "PUT /api/v1/admin/upload/:id": {
+    //     controller: "upload/AssetController",
+    //     action: "update",
+    // },
+    // "DELETE /api/v1/admin/upload/files/:id": {
+    //     controller: "upload/AssetController",
+    //     action: "destroy",
+    // },
+    // "GET /api/v1/admin/upload/configuration": {
+    //     controller: "upload/AssetController",
+    //     action: "getConfiguration",
+    // },
+    // "PUT /api/v1/admin/upload/configuration": {
+    //     controller: "upload/AssetController",
+    //     action: "updateConfiguration",
+    // },
 };

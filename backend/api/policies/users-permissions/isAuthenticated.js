@@ -1,24 +1,30 @@
-/**
- * isAuthenticated
- *
- * Policy to check if the request is from a logged-in user.
- */
+const jwt = require("jsonwebtoken");
+const { UnauthorizedError } = require("../../../errors");
+
 module.exports = async function (req, res, proceed) {
-    try {
-        // Trường hợp bạn dùng JWT:
-        // - Parse token từ headers Authorization
-        // - Verify token
-        // - Attach user info vào req.me
-
-        if (!req.me) {
-            return res.unauthorized(
-                "You must be logged in to access this resource.",
-            );
-        }
-
-        return proceed();
-    } catch (err) {
-        sails.log.error("isAuthenticated policy error:", err);
-        return res.serverError();
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        throw new UnauthorizedError("Missing or invalid Authorization header.");
     }
+
+    const token = authHeader.split(" ")[1];
+
+    const isBlacklisted = await BlacklistToken.findOne({ token });
+    if (isBlacklisted) {
+        throw new UnauthorizedError(
+            "Token đã bị thu hồi, vui lòng đăng nhập lại",
+        );
+    }
+
+    const decoded = jwt.verify(token, sails.config.custom.jwtSecret);
+
+    const user = await User.findOne({ id: decoded.id });
+    if (!user) {
+        throw new UnauthorizedError("User not found.");
+    }
+
+    req.me = user;
+    req.token = token;
+
+    return proceed();
 };

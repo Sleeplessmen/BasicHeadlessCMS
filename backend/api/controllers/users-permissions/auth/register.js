@@ -1,51 +1,70 @@
-const Joi = require("joi");
-const bcrypt = require("bcryptjs");
-const { ValidationError, ConflictError } = require("../../../../errors");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
     friendlyName: "Register",
-    description: "Đăng ký tài khoản mới",
+    description: "Register new user",
 
     inputs: {
-        username: { type: "string", required: true, minLength: 2 },
+        username: { type: "string", required: true, minLength: 3 },
         email: { type: "string", required: true, isEmail: true },
         password: { type: "string", required: true, minLength: 6 },
     },
 
-    fn: async function (inputs) {
-        const schema = Joi.object({
-            username: Joi.string().min(2).required(),
-            email: Joi.string().email().required(),
-            password: Joi.string().min(6).required(),
+    exits: {
+        success: {
+            description: "User registered successfully",
+            responseType: "success",
+        },
+        emailInUse: {
+            description: "Email address is already in use",
+            responseType: "error",
+        },
+        usernameInUse: {
+            description: "Username is already in use",
+            responseType: "error",
+        },
+    },
+
+    fn: async function (inputs, exits) {
+        const existingEmail = await User.findOne({ email: inputs.email });
+        if (existingEmail) {
+            return exits.emailInUse({
+                status: 409,
+                name: "EmailInUse",
+                message: "Email address is already in use",
+            });
+        }
+
+        const existingUsername = await User.findOne({
+            username: inputs.username,
         });
-
-        const { error, value } = schema.validate(inputs);
-        if (error) {
-            throw new ValidationError(error.details[0].message);
+        if (existingUsername) {
+            return exits.usernameInUse({
+                status: 409,
+                name: "UsernameInUse",
+                message: "Username is already in use",
+            });
         }
 
-        const existing = await User.findOne({ email: value.email });
-        if (existing) {
-            throw new ConflictError("Email đã được sử dụng");
-        }
-
-        const hashedPassword = await bcrypt.hash(value.password, 10);
+        const hashedPassword = await sails.helpers.passwords.hashPassword(
+            inputs.password,
+        );
 
         const newUser = await User.create({
-            username: value.username,
-            email: value.email,
+            username: inputs.username,
+            email: inputs.email,
             password: hashedPassword,
-            confirmed: false,
-            blocked: false,
         }).fetch();
 
-        return this.res.success(
-            {
-                id: newUser.id,
-                username: newUser.username,
-                email: newUser.email,
-            },
-            "Đăng ký thành công",
+        const token = jwt.sign(
+            { id: newUser.id, email: newUser.email },
+            sails.config.custom.jwtSecret,
+            { expiresIn: "7d" },
         );
+
+        return exits.success({
+            data: { user: newUser, token },
+            message: "User registered successfully",
+        });
     },
 };

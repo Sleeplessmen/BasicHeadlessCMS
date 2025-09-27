@@ -1,5 +1,5 @@
 module.exports = {
-    friendlyName: "Get reversed names",
+    friendlyName: "Get reserved names",
     description: "Tạo danh sách các tên đảo ngược từ một tên cho trước",
 
     inputs: {
@@ -12,7 +12,7 @@ module.exports = {
 
     exits: {
         success: {
-            outputFriendlyName: "Reversed names",
+            outputFriendlyName: "reserved names",
             outputDescription: "Danh sách các tên đảo ngược",
         },
     },
@@ -21,11 +21,11 @@ module.exports = {
         const name = inputs.name;
 
         // 💡 Logic đơn giản: đảo chuỗi + viết hoa chữ đầu
-        const reversed = name.split("").reverse().join("");
+        const reserved = name.split("").reverse().join("");
         const upper = name.toUpperCase();
         const lower = name.toLowerCase();
 
-        const results = [reversed, upper, lower];
+        const results = [reserved, upper, lower];
 
         return exits.success(results);
     },

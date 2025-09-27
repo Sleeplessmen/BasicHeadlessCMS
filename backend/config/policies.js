@@ -17,9 +17,11 @@ module.exports.policies = {
     AdminRoleController: {
         "*": ["isAdminAuthenticated"],
     },
-    // Content Type Builder
+
+    "users-permissions/auth/logout": ["users-permissions/isAuthenticated"],
+
     "content-type-builder/schema": ["isAdminAuthenticated"],
-    "content-type-builder/reversed-names": ["isAdminAuthenticated"],
+    "content-type-builder/reserved-names": ["isAdminAuthenticated"],
     "content-type-builder/update-schema": ["isAdminAuthenticated"],
     "content-type-builder/component/get-components": ["isAdminAuthenticated"],
     "content-type-builder/component/get-component": ["isAdminAuthenticated"],
@@ -30,7 +32,6 @@ module.exports.policies = {
         "isAdminAuthenticated",
     ],
 
-    // Content Manager
     "content-manager/init": ["isAdminAuthenticated"],
     "content-manager/find-content-types-settings": ["isAdminAuthenticated"],
 
