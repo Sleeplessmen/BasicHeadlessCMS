@@ -95,16 +95,16 @@ module.exports.routes = {
 
     // Auth routes
     "POST /api/v1/admin/auth/register": {
-        controller: "AdminAuthController",
-        action: "register",
+        action: "core/auth/register",
     },
     "POST /api/v1/admin/auth/login": {
-        controller: "AdminAuthController",
-        action: "login",
+        action: "core/auth/login",
     },
     "POST /api/v1/admin/auth/logout": {
-        controller: "AdminAuthController",
-        action: "logout",
+        action: "core/auth/logout",
+    },
+    "POST /api/v1/admin/auth/refresh-token": {
+        action: "core/auth/refresh-token",
     },
 
     // Permission routes

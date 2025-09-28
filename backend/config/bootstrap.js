@@ -10,7 +10,7 @@ module.exports.bootstrap = async function () {
             async () => {
                 const now = new Date();
                 await sails.models.blacklisttoken.destroy({
-                    expiredAt: { "<": now },
+                    expiresAt: { "<": now },
                 });
             },
             1000 * 60 * 60,

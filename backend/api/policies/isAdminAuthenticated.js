@@ -18,10 +18,32 @@ module.exports = async function (req, res, proceed) {
 
     let decoded;
     try {
-        decoded = jwt.verify(token, process.env.JWT_SECRET || "default_secret");
+        decoded = jwt.decode(token);
+        if (!decoded || !decoded.type) {
+            throw new UnauthorizedError("Token không hợp lệ");
+        }
+
+        const secret =
+            decoded.type === "refresh"
+                ? process.env.JWT_REFRESH_SECRET || "default_refresh_secret"
+                : process.env.JWT_SECRET || "default_secret";
+
+        decoded = jwt.verify(token, secret);
+
+        if (decoded.type === "refresh") {
+            const refreshToken = await RefreshToken.findOne({ token });
+            if (!refreshToken || refreshToken.expiresAt < Date.now()) {
+                throw new UnauthorizedError(
+                    "Refresh token không hợp lệ hoặc đã hết hạn",
+                );
+            }
+            req.refreshToken = token;
+        } else {
+            req.accessToken = token;
+        }
     } catch (err) {
         if (
-            err.name === "TokenExpiredError" ||
+            err.name === "TokenexpiresError" ||
             err.name === "JsonWebTokenError"
         ) {
             throw new UnauthorizedError("Token không hợp lệ hoặc đã hết hạn");
@@ -35,7 +57,7 @@ module.exports = async function (req, res, proceed) {
     }
 
     req.user = user;
-    req.token = token;
+    req.tokenType = decoded.type || "access";
 
     return proceed();
 };

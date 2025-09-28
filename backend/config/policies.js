@@ -1,8 +1,5 @@
 module.exports.policies = {
-    // Cores
     AdminAuthController: {
-        register: true,
-        login: true,
         logout: ["isAdminAuthenticated"],
     },
 
@@ -17,6 +14,9 @@ module.exports.policies = {
     AdminRoleController: {
         "*": ["isAdminAuthenticated"],
     },
+
+    "core/auth/logout": ["isAdminAuthenticated"],
+    "core/auth/refresh-token": ["is-refresh-authenticated"],
 
     "users-permissions/auth/logout": ["users-permissions/isAuthenticated"],
 

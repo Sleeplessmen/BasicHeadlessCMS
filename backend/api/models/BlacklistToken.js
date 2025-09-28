@@ -5,10 +5,13 @@ module.exports = {
             required: true,
             unique: true,
         },
-        expiredAt: {
-            type: "ref",
-            columnType: "datetime",
+        expiresAt: {
+            type: "number",
             required: true,
+        },
+        createdAt: {
+            type: "number",
+            autoCreatedAt: true,
         },
     },
 };

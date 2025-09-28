@@ -96,9 +96,9 @@ module.exports = {
         await AdminUser.updateOne({ id: req.user.id }).set({ isActive: false });
 
         const decoded = jwt.decode(req.token);
-        const expiredAt = new Date(decoded.exp * 1000);
+        const expiresAt = new Date(decoded.exp * 1000);
 
-        await BlacklistToken.create({ token: req.token, expiredAt });
+        await BlacklistToken.create({ token: req.token, expiresAt });
 
         return res.ok(
             await sails.helpers.response.success.with({

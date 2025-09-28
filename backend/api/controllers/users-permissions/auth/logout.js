@@ -18,7 +18,7 @@ module.exports = {
 
         await BlacklistToken.create({
             token: this.req.token,
-            expiredAt: decoded?.exp
+            expiresAt: decoded?.exp
                 ? new Date(decoded.exp * 1000)
                 : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         });
