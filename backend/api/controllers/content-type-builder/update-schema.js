@@ -1,7 +1,5 @@
-const path = require("node:path");
-
 module.exports = {
-    friendlyName: "Update Schema",
+    friendlyName: "Update schema",
     description: "Tạo, cập nhật, hoặc xóa các components và content types",
 
     inputs: {
@@ -9,7 +7,14 @@ module.exports = {
         contentTypes: { type: "ref", defaultsTo: [] },
     },
 
-    fn: async function (inputs) {
-        return this.res.success({ success: true }, "Schema updated");
+    exits: {
+        success: {
+            description: "Schema updated",
+            responseType: "success",
+        },
+    },
+
+    fn: async function (inputs, exits) {
+        return exits.success("Schema updated");
     },
 };

@@ -1,4 +1,34 @@
 module.exports.routes = {
+    // fixed: content = article
+
+    "GET /api/v1/articles": {
+        action: "fixed/article/find",
+    },
+
+    "GET /api/v1/articles/:id": {
+        action: "fixed/article/find-one",
+    },
+
+    "POST /api/v1/articles": {
+        action: "fixed/article/create",
+    },
+
+    "PUT /api/v1/articles/:id": {
+        action: "fixed/article/update",
+    },
+
+    "DELETE /api/v1/articles/:id": {
+        action: "fixed/article/destroy",
+    },
+
+    "POST /api/v1/articles/:id/publish": {
+        action: "fixed/article/publish",
+    },
+
+    "POST /api/v1/articles/:id/unpublish": {
+        action: "fixed/article/unpublish",
+    },
+
     // Users-Permissions routes
 
     // Auth routes
@@ -103,8 +133,8 @@ module.exports.routes = {
     "POST /api/v1/admin/auth/logout": {
         action: "core/auth/logout",
     },
-    "POST /api/v1/admin/auth/refresh-token": {
-        action: "core/auth/refresh-token",
+    "POST /api/v1/admin/renew-token": {
+        action: "core/auth/renew-token",
     },
 
     // Permission routes
@@ -143,7 +173,7 @@ module.exports.routes = {
     "GET /api/v1/admin/users": {
         controller: "AdminUserController",
         action: "find",
-        // policies: ["isAdminAuthenticated", "isSuperAdmin"],
+        // policies: ["is-authenticated", "isSuperAdmin"],
     },
     "GET /api/v1/admin/users/:id": {
         controller: "AdminUserController",
