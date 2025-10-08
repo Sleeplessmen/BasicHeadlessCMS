@@ -1,6 +1,6 @@
 module.exports = async function SeedAdminRoles() {
     console.time("SeedAdminRoles");
-    sails.log("🔧 Đang chạy SeedAdminRoles.js...");
+    sails.log("Đang chạy SeedAdminRoles.js...");
 
     const roleDefinitions = [
         {
@@ -88,16 +88,13 @@ module.exports = async function SeedAdminRoles() {
             }
 
             sails.log(
-                `✅ Tạo role '${created.name}' (${created.code}) với ${permissionIds.length}/${roleDef.permissions.length} quyền.`,
+                `Tạo role '${created.name}' (${created.code}) với ${permissionIds.length}/${roleDef.permissions.length} quyền.`,
             );
         }
 
         sails.log("🎉 Hoàn tất seed admin panel roles.");
     } catch (err) {
-        sails.log.error(
-            "❌ Lỗi khi seed admin panel roles:",
-            err.message || err,
-        );
+        sails.log.error("Lỗi khi seed admin panel roles:", err.message || err);
         throw err;
     } finally {
         console.timeEnd("SeedAdminRoles");

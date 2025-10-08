@@ -23,7 +23,7 @@ module.exports = async function seedRoles() {
     }
 
     const allPermissions = await Permission.find();
-    sails.log.debug(`🔑 Loaded ${allPermissions.length} permissions`);
+    sails.log.debug(`Loaded ${allPermissions.length} permissions`);
 
     await Role.replaceCollection(
         roles["Super Admin"].id,
@@ -34,7 +34,7 @@ module.exports = async function seedRoles() {
         action: { in: ["auth.changePassword", "auth.me"] },
     });
     sails.log.debug(
-        `🔑 Authenticated role perms: ${authPerms.map((p) => p.action).join(", ")}`,
+        `Authenticated role perms: ${authPerms.map((p) => p.action).join(", ")}`,
     );
 
     await Role.replaceCollection(
@@ -53,12 +53,12 @@ module.exports = async function seedRoles() {
     );
 
     sails.log.debug(
-        `🔑 Public role perms: ${publicPerms.map((p) => p.action).join(", ")}`,
+        `Public role perms: ${publicPerms.map((p) => p.action).join(", ")}`,
     );
 
     await Role.replaceCollection(roles["Public"].id, "permissions").members(
         publicPerms.map((p) => p.id),
     );
 
-    sails.log.info("✔ Default roles & permissions seeded successfully");
+    sails.log.info("Default roles & permissions seeded successfully");
 };

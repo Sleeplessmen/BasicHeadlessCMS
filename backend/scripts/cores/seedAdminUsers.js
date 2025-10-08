@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 
 module.exports = async function seedAdminUsers() {
     console.time("SeedAdminUsers");
-    sails.log("🔧 Đang chạy seedAdminUsers.js...");
+    sails.log("Đang chạy seedAdminUsers.js...");
 
     try {
         // Lấy các role cần thiết dựa vào code attribute
@@ -23,7 +23,7 @@ module.exports = async function seedAdminUsers() {
             (code) => {
                 if (!roleMap[code]) {
                     throw new Error(
-                        `❌ Role '${code}' chưa tồn tại. Hãy chạy SeedAdminRoles.js trước.`,
+                        `Role '${code}' chưa tồn tại. Hãy chạy SeedAdminRoles.js trước.`,
                     );
                 }
             },
@@ -103,32 +103,29 @@ module.exports = async function seedAdminUsers() {
                     missingRoles,
                 );
                 sails.log(
-                    `✅ Gắn thêm role(s) ${missingRoles.join(",")} cho user '${user.email}'`,
+                    `Gắn thêm role(s) ${missingRoles.join(",")} cho user '${user.email}'`,
                 );
             } else {
-                sails.log(`ℹ️ User '${user.email}' đã có đủ roles.`);
+                sails.log(`User '${user.email}' đã có đủ roles.`);
             }
         }
 
         if (newUsers.length === 0) {
             sails.log(
-                "ℹ️ Tất cả admin panel users đã tồn tại, không cần tạo thêm.",
+                "Tất cả admin panel users đã tồn tại, không cần tạo thêm.",
             );
         }
 
         const allUsers = await AdminUser.find().populate("roles");
         sails.log(
-            "📋 Users hiện có:",
+            "Users hiện có:",
             allUsers.map((u) => ({
                 email: u.email,
                 roles: u.roles.map((r) => r.code),
             })),
         );
     } catch (err) {
-        sails.log.error(
-            "❌ Lỗi khi seed admin panel users:",
-            err.message || err,
-        );
+        sails.log.error("Lỗi khi seed admin panel users:", err.message || err);
         if (err.stack) sails.log.error(err.stack);
         throw err;
     } finally {

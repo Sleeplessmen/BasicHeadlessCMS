@@ -1,6 +1,6 @@
 module.exports = async function seedContentTypes() {
     console.time("SeedContentTypes");
-    sails.log("🌱 Seeding ContentTypes...");
+    sails.log("Seeding ContentTypes...");
 
     const contentTypesToSeed = [
         {
@@ -43,9 +43,9 @@ module.exports = async function seedContentTypes() {
         const existing = await ContentType.findOne({ uid: ct.uid });
         if (!existing) {
             await ContentType.create(ct);
-            sails.log(`✅ Created ContentType: ${ct.uid}`);
+            sails.log(`Created ContentType: ${ct.uid}`);
         } else {
-            sails.log(`⚡ Skipped (already exists): ${ct.uid}`);
+            sails.log(`Skipped (already exists): ${ct.uid}`);
         }
     }
 

@@ -1,6 +1,6 @@
 module.exports = async function seedComponents() {
     console.time("SeedComponents");
-    sails.log("🌱 Seeding Components...");
+    sails.log("Seeding Components...");
 
     const componentsToSeed = [
         {
@@ -42,9 +42,9 @@ module.exports = async function seedComponents() {
         const existing = await Component.findOne({ uid: c.uid });
         if (!existing) {
             await Component.create(c);
-            sails.log(`✅ Created Component: ${c.uid}`);
+            sails.log(`Created Component: ${c.uid}`);
         } else {
-            sails.log(`⚡ Skipped Component: ${c.uid}`);
+            sails.log(`Skipped Component: ${c.uid}`);
         }
     }
 

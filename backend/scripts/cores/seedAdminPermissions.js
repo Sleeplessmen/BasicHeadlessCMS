@@ -1,6 +1,6 @@
 module.exports = async function seedAdminPermissions() {
     console.time("SeedAdminPermissions");
-    sails.log("🔧 Đang chạy seedAdminPermissions.js...");
+    sails.log("Đang chạy seedAdminPermissions.js...");
 
     // Danh sách permission cơ bản cho admin panel
     const permissionsToSeed = [
@@ -39,7 +39,7 @@ module.exports = async function seedAdminPermissions() {
             if (!existing) {
                 await AdminPermission.create(formatted);
                 createdCount++;
-                sails.log(`✅ Tạo mới permission: ${formatted.action}`);
+                sails.log(`Tạo mới permission: ${formatted.action}`);
             } else {
                 // cập nhật nếu mô tả hoặc properties khác
                 if (
@@ -56,9 +56,9 @@ module.exports = async function seedAdminPermissions() {
                         actionParameters: formatted.actionParameters,
                     });
                     updatedCount++;
-                    sails.log(`✏️ Cập nhật permission: ${formatted.action}`);
+                    sails.log(`Cập nhật permission: ${formatted.action}`);
                 } else {
-                    sails.log(`⏩ Bỏ qua (đã tồn tại): ${formatted.action}`);
+                    sails.log(`Bỏ qua (đã tồn tại): ${formatted.action}`);
                 }
             }
         }
@@ -68,7 +68,7 @@ module.exports = async function seedAdminPermissions() {
         );
     } catch (err) {
         sails.log.error(
-            "❌ Lỗi khi seed admin panel permissions:",
+            "Lỗi khi seed admin panel permissions:",
             err.message || err,
         );
         throw err;

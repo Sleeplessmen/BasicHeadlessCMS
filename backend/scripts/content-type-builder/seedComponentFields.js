@@ -1,6 +1,6 @@
 module.exports = async function seedComponentFields() {
     console.time("SeedComponentFields");
-    sails.log("🌱 Seeding ComponentFields...");
+    sails.log("Seeding ComponentFields...");
 
     const richText = await Component.findOne({ uid: "shared.rich-text" });
     const mediaBlock = await Component.findOne({ uid: "shared.media-block" });
@@ -9,7 +9,7 @@ module.exports = async function seedComponentFields() {
     });
 
     if (!richText || !mediaBlock || !specification) {
-        sails.log.error("❌ Missing components, seed Components first!");
+        sails.log.error("Missing components, seed Components first!");
         return;
     }
 
@@ -59,9 +59,9 @@ module.exports = async function seedComponentFields() {
         });
         if (!exists) {
             await ComponentField.create(f);
-            sails.log(`✅ Created field "${f.name}"`);
+            sails.log(`Created field "${f.name}"`);
         } else {
-            sails.log(`⚡ Skipped field "${f.name}" (already exists)`);
+            sails.log(`Skipped field "${f.name}" (already exists)`);
         }
     }
 

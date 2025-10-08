@@ -3,7 +3,7 @@ require("dotenv").config({
 });
 
 module.exports.bootstrap = async function () {
-    sails.log("🔧 Bootstrap bắt đầu...");
+    sails.log("Bootstrap bắt đầu...");
 
     if (!sails._cleanupInterval) {
         sails._cleanupInterval = setInterval(
@@ -18,8 +18,8 @@ module.exports.bootstrap = async function () {
     }
 
     if (process.env.NODE_ENV === "development") {
-        sails.log("🌱 Đang chạy seed dữ liệu...");
+        sails.log("Đang chạy seed dữ liệu...");
         await sails.helpers.seed.run();
-        sails.log("✅ Seed hoàn tất!");
+        sails.log("Seed hoàn tất!");
     }
 };

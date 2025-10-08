@@ -19,7 +19,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development sails lift",
         "start": "cross-env NODE_ENV=production sails lift",
-        "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  All good.'",
+        "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo ' All good.'",
         "test": "mocha test/**/*.test.js --timeout 10000"
     },
     "dependencies": {

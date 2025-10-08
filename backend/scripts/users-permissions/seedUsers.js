@@ -19,9 +19,7 @@ module.exports = async function seedUsers() {
             role: superAdminRole.id,
         }).fetch();
 
-        sails.log.info(
-            `✔ Admin user created: ${adminEmail} / ${adminPassword}`,
-        );
+        sails.log.info(`Admin user created: ${adminEmail} / ${adminPassword}`);
     }
 
     // 5 Authenticated users
@@ -58,7 +56,5 @@ module.exports = async function seedUsers() {
         }
     }
 
-    sails.log.info(
-        "✔ Default users (admin + 5 authenticated + 5 public) seeded",
-    );
+    sails.log.info("Default users (admin + 5 authenticated + 5 public) seeded");
 };

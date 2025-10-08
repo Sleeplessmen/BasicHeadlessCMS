@@ -110,5 +110,5 @@ module.exports = async function seedPermissions() {
         }
     }
 
-    sails.log.info("✔ Default permissions seeded");
+    sails.log.info("Default permissions seeded");
 };
