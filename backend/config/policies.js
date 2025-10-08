@@ -34,4 +34,7 @@ module.exports.policies = {
     "content-manager/relation/*": ["is-authenticated"],
 
     "content-manager/preview/*": ["is-authenticated"],
+
+    "upload/asset/*": true,
+    "upload/folder/*": true,
 };

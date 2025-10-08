@@ -1,12 +1,12 @@
 module.exports = {
-    friendlyName: "Find all assets",
+    friendlyName: "Find an asset by id",
     description: "Danh sách các media",
 
     inputs: {},
 
     exits: {
         success: {
-            description: "Find all assets successfully",
+            description: "Find an asset by id successfully",
             responseType: "success",
         },
     },

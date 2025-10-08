@@ -6,14 +6,15 @@ module.exports = {
 
     exits: {
         success: {
-            description: "Find all assets successfully",
+            description: "List all of assets successfully",
             responseType: "success",
         },
     },
 
     fn: async function (input, exits) {
         return exits.success({
-            message: exits.success.description,
+            message:
+                "List all of assets successfully" || exits.success.description,
         });
     },
 };
