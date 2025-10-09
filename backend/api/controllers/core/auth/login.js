@@ -49,13 +49,13 @@ module.exports = {
         const user = await AdminUser.findOne({ email }).populate("roles");
         if (!user)
             return exits.badRequest(
-                new BadRequestError("Email hoặc mật khẩu không đúng"),
+                new BadRequestError("email or password are incorrect"),
             );
 
         const match = await bcrypt.compare(password, user.password);
         if (!match)
             return exits.badRequest(
-                new BadRequestError("Email hoặc mật khẩu không đúng"),
+                new BadRequestError("email or password are incorrect"),
             );
 
         const accessToken = jwt.sign(
