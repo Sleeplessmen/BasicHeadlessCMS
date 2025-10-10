@@ -12,7 +12,6 @@ module.exports = async function seedContentTypes() {
             modelType: "contentType",
             visible: true,
             options: { draftAndPublish: true },
-            pluginOptions: {},
             info: {
                 singularName: "article",
                 pluralName: "articles",
@@ -29,7 +28,6 @@ module.exports = async function seedContentTypes() {
             modelType: "contentType",
             visible: true,
             options: {},
-            pluginOptions: {},
             info: {
                 singularName: "product",
                 pluralName: "products",

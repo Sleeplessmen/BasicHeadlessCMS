@@ -201,30 +201,42 @@ module.exports.routes = {
     },
 
     // Content Type Builder
-    "GET /api/v1/admin/content-type-builder/schema": {
-        action: "content-type-builder/schema",
-    },
     "GET /api/v1/admin/content-type-builder/reserved-names": {
         action: "content-type-builder/reserved-names",
-    },
-    "POST /api/v1/admin/content-type-builder/update-schema": {
-        action: "content-type-builder/update-schema",
     },
 
     // Component routes
     "GET /api/v1/admin/content-type-builder/components": {
-        action: "content-type-builder/component/get-components",
+        action: "content-type-builder/component/find",
     },
     "GET /api/v1/admin/content-type-builder/components/:uid": {
-        action: "content-type-builder/component/get-component",
+        action: "content-type-builder/component/find-one",
+    },
+    "POST /api/v1/admin/content-type-builder/components": {
+        action: "content-type-builder/component/create",
+    },
+    "PUT /api/v1/admin/content-type-builder/components/:uid": {
+        action: "content-type-builder/component/update",
+    },
+    "DELETE /api/v1/admin/content-type-builder/components/:uid": {
+        action: "content-type-builder/component/destroy",
     },
 
     // Content Type routes
     "GET /api/v1/admin/content-type-builder/content-types": {
-        action: "content-type-builder/content-type/get-content-types",
+        action: "content-type-builder/content-type/find",
     },
     "GET /api/v1/admin/content-type-builder/content-types/:uid": {
-        action: "content-type-builder/content-type/get-content-type",
+        action: "content-type-builder/content-type/find-one",
+    },
+    "POST /api/v1/admin/content-type-builder/content-types": {
+        action: "content-type-builder/content-type/create",
+    },
+    "PUT /api/v1/admin/content-type-builder/content-types/:uid": {
+        action: "content-type-builder/content-type/update",
+    },
+    "DELETE /api/v1/admin/content-type-builder/content-types/:uid": {
+        action: "content-type-builder/content-type/destroy",
     },
 
     // Content Manager

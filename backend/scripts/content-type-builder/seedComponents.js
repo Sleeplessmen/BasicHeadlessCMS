@@ -4,47 +4,43 @@ module.exports = async function seedComponents() {
 
     const componentsToSeed = [
         {
-            uid: "shared.rich-text",
             modelName: "rich-text",
-            globalId: "SharedRichText",
-            collectionName: "components_shared_rich_texts",
             category: "shared",
             info: {
                 displayName: "Rich Text",
                 description: "Reusable rich text block",
+                icon: "feather-align-left",
             },
         },
         {
-            uid: "shared.media-block",
             modelName: "media-block",
-            globalId: "SharedMediaBlock",
-            collectionName: "components_shared_media_blocks",
             category: "shared",
             info: {
                 displayName: "Media Block",
                 description: "Image/video with caption",
+                icon: "feather-image",
             },
         },
         {
-            uid: "product.specification",
             modelName: "specification",
-            globalId: "ProductSpecification",
-            collectionName: "components_product_specifications",
             category: "product",
             info: {
                 displayName: "Product Specification",
                 description: "List of key-value specs",
+                icon: "feather-list",
             },
         },
     ];
 
     for (const c of componentsToSeed) {
-        const existing = await Component.findOne({ uid: c.uid });
+        const expectedUid = `${c.category}.${c.modelName}`;
+        const existing = await Component.findOne({ uid: expectedUid });
+
         if (!existing) {
             await Component.create(c);
-            sails.log(`Created Component: ${c.uid}`);
+            sails.log(`Created Component: ${expectedUid}`);
         } else {
-            sails.log(`Skipped Component: ${c.uid}`);
+            sails.log(`Skipped Component: ${expectedUid} (already exists)`);
         }
     }
 

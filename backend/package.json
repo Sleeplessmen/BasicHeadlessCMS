@@ -1,8 +1,8 @@
 {
     "name": "backend",
+    "private": true,
     "version": "2.0.0",
     "description": "A Sails backend server",
-    "private": true,
     "type": "commonjs",
     "main": "app.js",
     "_moduleAliases": {
@@ -20,7 +20,9 @@
         "dev": "cross-env NODE_ENV=development sails lift",
         "dev:nodemon": "cross-env NODE_ENV=development nodemon",
         "start": "cross-env NODE_ENV=production sails lift",
-        "pm2:start": "cross-env NODE_ENV=development pm2 start app.js --name backend --watch --ignore-watch=\"node_modules\"",
+        "pm2:start": "cross-env NODE_ENV=development pm2 start ecosystem.config.js",
+        "pm2:restart": "pm2 restart backend",
+        "pm2:stop": "pm2 stop backend",
         "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo ' All good.'",
         "test": "mocha test/**/*.test.js --timeout 10000"
     },
@@ -30,6 +32,7 @@
         "bcryptjs": "^3.0.2",
         "dotenv": "^17.1.0",
         "express-rate-limit": "^8.0.1",
+        "grunt": "^1.6.1",
         "joi": "^17.13.3",
         "jsonwebtoken": "^9.0.2",
         "mocha": "^11.7.2",
@@ -48,8 +51,8 @@
         "eslint": "^9.34.0",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-prettier": "^5.5.4",
-        "prettier": "^3.6.2",
-        "nodemon": "^3.1.10"
+        "nodemon": "^3.1.10",
+        "prettier": "^3.6.2"
     },
     "engines": {
         "node": ">=16 <21"

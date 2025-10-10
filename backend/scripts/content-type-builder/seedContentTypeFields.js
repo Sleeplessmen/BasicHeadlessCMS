@@ -11,16 +11,17 @@ module.exports = async function seedContentTypeFields() {
     }
 
     const fieldsToSeed = [
-        // ----- Article fields -----
         {
             name: "title",
             type: "string",
             required: true,
             unique: true,
-            minLength: 5,
-            maxLength: 150,
             searchable: true,
             contentType: article.id,
+            config: {
+                minLength: 5,
+                maxLength: 150,
+            },
         },
         {
             name: "content",
@@ -28,38 +29,46 @@ module.exports = async function seedContentTypeFields() {
             required: true,
             searchable: true,
             contentType: article.id,
+            config: {},
         },
         {
             name: "published",
             type: "boolean",
-            defaultsTo: false,
             contentType: article.id,
+            config: {},
         },
         {
             name: "views",
             type: "integer",
             contentType: article.id,
+            config: {},
         },
         {
             name: "coverImage",
             type: "media",
-            multiple: false,
-            allowedTypes: ["images"],
             contentType: article.id,
+            config: {
+                multiple: false,
+                allowedTypes: ["images"],
+            },
         },
         {
             name: "category",
             type: "relation",
-            relation: "manyToOne",
-            target: "api::category.category",
-            inversedBy: "articles",
             contentType: article.id,
+            config: {
+                relation: "manyToOne",
+                target: "api::category.category",
+                inversedBy: "articles",
+            },
         },
         {
             name: "blocks",
             type: "dynamiczone",
-            components: ["shared.rich-text", "shared.media-block"],
             contentType: article.id,
+            config: {
+                components: ["shared.rich-text", "shared.media-block"],
+            },
         },
     ];
 
@@ -70,7 +79,9 @@ module.exports = async function seedContentTypeFields() {
         });
         if (!exists) {
             await ContentTypeField.create(f);
-            sails.log(`Created field "${f.name}"`);
+            sails.log(
+                `Created field "${f.name}" for content type ID ${f.contentType}`,
+            );
         } else {
             sails.log(`Skipped field "${f.name}" (already exists)`);
         }

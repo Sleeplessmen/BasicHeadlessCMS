@@ -14,41 +14,45 @@ module.exports = async function seedComponentFields() {
     }
 
     const fieldsToSeed = [
-        // ---- shared.rich-text
         {
             name: "content",
             type: "text",
             required: true,
-            searchable: true,
             componentRef: richText.id,
+            config: {
+                searchable: true,
+            },
         },
 
-        // ---- shared.media-block
         {
             name: "media",
             type: "media",
-            multiple: false,
-            allowedTypes: ["images", "videos"],
             componentRef: mediaBlock.id,
+            config: {
+                multiple: false,
+                allowedTypes: ["images", "videos"],
+            },
         },
         {
             name: "caption",
             type: "string",
             componentRef: mediaBlock.id,
+            config: {},
         },
 
-        // ---- product.specification
         {
             name: "key",
             type: "string",
             required: true,
             componentRef: specification.id,
+            config: {},
         },
         {
             name: "value",
             type: "string",
             required: true,
             componentRef: specification.id,
+            config: {},
         },
     ];
 
@@ -59,7 +63,9 @@ module.exports = async function seedComponentFields() {
         });
         if (!exists) {
             await ComponentField.create(f);
-            sails.log(`Created field "${f.name}"`);
+            sails.log(
+                `Created field "${f.name}" for component ID ${f.componentRef}`,
+            );
         } else {
             sails.log(`Skipped field "${f.name}" (already exists)`);
         }
