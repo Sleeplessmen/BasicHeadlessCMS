@@ -3,24 +3,24 @@ module.exports = {
         uid: { type: "string", required: true, unique: true }, // vd: api::article.article
         modelName: { type: "string", required: true }, // vd: article
         globalId: { type: "string" }, // vd: Article
-        collectionName: { type: "string" }, // vd: articles
 
         kind: {
             type: "string",
             isIn: ["collectionType", "singleType"],
             defaultsTo: "collectionType",
         },
-        plugin: { type: "string", allowNull: true }, // vd: upload
+
+        // plugin: { type: "string", allowNull: true }, // vd: upload
         modelType: {
             type: "string",
-            isIn: ["contentType", "component"], // Thêm lại dòng này
+            isIn: ["contentType", "component"],
             defaultsTo: "contentType",
         },
         visible: { type: "boolean", defaultsTo: true },
         restrictRelationsTo: { type: "json", defaultsTo: null }, // vd: ["api::article.article"]
 
-        options: { type: "json", defaultsTo: {} }, // { draftAndPublish: true }
-        info: { type: "json", defaultsTo: {} }, // { singularName, pluralName, displayName, description }
+        options: { type: "json", defaultsTo: {} },
+        info: { type: "json", defaultsTo: {} }, // vd: { singularName, pluralName, displayName, description }
 
         attributes: {
             collection: "ContentTypeField",

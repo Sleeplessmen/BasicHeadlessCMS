@@ -1,52 +1,42 @@
-const {
-    ApplicationError,
-    ValidationError,
-    ForbiddenError,
-    UnauthorizedError,
-    NotFoundError,
-    BadRequestError,
-    ConflictError,
-    PayloadTooLargeError,
-    PolicyError,
-    TooManyRequestsError,
-} = require("../../errors");
+const { BaseError, ApplicationError, DatabaseError } = require("../../errors");
 
-module.exports = async function errorHandler(err, req, res, unusedNext) {
-    sails.log.error("Error Handler:", err);
+module.exports = async function errorHandler(err, req, res, next) {
+    sails.log.error("Global Error Handler caught:", err);
 
     try {
-        if (
-            err instanceof ApplicationError ||
-            err instanceof ValidationError ||
-            err instanceof ForbiddenError ||
-            err instanceof UnauthorizedError ||
-            err instanceof NotFoundError ||
-            err instanceof BadRequestError ||
-            err instanceof ConflictError ||
-            err instanceof PayloadTooLargeError ||
-            err instanceof PolicyError ||
-            err instanceof TooManyRequestsError
-        ) {
+        if (err instanceof BaseError) {
             return res.error(err);
         }
 
-        // Wrap nếu không phải error "chuẩn"
-        const wrapped = new ApplicationError("Lỗi không xác định", {
-            raw: err,
-            url: req.url,
-            method: req.method,
-        });
+        if (err.name === "AdapterError") {
+            const dbError = new DatabaseError(err.message, {
+                originalError: err,
+            });
+            return res.error(dbError);
+        }
 
-        return res.error(wrapped);
-    } catch (formatErr) {
-        sails.log.error("Error Handler - lỗi khi format:", formatErr);
-        return res.status(500).json({
-            data: null,
-            error: {
-                name: "ApplicationError",
-                message: "Lỗi hệ thống",
-                details: { raw: err?.message || err },
+        const wrappedError = new ApplicationError(
+            "Lỗi hệ thống không xác định",
+            {
+                raw: err.message || err,
+                url: req.url,
+                method: req.method,
             },
+        );
+
+        return res.error(wrappedError);
+    } catch (formattingError) {
+        sails.log.error(
+            "FATAL: Error handler failed to format its own error:",
+            formattingError,
+        );
+        return res.status(500).json({
+            errors: [
+                {
+                    name: "SystemError",
+                    message: "Lỗi hệ thống nghiêm trọng.",
+                },
+            ],
         });
     }
 };

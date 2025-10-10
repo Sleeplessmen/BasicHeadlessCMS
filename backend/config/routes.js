@@ -1,34 +1,4 @@
 module.exports.routes = {
-    // fixed: content = article
-
-    "GET /api/v1/articles": {
-        action: "fixed/article/find",
-    },
-
-    "GET /api/v1/articles/:id": {
-        action: "fixed/article/find-one",
-    },
-
-    "POST /api/v1/articles": {
-        action: "fixed/article/create",
-    },
-
-    "PUT /api/v1/articles/:id": {
-        action: "fixed/article/update",
-    },
-
-    "DELETE /api/v1/articles/:id": {
-        action: "fixed/article/destroy",
-    },
-
-    "POST /api/v1/articles/:id/publish": {
-        action: "fixed/article/publish",
-    },
-
-    "POST /api/v1/articles/:id/unpublish": {
-        action: "fixed/article/unpublish",
-    },
-
     // Users-Permissions routes
 
     // Auth routes

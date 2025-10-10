@@ -1,20 +1,18 @@
-const toPascalCase = (str) =>
-    str
-        .split("-")
-        .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-        .join("");
-
 module.exports = {
     attributes: {
         modelName: { type: "string", required: true }, // vd: rich-text
         category: { type: "string", required: true }, // vd: shared
 
-        uid: { type: "string", unique: true }, // Tự tạo: shared.rich-text
-        globalId: { type: "string" }, // Tự tạo: RichText
-        collectionName: { type: "string" }, // Tự tạo: components_shared_rich_texts
+        uid: { type: "string", unique: true },
+        globalId: { type: "string" },
+        modelType: {
+            type: "string",
+            defaultsTo: "component",
+        },
+        collectionName: { type: "string" },
 
-        info: { type: "json", defaultsTo: {} }, // { displayName, description, icon }
-        options: { type: "json", defaultsTo: {} },
+        info: { type: "json", defaultsTo: {} }, // vd: { displayName, description, icon }
+        options: { type: "json", defaultsTo: { draftAndPublished: false } },
 
         attributes: {
             collection: "ComponentField",
@@ -25,22 +23,31 @@ module.exports = {
         updatedAt: { type: "number", autoUpdatedAt: true },
     },
 
-    beforeCreate: function (values, cb) {
-        if (values.modelName && values.category) {
-            values.uid = `${values.category}.${values.modelName}`;
-            values.globalId = toPascalCase(values.modelName);
-            const collectionCategory = values.category.replace(/-/g, "_");
-            const collectionModelName = values.modelName.replace(/-/g, "_");
-            values.collectionName = `components_${collectionCategory}_${collectionModelName}s`;
+    beforeCreate: async function (values, proceed) {
+        try {
+            if (values.modelName && values.category) {
+                values.uid =
+                    values.uid || `${values.category}.${values.modelName}`;
+                values.globalId =
+                    values.globalId ||
+                    (await sails.helpers.format.toPascalCase(values.modelName));
+
+                const category = values.category.replace(/-/g, "_");
+                const modelName = values.modelName.replace(/-/g, "_");
+                values.collectionName =
+                    values.collectionName ||
+                    `components_${category}_${modelName}s`;
+            }
+
+            const defaultInfo = {
+                displayName: values.displayName || values.modelName,
+                icon: values.icon || "feather-box",
+            };
+            values.info = Object.assign({}, defaultInfo, values.info);
+
+            return proceed();
+        } catch (err) {
+            return proceed(err);
         }
-
-        const defaultInfo = {
-            displayName: values.modelName,
-            description: "",
-            icon: "",
-        };
-        values.info = Object.assign({}, defaultInfo, values.info);
-
-        return cb();
     },
 };
